@@ -20,5 +20,7 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('apps.main.urls')),  # Menyertakan URL dari aplikasi main
+    path('user/', include('apps.user.urls')),  # URL aplikasi user
+
 
 ]
