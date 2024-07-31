@@ -14,14 +14,20 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+# =============================
+# Project URL Configuration
+# =============================
+
 from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('apps.main.urls')),  # Menyertakan URL dari aplikasi main
-    path('user/', include('apps.user.urls')),  # URL aplikasi user
-     path('sumbangan/', include('apps.forms.sumbangan.urls')),
-
-
+    path('', include('apps.main.urls')),  # URL untuk aplikasi utama
+    path('user/', include('apps.user.urls')),  # URL untuk aplikasi user
+    # =============================
+    # Project URL forms
+    # =============================
+    path('sumbangan/', include('apps.forms.sumbangan.urls')),  # URL untuk aplikasi sumbangan
+    path('prosedur/', include('apps.main.urls')),  # Pastikan URL di sini sesuai dengan aplikasi prosedur
 ]
