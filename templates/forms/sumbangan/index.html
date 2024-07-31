@@ -1,0 +1,95 @@
+{% extends 'layouts/base.html' %}
+
+{% load static %}
+
+{% block title %} Sumbangan {% endblock title %}
+
+{% block stylesheets %}
+<!-- Add any additional CSS specific to this page here -->
+{% endblock stylesheets %}
+
+{% block content %}
+
+    <!-- Header -->
+    <div class="header bg-white pb-6">
+      <div class="container-fluid">
+        <div class="header-body">
+          <div class="row py-4">
+            <div class="col-lg-12" style="text-align: right;">
+              <!-- Additional content if needed -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Page content -->
+    <div class="container-fluid mt--6 bg-white">
+      <!-- HEADER PAGE & BANNER -->
+      <div class="row pt-2 pb-5">
+        <div class="col-md-6 rounded-left">
+          <h1>Sumbangan Entries</h1>
+        </div>
+      </div>
+      <!-- END HEADER PAGE & BANNER -->
+
+      <!-- Display Data Section -->
+      <div class="row">
+        <div class="col-md-8 offset-md-2">
+          <div class="card">
+            <div class="card-body">
+              <!-- Table to display data -->
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Amount</th>
+                    <th>Message</th>
+                    <th>Created At</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for entry in sumbangan_entries %}
+                  <tr>
+                    <td>{{ entry.name }}</td>
+                    <td>{{ entry.amount }}</td>
+                    <td>{{ entry.message }}</td>
+                    <td>{{ entry.created_at }}</td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- End Display Data Section -->
+
+      <!-- Form Section -->
+      <div class="row">
+        <div class="col-md-8 offset-md-2">
+          <div class="card">
+            <div class="card-body">
+              <h2>Submit a New Sumbangan</h2>
+              <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- End Form Section -->
+
+    </div>
+
+    {% include "includes/footer.html" %}
+
+{% endblock content %}
+
+{% block javascripts %}
+  <script src="{% static 'assets/vendor/chart.js/dist/Chart.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/chart.js/dist/Chart.extension.js' %}"></script>
+  <!-- Add any additional JS specific to this page here -->
+{% endblock javascripts %}

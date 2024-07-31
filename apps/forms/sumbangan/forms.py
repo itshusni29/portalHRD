@@ -1,3 +1,9 @@
-from django.shortcuts import render
+# apps/forms/sumbangan/forms.py
 
-# Create your views here.
+from django import forms
+from apps.forms.models import Sumbangan
+
+class SumbanganForm(forms.ModelForm):
+    class Meta:
+        model = Sumbangan
+        fields = ['name', 'amount', 'message']
