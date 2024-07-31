@@ -30,4 +30,6 @@ urlpatterns = [
     # =============================
     path('sumbangan/', include('apps.forms.sumbangan.urls')),  # URL untuk aplikasi sumbangan
     path('prosedur/', include('apps.main.urls')),  # Pastikan URL di sini sesuai dengan aplikasi prosedur
+    path('information/', include('apps.information.urls')),  # URL untuk aplikasi information
+
 ]

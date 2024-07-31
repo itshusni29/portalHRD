@@ -6,6 +6,12 @@ from .models import Prosedur
 from .forms import ProsedurForm
 
 
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
+from django.http import FileResponse
+from .models import Aturan
+from .forms import AturanForm
+
 
 # =============================
 # Views: Home
@@ -71,3 +77,52 @@ def hapus_prosedur(request, prosedur_id):
         prosedur.delete()
         return redirect("daftar_prosedur")
     return render(request, "main/prosedur/delete_prosedur.html", {"prosedur": prosedur})
+
+
+
+
+
+# =============================
+# Views: Manajemen Aturan
+# =============================
+
+def daftar_aturan(request):
+    # View untuk menampilkan daftar semua aturan.
+    aturans = Aturan.objects.all()
+    return render(request, "main/aturan/daftar_aturan.html", {"aturans": aturans})
+
+def unduh_file_aturan(request, pk):
+    # View untuk mengunduh file PDF aturan.
+    aturan = get_object_or_404(Aturan, pk=pk)
+    return FileResponse(aturan.file_pdf, as_attachment=True)
+
+def buat_aturan(request):
+    # View untuk membuat aturan baru.
+    if request.method == "POST":
+        form = AturanForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect("aturan_list")
+    else:
+        form = AturanForm()
+    return render(request, "main/aturan/form_aturan.html", {"form": form, "title": "Buat Aturan"})
+
+def ubah_aturan(request, pk):
+    # View untuk memperbarui aturan yang ada.
+    aturan = get_object_or_404(Aturan, pk=pk)
+    if request.method == "POST":
+        form = AturanForm(request.POST, request.FILES, instance=aturan)
+        if form.is_valid():
+            form.save()
+            return redirect("aturan_list")
+    else:
+        form = AturanForm(instance=aturan)
+    return render(request, "main/aturan/form_aturan.html", {"form": form, "title": "Ubah Aturan"})
+
+def hapus_aturan(request, pk):
+    # View untuk menghapus aturan.
+    aturan = get_object_or_404(Aturan, pk=pk)
+    if request.method == "POST":
+        aturan.delete()
+        return redirect("aturan_list")
+    return render(request, "main/aturan/konfirmasi_hapus_aturan.html", {"aturan": aturan})
