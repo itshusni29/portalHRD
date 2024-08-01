@@ -1,26 +1,37 @@
-
-
+    
 from django import forms
-from .models import Prosedur, Aturan
+from .models import ProsedurM, AturanM
 
 
 
-# =============================
-# Forms: Manajemen Prosedur
-# =============================
-class ProsedurForm(forms.ModelForm):
+# Form: Manajemen Prosedur
+# ======================================================================================================================
+class ProsedurF(forms.ModelForm):
     class Meta:
-        model = Prosedur
+        model = ProsedurM
         fields = "__all__"
 
+    def clean_nama(self):
+        nama = self.cleaned_data.get('nama')
+        if len(nama) < 5:
+            raise forms.ValidationError("Nama Prosedur harus lebih dari 5 karakter.")
+        return nama
 
-# =============================
-# Forms: Manajemen Prosedur
-# =============================
-class AturanForm(forms.ModelForm):
-    # Form untuk input dan editing data Aturan
+    def clean_file_upload(self):
+        file = self.cleaned_data.get('file_upload')
+        if file:
+            if file.size > 10 * 1024 * 1024:  # Limit file size to 10 MB
+                raise forms.ValidationError("Ukuran file terlalu besar, maksimal 10 MB.")
+            if not file.name.endswith('.pdf'):
+                raise forms.ValidationError("File harus berformat PDF.")
+        return file
+
+
+# Form: Manajemen Aturan
+# ======================================================================================================================
+class AturanF(forms.ModelForm):
     class Meta:
-        model = Aturan
+        model = AturanM
         fields = ["judul", "kategori", "deskripsi", "file_pdf"]
         widgets = {
             'deskripsi': forms.Textarea(attrs={'rows': 5}),
@@ -31,3 +42,13 @@ class AturanForm(forms.ModelForm):
             'deskripsi': 'Deskripsi',
             'file_pdf': 'File PDF',
         }
+
+# Form: Search Query
+# ======================================================================================================================
+class SearchForm(forms.Form):
+    query = forms.CharField(
+        label='Search',
+        max_length=255,
+        required=False,
+        widget=forms.TextInput(attrs={"placeholder": "Search..."}),
+    )

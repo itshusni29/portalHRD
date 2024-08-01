@@ -1,17 +1,13 @@
 
-
 from django.db import models
+from django.utils import timezone
 
-
-
-
-# =============================
-# Models: Manajemen Prosedur
-# =============================
-class Prosedur(models.Model):
-     # Model untuk menangani data Prosedur perusahaan.
+# Model: Manajemen Prosedur
+# ======================================================================================================================
+class ProsedurM(models.Model):
     nama = models.CharField(max_length=100)
     kategori = models.CharField(max_length=100)
+    no_prosedur = models.CharField(max_length=50, unique=True)
     deskripsi = models.TextField(blank=True, null=True)
     file_upload = models.FileField(upload_to="uploads/prosedur")
     created_at = models.DateTimeField(auto_now_add=True)
@@ -20,14 +16,9 @@ class Prosedur(models.Model):
     def __str__(self):
         return self.nama
 
-
-
-# =============================
-# Models: Manajemen Aturan
-# =============================
-
-class Aturan(models.Model):
-    # Model untuk menangani data aturan perusahaan.
+# Model: Manajemen Aturan
+# ======================================================================================================================
+class AturanM(models.Model):
     judul = models.CharField(max_length=255)
     kategori = models.CharField(max_length=30)
     deskripsi = models.TextField(blank=True, null=True)
@@ -37,3 +28,12 @@ class Aturan(models.Model):
 
     def __str__(self):
         return self.judul
+
+# Model: Manajemen Visitor Log
+# ======================================================================================================================
+class Visitor(models.Model):
+    timestamp = models.DateTimeField(default=timezone.now)
+    ip_address = models.GenericIPAddressField()
+
+    def __str__(self):
+        return f"{self.ip_address} - {self.timestamp}"

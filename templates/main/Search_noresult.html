@@ -1,0 +1,30 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %} Tidak ada data {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+
+    
+    <!-- Page content -->
+    <div class="container-fluid mt-6 bg-white" style="margin-bottom:20em;">
+      <row>
+        <div class="col-md-10 mx-auto">
+          <div class="card card-stats">
+            <!-- model_detail.html -->
+            <div class="card-body">
+              <h2 class="text-dark">
+                Tidak ada data yang ditemukan
+              </h2>
+            </div>
+          </div>
+        </div>
+      </row>
+      <a id="scrollToTop" href="#" title="Go to top"><i class="ni ni-bold-up"></i></a>
+    </div>
+    {% include "includes/footer.html" %}
+
+{% endblock content %}

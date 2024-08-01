@@ -1,20 +1,61 @@
 
+import os
+import glob
+from django import forms
+from django.conf import settings
 
-from django.shortcuts import render, redirect, get_object_or_404
+
+from django import template
 from django.contrib.auth.decorators import login_required
-from .models import JadwalBusM
-from .forms import JadwalBusF
+from django.contrib.sessions.models import Session
+from django.db.models import Q
+from django.http import HttpResponse, HttpResponseRedirect, FileResponse, Http404
+from django.template import loader
+from django.urls import reverse
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
-from .models import Pengumuman
-from .forms import PengumumanForm
-from .forms import SearchForm
+from django.utils import timezone
+from datetime import datetime, timedelta
+import pandas as pd
+from django.contrib.auth.models import User
+from django.shortcuts import render, redirect
+from django.urls import reverse
 
 
-# =============================
+
+from .models import (
+    JadwalBusM,
+    MenuKantinM,
+    PengumumanM,
+)
+
+from .forms import (
+    JadwalBusF,
+    MenuKantinF,
+    PengumumanF,
+    
+)
+
+
+
+# ======================================================================================================================
+# Views: Manajemen Kehadiran
+# ======================================================================================================================
+def kehadiran(request):
+    # View untuk menampilkan daftar semua kehadiran.
+    return render(request, "information/Kehadiran/indexsKehadiran.html")
+
+
+# ======================================================================================================================
+# Views: Manajemen Komite
+# ======================================================================================================================
+def komite(request):
+    # View untuk menampilkan daftar semua komite.
+    return render(request, "information/Komite/Komite.html")
+
+
+# ======================================================================================================================
 # Views: Manajemen Jadwal Bus
-# =============================
+# ======================================================================================================================
 def jadwal_bus(request):
     # View untuk menampilkan daftar semua jadwal bus.
     jadwal_bus_list = JadwalBusM.objects.all()
@@ -57,15 +98,13 @@ def jadwal_bus_delete(request, pk):
     return render(request, "information/Jadwal_bus/Delete_jadwal.html", {"jadwal": jadwal})
 
 
-# =============================
+# ======================================================================================================================
 # Views: Manajemen Pengumuman
-# =============================
+# ======================================================================================================================
 
-def daftar_pengumuman(request):
+def pengumuman_list(request):
     # View untuk menampilkan daftar semua pengumuman dengan opsi pencarian.
     pengumuman_list = Pengumuman.objects.all()
-
-    # Menangani kueri pencarian
     search_form = SearchForm(request.GET)
     if search_form.is_valid():
         search_query = search_form.cleaned_data.get("search_query")
@@ -79,41 +118,38 @@ def daftar_pengumuman(request):
         }
     )
 
-
-def buat_pengumuman(request):
+def pengumuman_create(request):
     # View untuk membuat pengumuman baru.
     if request.method == "POST":
         form = PengumumanForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()  # Menyimpan formulir dan membuat instance baru
-            return redirect("pengumuman_list")  # Redirect ke daftar pengumuman
+            return redirect("information:pengumuman_list")  # Redirect ke daftar pengumuman
     else:
         form = PengumumanForm()
     return render(request, "information/Pengumuman/Create_pengumuman.html", {"form": form})
 
-
-def ubah_pengumuman(request, pk):
+def pengumuman_update(request, pk):
     # View untuk memperbarui pengumuman yang ada.
     pengumuman = get_object_or_404(Pengumuman, pk=pk)
     if request.method == "POST":
         form = PengumumanForm(request.POST, request.FILES, instance=pengumuman)
         if form.is_valid():
             form.save()  # Menyimpan perubahan pada instance yang ada
-            return redirect("pengumuman_list")  # Redirect ke daftar pengumuman
+            return redirect("information:pengumuman_list")  # Redirect ke daftar pengumuman
     else:
         form = PengumumanForm(instance=pengumuman)
     return render(request, "information/Pengumuman/Update_pengumuman.html", {"form": form})
 
-
-def hapus_pengumuman(request, pk):
+def pengumuman_delete(request, pk):
     # View untuk menghapus pengumuman.
     pengumuman = get_object_or_404(Pengumuman, pk=pk)
     if request.method == "POST":
         pengumuman.delete()  # Menghapus instance dari database
-        return redirect("pengumuman_list")  # Redirect ke daftar pengumuman
+        return redirect("information:pengumuman_list")  # Redirect ke daftar pengumuman
     return render(request, "information/Pengumuman/Delete_pengumuman.html", {"pengumuman": pengumuman})
 
-def unduh_file_pengumuman(request, pengumuman_id):
+def file_pengumuman_download(request, pengumuman_id):
     # View untuk mengunduh file pengumuman.
     pengumuman_instance = get_object_or_404(Pengumuman, id=pengumuman_id)
     file_path = pengumuman_instance.file_pengumuman.path
@@ -123,3 +159,101 @@ def unduh_file_pengumuman(request, pengumuman_id):
             "attachment; filename=" + pengumuman_instance.file_pengumuman.name
         )
     return response
+
+
+
+# ======================================================================================================================
+# Views: Manajemen Menu Kantin
+# ======================================================================================================================
+def upload_csv(request):
+    if request.method == "POST":
+        form = MenuKantinF(request.POST, request.FILES)
+        if form.is_valid():
+            # Save the uploaded file
+            form.save()
+            return redirect("menuKantin")  # Assuming 'menuKantin' is the URL pattern name for menuKantin view
+    else:
+        form = MenuKantinF()
+    return render(request, "information/Menu_kantin/create_menukantin.html", {"form": form})
+
+def delete_csv(request, file_id):
+    # Retrieve the MenuKantinM instance
+    file_instance = MenuKantinM.objects.get(pk=file_id)
+
+    # Get the file path
+    file_path = file_instance.alamat_file.path
+
+    # Delete the file from the storage
+    if os.path.exists(file_path):
+        os.remove(file_path)
+
+    # Delete the MenuKantinM instance
+    file_instance.delete()
+
+    return redirect("menuKantin")
+
+def menuKantin(request):
+    csv_file_path = get_most_recent_csv_file()
+    menus = MenuKantinM.objects.all()
+
+    if csv_file_path:
+        df = pd.read_csv(csv_file_path, delimiter=";")
+        df["Date"] = pd.to_datetime(df["Date"], errors="coerce", format="%d/%m/%Y")
+        df["Date"].fillna(df["Date"].apply(lambda x: pd.to_datetime(x, errors="coerce", format="%d/%m")), inplace=True)
+
+        today_date = datetime.now().strftime("%d/%m/%Y")
+        tomorrow_date = (datetime.now() + timedelta(days=1)).strftime("%d/%m/%Y")
+
+        today_data = df[df["Date"].dt.strftime("%d/%m/%Y") == today_date]
+        tomorrow_data = df[df["Date"].dt.strftime("%d/%m/%Y") == tomorrow_date]
+
+        today_data_list = []
+        for _, row in today_data.iterrows():
+            today_data_list.append({
+                "Date": row["Date"].strftime("%d/%m/%Y"),
+                "Pilihan": row["PILIHAN"].replace(",", "<br>"),
+                "Breakfast": row["BREAKFAST"].replace(",", "<br>"),
+                "Shift3": row["SHIFT 3"].replace(",", "<br>"),
+                "Shift1": row["SHIFT 1"].replace(",", "<br>"),
+                "Shift2": row["SHIFT 2"].replace(",", "<br>"),
+            })
+
+        tomorrow_data_list = []
+        for _, row in tomorrow_data.iterrows():
+            tomorrow_data_list.append({
+                "Date": row["Date"].strftime("%d/%m/%Y"),
+                "Pilihan": row["PILIHAN"].replace(",", "<br>"),
+                "Breakfast": row["BREAKFAST"].replace(",", "<br>"),
+                "Shift3": row["SHIFT 3"].replace(",", "<br>"),
+                "Shift1": row["SHIFT 1"].replace(",", "<br>"),
+                "Shift2": row["SHIFT 2"].replace(",", "<br>"),
+            })
+
+        return render(
+            request,
+            "information/Menu_kantin/Menu_kantin.html",
+            {
+                "today_data": today_data_list,
+                "tomorrow_data": tomorrow_data_list,
+                "menus": menus,
+            },
+        )
+    else:
+        return render(request, "information/Menu_kantin/menu_nodata.html")
+
+def get_most_recent_csv_file():
+    # Get a list of CSV files in the 'media/uploads/menuKantin' directory and subdirectories
+    csv_files = glob.glob(
+        os.path.join(settings.MEDIA_ROOT, "uploads/menuKantin/**/*.csv"), recursive=True
+    )
+
+    # Sort the list of files by modification time (most recent first)
+    csv_files.sort(key=os.path.getmtime, reverse=True)
+
+    # Check if any CSV files were found
+    if csv_files:
+        # Return the path to the most recently modified CSV file
+        return csv_files[0]
+    else:
+        return None
+
