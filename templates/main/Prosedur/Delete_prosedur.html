@@ -1,20 +1,18 @@
 {% extends 'layouts/base.html' %}
 
-{% block title %} Delete Form {% endblock title %}
+{% block title %} Delete Procedure {% endblock title %}
 
-<!-- Specific CSS goes HERE -->
 {% block stylesheets %}
-<!-- You can include any specific CSS for this page here -->
+<!-- Include any specific CSS for this page here -->
 {% endblock stylesheets %}
 
 {% block content %}
-
     <!-- Header -->
     <div class="header bg-white pb-6">
         <div class="container-fluid">
             <div class="header-body">
                 <div class="row py-4">
-                    <div class="col-lg-12" style="text-align: right;">
+                    <div class="col-lg-12 text-right">
                         <!-- Optional header content -->
                     </div>
                 </div>
@@ -26,8 +24,8 @@
     <div class="container-fluid mt--6 bg-white">
         <div class="row">
             <div class="col-md-6 mx-auto rounded bg-light p-4">
-                <h1 class="text-dark">Delete Form</h1>
-                <p>Are you sure you want to delete the form "{{ form.nama }}"?</p>
+                <h1 class="text-dark">Delete Procedure</h1>
+                <p>Are you sure you want to delete the procedure "{{ form.nama }}"?</p>
                 <form method="post">
                     {% csrf_token %}
                     <button type="submit" class="btn btn-danger">Delete</button>
@@ -38,6 +36,4 @@
     </div>
 
     {% include "includes/footer.html" %}
-
 {% endblock content %}
-

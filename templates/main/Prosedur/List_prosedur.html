@@ -60,7 +60,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {% for prosedur in forms %}
+                                            {% for prosedur in daftar_prosedur %}
                                                 {% if prosedur.kategori == "Recruitment & Selection" %}
                                                     <tr>
                                                         <td>{{ forloop.counter }}</td>
@@ -83,12 +83,13 @@
                                                             </div>
                                                         </td>
                                                     </tr>
-                                                {% empty %}
-                                                    <tr>
-                                                        <td colspan="4">No procedures available.</td>
-                                                    </tr>
-                                                {% endfor %}
-                                            </tbody>
+                                                {% endif %}
+                                            {% empty %}
+                                                <tr>
+                                                    <td colspan="4">No procedures available.</td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
                                     </table>
                                     <a href="{% url 'buat_prosedur' %}" class="btn btn-success mt-3">
                                         <i class="fas fa-plus"></i> Add New
@@ -110,7 +111,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {% for prosedur in forms %}
+                                            {% for prosedur in daftar_prosedur %}
                                                 {% if prosedur.kategori == "Training & Development" %}
                                                     <tr>
                                                         <td>{{ forloop.counter }}</td>
@@ -133,12 +134,13 @@
                                                             </div>
                                                         </td>
                                                     </tr>
-                                                {% empty %}
-                                                    <tr>
-                                                        <td colspan="4">No procedures available.</td>
-                                                    </tr>
-                                                {% endfor %}
-                                            </tbody>
+                                                {% endif %}
+                                            {% empty %}
+                                                <tr>
+                                                    <td colspan="4">No procedures available.</td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
                                     </table>
                                     <a href="{% url 'buat_prosedur' %}" class="btn btn-success mt-3">
                                         <i class="fas fa-plus"></i> Add New
@@ -160,7 +162,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {% for prosedur in forms %}
+                                            {% for prosedur in daftar_prosedur %}
                                                 {% if prosedur.kategori == "Medical & Welfare" %}
                                                     <tr>
                                                         <td>{{ forloop.counter }}</td>
@@ -183,12 +185,13 @@
                                                             </div>
                                                         </td>
                                                     </tr>
-                                                {% empty %}
-                                                    <tr>
-                                                        <td colspan="4">No procedures available.</td>
-                                                    </tr>
-                                                {% endfor %}
-                                            </tbody>
+                                                {% endif %}
+                                            {% empty %}
+                                                <tr>
+                                                    <td colspan="4">No procedures available.</td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
                                     </table>
                                     <a href="{% url 'buat_prosedur' %}" class="btn btn-success mt-3">
                                         <i class="fas fa-plus"></i> Add New
@@ -210,7 +213,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {% for prosedur in forms %}
+                                            {% for prosedur in daftar_prosedur %}
                                                 {% if prosedur.kategori == "Legal" %}
                                                     <tr>
                                                         <td>{{ forloop.counter }}</td>
@@ -233,12 +236,13 @@
                                                             </div>
                                                         </td>
                                                     </tr>
-                                                {% empty %}
-                                                    <tr>
-                                                        <td colspan="4">No procedures available.</td>
-                                                    </tr>
-                                                {% endfor %}
-                                            </tbody>
+                                                {% endif %}
+                                            {% empty %}
+                                                <tr>
+                                                    <td colspan="4">No procedures available.</td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
                                     </table>
                                     <a href="{% url 'buat_prosedur' %}" class="btn btn-success mt-3">
                                         <i class="fas fa-plus"></i> Add New
@@ -260,7 +264,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {% for prosedur in forms %}
+                                            {% for prosedur in daftar_prosedur %}
                                                 {% if prosedur.kategori == "Payroll & Administration" %}
                                                     <tr>
                                                         <td>{{ forloop.counter }}</td>
@@ -283,12 +287,13 @@
                                                             </div>
                                                         </td>
                                                     </tr>
-                                                {% empty %}
-                                                    <tr>
-                                                        <td colspan="4">No procedures available.</td>
-                                                    </tr>
-                                                {% endfor %}
-                                            </tbody>
+                                                {% endif %}
+                                            {% empty %}
+                                                <tr>
+                                                    <td colspan="4">No procedures available.</td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
                                     </table>
                                     <a href="{% url 'buat_prosedur' %}" class="btn btn-success mt-3">
                                         <i class="fas fa-plus"></i> Add New
@@ -301,9 +306,8 @@
                 </div>
             </div>
         </div>
-        <a id="scrollToTop" href="#" title="Go to top"><i class="ni ni-bold-up"></i></a>
     </div>
 
-    {% include "includes/footer.html" %}
-
 {% endblock content %}
+
+{% block scripts %}{% endblock scripts %}

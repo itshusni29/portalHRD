@@ -37,3 +37,17 @@ class Visitor(models.Model):
 
     def __str__(self):
         return f"{self.ip_address} - {self.timestamp}"
+
+    
+ # Model: Manajemen Kegiatan
+# ======================================================================================================================   
+class kegiatanM(models.Model):
+    judulKegiatan = models.CharField(max_length=100)
+    image = models.ImageField(upload_to='images', default='a.jpg')
+    description = models.TextField()
+    tanggal = models.CharField(max_length=25)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.judulKegiatan

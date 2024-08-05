@@ -1,6 +1,6 @@
     
 from django import forms
-from .models import ProsedurM, AturanM
+from .models import ProsedurM, AturanM, kegiatanM
 
 
 
@@ -52,3 +52,16 @@ class SearchForm(forms.Form):
         required=False,
         widget=forms.TextInput(attrs={"placeholder": "Search..."}),
     )
+
+
+# Form: Manajemen Kegiatan
+# ======================================================================================================================
+class kegiatanF(forms.ModelForm):
+    class Meta:
+        model = kegiatanM
+        fields = ['image', 'judulKegiatan', 'description', 'tanggal']
+        
+    def __init__(self, *args, **kwargs):
+        super(kegiatanF, self).__init__(*args, **kwargs)
+        for visible in self.visible_fields():
+            visible.field.widget.attrs['class'] = 'form-control'

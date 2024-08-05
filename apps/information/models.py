@@ -1,7 +1,4 @@
-
-
 from django.db import models
-
 
 # ======================================================================================================================
 # Models: Manajemen Jadwal Bus
@@ -15,10 +12,11 @@ class JadwalBusM(models.Model):
     shift1 = models.CharField(max_length=5, null=True, blank=True)
     shift2 = models.CharField(max_length=5, null=True, blank=True)
     shift3 = models.CharField(max_length=5, null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return str(self.titik_start)
-
 
 # ======================================================================================================================
 # Models: Manajemen Pengumuman
@@ -33,7 +31,6 @@ class PengumumanM(models.Model):
 
     def __str__(self):
         return str(self.nama_pengumuman)
-
 
 # ======================================================================================================================
 # Models: Manajemen Menu Kantin

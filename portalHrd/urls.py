@@ -20,16 +20,13 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('apps.main.urls')),  # URL untuk aplikasi utama
-    path('user/', include('apps.user.urls')),  # URL untuk aplikasi user
-    # =============================
-    # Project URL forms
-    # =============================
-    path('sumbangan/', include('apps.forms.sumbangan.urls')),  # URL untuk aplikasi sumbangan
-    path('prosedur/', include('apps.main.urls')),  # Pastikan URL di sini sesuai dengan aplikasi prosedur
-    path('information/', include('apps.information.urls')),  # URL untuk aplikasi information
-
-]
+    path('', include('apps.main.urls')),  # URL for the main application
+    path('user/', include('apps.user.urls')),  # URL for the user application
+    path('forms/', include('apps.forms.urls')),  # URL for the forms application
+    path('information/', include('apps.information.urls')),  # URL for the information application
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

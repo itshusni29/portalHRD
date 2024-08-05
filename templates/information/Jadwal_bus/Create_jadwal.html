@@ -10,7 +10,6 @@
     <!-- Header -->
     <div class="header bg-white pb-6">
       <div class="container-fluid">
-        
         <div class="header-body">
           <div class="row py-4">
             <div class="col-lg-12" style="text-align: right;">           
@@ -22,7 +21,7 @@
 
     <!-- Page content -->
     <div class="container-fluid mt--6 bg-white">
-      <row>
+      <div class="row">
         <div class="col-md-10 mx-auto">
           <div class="card card-stats">
             <div class="card-body">
@@ -30,34 +29,34 @@
               <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="form-group">
-                  <label for="titikStart">Titik Start:</label>
-                  <input type="text" class="form-control" id="titikStart" name="titikStart" required>
+                  <label for="titik_start">Titik Start:</label>
+                  <input type="text" class="form-control" id="titik_start" name="titik_start" required>
                 </div>
                 <div class="form-group">
-                  <label for="plant">plant:</label>
+                  <label for="plant">Plant:</label>
                   <select class="form-control" id="plant" name="plant" required>
                     <option value="1">1</option>
                     <option value="2">2</option>
                   </select>
                 </div>
                 <div class="form-group">
-                  <label for="via">via:</label>
+                  <label for="via">Via:</label>
                   <input type="text" class="form-control" id="via" name="via">
                 </div>
                 <div class="form-group">
-                  <label for="seat">seat:</label>
+                  <label for="seat">Seat:</label>
                   <input type="number" class="form-control" id="seat" name="seat">
                 </div>
                 <div class="form-group">
-                  <label for="shift1">shift1:</label>
+                  <label for="shift1">Shift 1:</label>
                   <input type="text" class="form-control" id="shift1" name="shift1">
                 </div>
                 <div class="form-group">
-                  <label for="shift2">shift2:</label>
+                  <label for="shift2">Shift 2:</label>
                   <input type="text" class="form-control" id="shift2" name="shift2">
                 </div>
                 <div class="form-group">
-                  <label for="shift3">shift3:</label>
+                  <label for="shift3">Shift 3:</label>
                   <input type="text" class="form-control" id="shift3" name="shift3">
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
@@ -65,17 +64,9 @@
             </div>
           </div>
         </div>
-      </row>
+      </div>
       <a id="scrollToTop" href="#" title="Go to top"><i class="ni ni-bold-up"></i></a>
     </div>
     {% include "includes/footer.html" %}
 
 {% endblock content %}
-
-<!-- Specific JS goes HERE --> 
-{% block javascripts %}
-
-  <script src="/static/assets/vendor/chart.js/dist/Chart.min.js"></script>
-  <script src="/static/assets/vendor/chart.js/dist/Chart.extension.js"></script>
-
-{% endblock javascripts %}

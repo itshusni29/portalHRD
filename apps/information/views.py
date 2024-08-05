@@ -25,13 +25,15 @@ from django.urls import reverse
 from .models import (
     JadwalBusM,
     MenuKantinM,
-    PengumumanM,
+    PengumumanM,    
 )
+
 
 from .forms import (
     JadwalBusF,
     MenuKantinF,
     PengumumanF,
+    SearchForm
     
 )
 
@@ -59,7 +61,7 @@ def komite(request):
 def jadwal_bus(request):
     # View untuk menampilkan daftar semua jadwal bus.
     jadwal_bus_list = JadwalBusM.objects.all()
-    return render(request, "information/Jadwal_bus/jadwalBusJemputan.html", {
+    return render(request, "information/Jadwal_bus/jadwalbus1.html", {
         "jadwal_bus_list": jadwal_bus_list,
     })
 
@@ -104,7 +106,7 @@ def jadwal_bus_delete(request, pk):
 
 def pengumuman_list(request):
     # View untuk menampilkan daftar semua pengumuman dengan opsi pencarian.
-    pengumuman_list = Pengumuman.objects.all()
+    pengumuman_list = PengumumanM.objects.all()
     search_form = SearchForm(request.GET)
     if search_form.is_valid():
         search_query = search_form.cleaned_data.get("search_query")
@@ -115,35 +117,36 @@ def pengumuman_list(request):
         request, "information/Pengumuman/pengumumanList.html", {
             "pengumuman_list": pengumuman_list,
             "search_form": search_form
+
         }
     )
 
 def pengumuman_create(request):
     # View untuk membuat pengumuman baru.
     if request.method == "POST":
-        form = PengumumanForm(request.POST, request.FILES)
+        form = PengumumanF(request.POST, request.FILES)
         if form.is_valid():
             form.save()  # Menyimpan formulir dan membuat instance baru
             return redirect("information:pengumuman_list")  # Redirect ke daftar pengumuman
     else:
-        form = PengumumanForm()
+        form = PengumumanF()
     return render(request, "information/Pengumuman/Create_pengumuman.html", {"form": form})
 
 def pengumuman_update(request, pk):
     # View untuk memperbarui pengumuman yang ada.
-    pengumuman = get_object_or_404(Pengumuman, pk=pk)
+    pengumuman = get_object_or_404(PengumumanM, pk=pk)
     if request.method == "POST":
-        form = PengumumanForm(request.POST, request.FILES, instance=pengumuman)
+        form = PengumumanF(request.POST, request.FILES, instance=pengumuman)
         if form.is_valid():
             form.save()  # Menyimpan perubahan pada instance yang ada
             return redirect("information:pengumuman_list")  # Redirect ke daftar pengumuman
     else:
-        form = PengumumanForm(instance=pengumuman)
+        form = PengumumanF(instance=pengumuman)
     return render(request, "information/Pengumuman/Update_pengumuman.html", {"form": form})
 
 def pengumuman_delete(request, pk):
     # View untuk menghapus pengumuman.
-    pengumuman = get_object_or_404(Pengumuman, pk=pk)
+    pengumuman = get_object_or_404(PengumumanM, pk=pk)
     if request.method == "POST":
         pengumuman.delete()  # Menghapus instance dari database
         return redirect("information:pengumuman_list")  # Redirect ke daftar pengumuman
@@ -151,7 +154,7 @@ def pengumuman_delete(request, pk):
 
 def file_pengumuman_download(request, pengumuman_id):
     # View untuk mengunduh file pengumuman.
-    pengumuman_instance = get_object_or_404(Pengumuman, id=pengumuman_id)
+    pengumuman_instance = get_object_or_404(PengumumanM, id=pengumuman_id)
     file_path = pengumuman_instance.file_pengumuman.path
     with open(file_path, "rb") as f:
         response = HttpResponse(f.read(), content_type="application/octet-stream")

@@ -23,4 +23,13 @@ urlpatterns = [
     path("aturan/<int:pk>/edit/", views.ubah_aturan, name="aturan_edit"),
     path("aturan/<int:pk>/hapus/", views.hapus_aturan, name="aturan_delete"),
     path("aturan/<int:pk>/unduh/", views.unduh_file_aturan, name="aturan_download"),
+    
+    # URL Patterns: Kegiatan
+    # ======================================================================================================================
+    path('kegiatan/table', views.list_kegiatan_table, name='list_kegiatan_table'),
+    path('kegiatan/', views.list_kegiatan, name='list_kegiatan'),
+    path('kegiatan/tambah/', views.Create_kegiatan, name='upload_kegiatan'),
+    path('kegiatan/<int:id>/edit/', views.Update_kegiatan, name='edit_kegiatan'),
+    path('kegiatan/<int:id>/delete/', views.Delete_kegiatan, name='delete_kegiatan'),
+
 ]

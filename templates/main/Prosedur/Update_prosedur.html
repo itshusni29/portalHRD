@@ -2,70 +2,81 @@
 
 {% block title %} Edit Procedure {% endblock title %}
 
-<!-- Specific CSS goes HERE -->
-{% block stylesheets %}{% endblock stylesheets %}
+{% block stylesheets %}
+<!-- Include any specific CSS for this page here -->
+{% endblock stylesheets %}
 
 {% block content %}
-
     <!-- Header -->
     <div class="header bg-white pb-6">
-      <div class="container-fluid">
-        <div class="header-body">
-          <div class="row py-4">
-            <div class="col-lg-12 text-right">
-              <!-- Optional header content -->
+        <div class="container-fluid">
+            <div class="header-body">
+                <div class="row py-4">
+                    <div class="col-lg-12 text-right">
+                        <!-- Optional header content -->
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
     </div>
 
     <div class="container-fluid mt--6 bg-white">
-      <div class="row">
-        <div class="col-md-10 mx-auto">
-          <div class="card card-stats">
-            <div class="card-body">
-              <h1>Edit Form</h1>
-              <form method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-                
-                <!-- Hidden input for procedure ID (for update action) -->
-                {% if form.instance.id %}
-                  <input type="hidden" name="id" value="{{ form.instance.id }}">
-                {% endif %}
-                
-                <div class="form-group">
-                  <label for="nama">Nama Prosedur:</label>
-                  <input type="text" class="form-control" id="nama" name="nama" value="{{ form.nama.value }}" required>
+        <div class="row">
+            <div class="col-md-10 mx-auto">
+                <div class="card card-stats">
+                    <div class="card-body">
+                        <h1>Edit Procedure</h1>
+                        <form method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            
+                            <!-- Hidden input for procedure ID (for update action) -->
+                            {% if form.instance.id %}
+                                <input type="hidden" name="id" value="{{ form.instance.id }}">
+                            {% endif %}
+                            
+                            <div class="form-group">
+                                <label for="nama">Nama Prosedur:</label>
+                                <input type="text" class="form-control{% if form.nama.errors %} is-invalid{% endif %}" id="nama" name="nama" value="{{ form.nama.value }}" required>
+                                {% for error in form.nama.errors %}
+                                    <div class="invalid-feedback">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="kategori">Kategori:</label>
+                                <input type="text" class="form-control{% if form.kategori.errors %} is-invalid{% endif %}" id="kategori" name="kategori" value="{{ form.kategori.value }}" required>
+                                {% for error in form.kategori.errors %}
+                                    <div class="invalid-feedback">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="no_prosedur">No SOP:</label>
+                                <input type="text" class="form-control{% if form.no_prosedur.errors %} is-invalid{% endif %}" id="no_prosedur" name="no_prosedur" value="{{ form.no_prosedur.value }}" required>
+                                {% for error in form.no_prosedur.errors %}
+                                    <div class="invalid-feedback">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="file_upload">File Upload:</label>
+                                {% if form.instance.file_upload %}
+                                    <a href="{{ form.instance.file_upload.url }}" target="_blank">View Current File</a>
+                                {% endif %}
+                                <input type="file" class="form-control-file{% if form.file_upload.errors %} is-invalid{% endif %}" id="file_upload" name="file_upload">
+                                {% for error in form.file_upload.errors %}
+                                    <div class="invalid-feedback">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </form>
+                    </div>
                 </div>
-                
-                <div class="form-group">
-                  <label for="kategori">Kategori:</label>
-                  <input type="text" class="form-control" id="kategori" name="kategori" value="{{ form.kategori.value }}" required>
-                </div>
-                
-                <div class="form-group">
-                  <label for="no_prosedur">No SOP:</label>
-                  <input type="text" class="form-control" id="no_prosedur" name="no_prosedur" value="{{ form.no_prosedur.value }}" required>
-                </div>
-                
-                <div class="form-group">
-                  <label for="file_upload">File Upload:</label>
-                  {% if form.instance.file_upload %}
-                    <a href="{{ form.instance.file_upload.url }}" target="_blank">View Current File</a>
-                  {% endif %}
-                  <input type="file" class="form-control-file" id="file_upload" name="file_upload">
-                </div>
-                
-                <button type="submit" class="btn btn-primary">Submit</button>
-              </form>           
-            </div>            
-          </div>
+            </div>
         </div>
-      </div>
-      <a id="scrollToTop" href="#" title="Go to top"><i class="ni ni-bold-up"></i></a>
+        <a id="scrollToTop" href="#" title="Go to top"><i class="ni ni-bold-up"></i></a>
     </div>
     
     {% include "includes/footer.html" %}
-
 {% endblock content %}
