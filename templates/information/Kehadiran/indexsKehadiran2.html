@@ -1,6 +1,6 @@
 {% extends 'layouts/base.html' %}
 
-{% block title %} Indeks Kehadiran {% endblock title %}
+{% block title %} Data Grafik Kehadiran {% endblock title %}
 
 <!-- Specific CSS goes HERE -->
 {% block stylesheets %}{% endblock stylesheets %}
@@ -11,10 +11,10 @@
     <!-- Header -->
     <div class="header bg-white pb-6">
       <div class="container-fluid">
-        
         <div class="header-body">
           <div class="row py-4">
-            <div class="col-lg-12" style="text-align: right;">            
+            <div class="col-lg-12" style="text-align: right;">
+              <a href="{% url 'grafik_create' %}" class="btn btn-primary">Tambah Grafik</a>
             </div>
           </div>
         </div>
@@ -23,55 +23,51 @@
 
     <!-- Page content -->
     <div class="container-fluid mt--6 bg-white">
-      <row>
-        <div class="col-md-10 mx-auto">
+      <div class="row">
+        <div class="col-md-12 mx-auto">
           <div class="card card-stats">
             <div class="card-body">
-              <h1 class="header_page_label">GRAFIK KEHADIRAN YPMI 2023</h1>
+              <h1 class="header_page_label">Data Grafik Kehadiran</h1>
+              
+              <!-- Tabel untuk menampilkan data grafik -->
               <div class="col-md-12 mx-auto">
-                <img src="{% static 'assets/img/theme/kehadiran/GRAFIKDES23.png' %}" alt="" class="img-fluid ">
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th>Nama</th>
+                      <th>Created At</th>
+                      <th>Updated At</th>
+                      <th>Aksi</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for grafik in grafik %}
+                    <tr>
+                      <td>{{ grafik.nama }}</td>
+                      <td>{{ grafik.created_at }}</td>
+                      <td>{{ grafik.updated_at }}</td>
+                      <td>
+                        <a href="{% url 'grafik_update' grafik.pk %}" class="btn btn-warning btn-sm">Edit</a>
+                        <a href="{% url 'grafik_delete' grafik.pk %}" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus grafik ini?')">Delete</a>
+                      </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                      <td colspan="4" class="text-center">Tidak ada data tersedia</td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
               </div>
-              <div class="col-md-12 mx-auto mt-5">
-                <img src="{% static 'assets/img/theme/kehadiran/grafikdivisi23.png' %}" alt="" class="img-fluid ">
-              </div>
+
             </div>
           </div>
         </div>
-      </row>
+      </div>
       <a id="scrollToTop" href="#" title="Go to top"><i class="ni ni-bold-up"></i></a>
-  
-  
     </div>
+
     {% include "includes/footer.html" %}
 
 {% endblock content %}
 
-<!-- Specific JS goes HERE --> 
-{% block javascripts %}
-
-  <script src="/static/assets/vendor/chart.js/dist/Chart.min.js"></script>
-  <script src="/static/assets/vendor/chart.js/dist/Chart.extension.js"></script>
-
-{% endblock javascripts %}
-
-
-
-
-
-
-
-
-YPMI
-PROD_PLANNING_DELIVERY
-QUALITY_ASSURANCE
-STEEL_PRODUCTION
-STEEL_PRODUCTION_ENGINEERING
-MAINTENANCE
-INVENTORY_CONTROL
-FINANCE
-PROD_STRATEGY
-GENERAL_AFFAIRS
-HUMAN_RESOURCES_DEPARTMENT
-ALUMINIUM_PRODUCTION
-BUSINESS_MANUFACTURING_DEVELOPMENT
-ALUMINIUM_PRODUCTION_ENGINEERING

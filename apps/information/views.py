@@ -25,7 +25,8 @@ from django.urls import reverse
 from .models import (
     JadwalBusM,
     MenuKantinM,
-    PengumumanM,    
+    PengumumanM,
+    Grafik  
 )
 
 
@@ -33,7 +34,8 @@ from .forms import (
     JadwalBusF,
     MenuKantinF,
     PengumumanF,
-    SearchForm
+    SearchForm,
+    GrafikForm
     
 )
 
@@ -42,9 +44,7 @@ from .forms import (
 # ======================================================================================================================
 # Views: Manajemen Kehadiran
 # ======================================================================================================================
-def kehadiran(request):
-    # View untuk menampilkan daftar semua kehadiran.
-    return render(request, "information/Kehadiran/indexsKehadiran.html")
+
 
 
 # ======================================================================================================================
@@ -260,3 +260,45 @@ def get_most_recent_csv_file():
     else:
         return None
 
+
+
+
+# ======================================================================================================================
+# Views: Manajemen Indexs Kehadiran
+# ======================================================================================================================
+def kehadiran(request):
+    # View untuk menampilkan daftar semua kehadiran.
+    return render(request, "information/Kehadiran/indexsKehadiran.html")
+
+def grafik_list(request):
+    grafik = Grafik.objects.all()
+    return render(request, 'information/Kehadiran/List_kehadiran.html', {'grafik': grafik})
+
+
+def grafik_create(request):
+    if request.method == 'POST':
+        form = GrafikForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('grafik_list')
+    else:
+        form = GrafikForm()
+    return render(request, 'information/Kehadiran/Create_kehadiran', {'form': form})
+
+def grafik_update(request, pk):
+    grafik = get_object_or_404(Grafik, pk=pk)
+    if request.method == 'POST':
+        form = GrafikForm(request.POST, instance=grafik)
+        if form.is_valid():
+            form.save()
+            return redirect('grafik_list')
+    else:
+        form = GrafikForm(instance=grafik)
+    return render(request, 'information/Kehadiran/Update_kehadiran', {'form': form})
+
+def grafik_delete(request, pk):
+    grafik = get_object_or_404(Grafik, pk=pk)
+    if request.method == 'POST':
+        grafik.delete()
+        return redirect('grafik_list')
+    return render(request, 'information/Kehadiran/Delete_kehadiran', {'grafik': grafik})

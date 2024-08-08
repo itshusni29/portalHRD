@@ -2,7 +2,7 @@ from django import forms
 from django.core.exceptions import ValidationError
 from django.forms import ModelForm, FileField
 import os
-from .models import JadwalBusM, PengumumanM, MenuKantinM
+from .models import JadwalBusM, PengumumanM, MenuKantinM, Grafik
 
 # ======================================================================================================================
 # Forms: Manajemen Jadwal Bus
@@ -47,3 +47,14 @@ class MenuKantinF(ModelForm):
 
 class SearchForm(forms.Form):
     search_query = forms.CharField(max_length=100, required=False, label='Search')
+
+
+
+# ======================================================================================================================
+# Forms: Manajemen Indexs Kehadiran
+# ======================================================================================================================
+
+class GrafikForm(forms.ModelForm):
+    class Meta:
+        model = Grafik
+        fields = ['nama', 'januari', 'februari', 'maret', 'april', 'mei', 'juni', 'juli', 'agustus', 'september', 'oktober', 'november', 'desember']

@@ -1,6 +1,6 @@
 {% extends 'layouts/base.html' %}
 
-{% block title %} Dashboard {% endblock title %}
+{% block title %} Delete Indeks Kehadiran {% endblock title %}
 
 <!-- Specific CSS goes HERE -->
 {% block stylesheets %}{% endblock stylesheets %}
@@ -10,10 +10,9 @@
     <!-- Header -->
     <div class="header bg-white pb-6">
       <div class="container-fluid">
-        
         <div class="header-body">
           <div class="row py-4">
-            <div class="col-lg-12" style="text-align: right;">           
+            <div class="col-lg-12" style="text-align: right;">
             </div>
           </div>
         </div>
@@ -22,14 +21,15 @@
 
     <!-- Page content -->
     <div class="container-fluid mt--6 bg-white">
-      <div class="row " style="padding-bottom: 20px;">
-        <div class="col-md-6 rounded-right text-center">
+      <div class="row" style="padding-bottom: 20px;">
+        <div class="col-md-6 mx-auto rounded-border-primary text-center">
           <div class="card-body">
-            <h1>Delete Form</h1>
-            <p>Are you sure you want to delete the form "{{ form.date }}"?</p>
-            <form method="post" enctype="multipart/form-data">
+            <h1>Hapus Indeks Kehadiran</h1>
+            <p>Apakah Anda yakin ingin menghapus data kehadiran untuk "{{ form.nama }}" pada "{{ form.bulan }}"?</p>
+            <form method="post">
                 {% csrf_token %}
-                <button type="submit">Delete</button>
+                <button type="submit" class="btn btn-danger">Hapus</button>
+                <a href="{% url 'dashboard' %}" class="btn btn-secondary">Batal</a>
             </form>
           </div>
         </div>
@@ -39,10 +39,3 @@
 
 {% endblock content %}
 
-<!-- Specific JS goes HERE --> 
-{% block javascripts %}
-
-  <script src="/static/assets/vendor/chart.js/dist/Chart.min.js"></script>
-  <script src="/static/assets/vendor/chart.js/dist/Chart.extension.js"></script>
-
-{% endblock javascripts %}

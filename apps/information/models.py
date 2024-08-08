@@ -44,3 +44,28 @@ class MenuKantinM(models.Model):
 
     def __str__(self):
         return str(self.nama_menu)
+
+
+# ======================================================================================================================
+# Models: Manajemen Indexs Kehadiran
+# ======================================================================================================================
+
+class Grafik(models.Model):
+    nama = models.CharField(max_length=255)
+    januari = models.FloatField()
+    februari = models.FloatField()
+    maret = models.FloatField()
+    april = models.FloatField()
+    mei = models.FloatField()
+    juni = models.FloatField()
+    juli = models.FloatField()
+    agustus = models.FloatField()
+    september = models.FloatField()
+    oktober = models.FloatField()
+    november = models.FloatField()
+    desember = models.FloatField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.nama

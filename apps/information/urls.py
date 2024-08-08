@@ -4,7 +4,7 @@ from . import views
 app_name = 'information'
 
 urlpatterns = [
-    path('kehadiran/', views.kehadiran, name='kehadiran'),
+   
     path('komite/', views.komite, name='komite'),
     # ======================================================================================================================
     # URL Configuration for Pengumuman
@@ -29,4 +29,14 @@ urlpatterns = [
     path('menu_kantin/', views.menuKantin, name='menuKantin'),
     path('menu_kantin/upload/', views.upload_csv, name='upload_csv'),
     path('menu_kantin/delete/<int:file_id>/', views.delete_csv, name='delete_csv'),
+    
+    # ======================================================================================================================
+    # URL Configuration for Grafik
+    # ======================================================================================================================
+    path('kehadiran/', views.kehadiran, name='kehadiran'),
+    path('kehadiran/list', views.grafik_list, name='grafik_list'),
+    path('kehadiran/new/', views.grafik_create, name='grafik_create'),
+    path('kehadiran/<int:pk>/edit/', views.grafik_update, name='grafik_update'),
+    path('kehadiran/<int:pk>/delete/', views.grafik_delete, name='grafik_delete'),
 ]
+

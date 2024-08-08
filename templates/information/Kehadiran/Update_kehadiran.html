@@ -1,6 +1,6 @@
 {% extends 'layouts/base.html' %}
 
-{% block title %} Dashboard {% endblock title %}
+{% block title %} Update Indeks Kehadiran {% endblock title %}
 
 <!-- Specific CSS goes HERE -->
 {% block stylesheets %}{% endblock stylesheets %}
@@ -12,85 +12,88 @@
       <div class="container-fluid">
         <div class="header-body">
           <div class="row py-4">
-            <div class="col-lg-12" style="text-align: right;">           
+            <div class="col-lg-12" style="text-align: right;">
             </div>
           </div>
         </div>
       </div>
     </div>
+
+    <!-- Page content -->
     <div class="container-fluid mt--6 bg-white">
       <div class="row">
         <div class="col-md-10 mx-auto">
           <div class="card card-stats">
             <div class="card-body">
-              <h1>Edit Kegiatan</h1>
-              <form method="post" enctype="multipart/form-data">
+              <h1>Update Indeks Kehadiran</h1>
+              <form method="post">
                 {% csrf_token %}
+                
                 <div class="form-group">
-                  <label for="Bulan">Bulan:</label>
-                    <select class="form-control" id="Bulan" name="Bulan" required>
-                        <option value="Januari" {% if form.Bulan.value == 'Januari' %}selected{% endif %}>Januari</option>
-                        <option value="Februari" {% if form.Bulan.value == 'Februari' %}selected{% endif %}>Februari</option>
-                        <option value="Maret" {% if form.Bulan.value == 'Maret' %}selected{% endif %}>Maret</option>
-                        <option value="April" {% if form.Bulan.value == 'April' %}selected{% endif %}>April</option>
-                        <option value="Mei" {% if form.Bulan.value == 'Mei' %}selected{% endif %}>Mei</option>
-                        <option value="Juni" {% if form.Bulan.value == 'Juni' %}selected{% endif %}>Juni</option>
-                        <option value="Juli" {% if form.Bulan.value == 'Juli' %}selected{% endif %}>Juli</option>
-                        <option value="Agustus" {% if form.Bulan.value == 'Agustus' %}selected{% endif %}>Agustus</option>
-                        <option value="September" {% if form.Bulan.value == 'September' %}selected{% endif %}>September</option>
-                        <option value="Oktober" {% if form.Bulan.value == 'Oktober' %}selected{% endif %}>Oktober</option>
-                        <option value="November" {% if form.Bulan.value == 'November' %}selected{% endif %}>November</option>
-                        <option value="Desember" {% if form.Bulan.value == 'Desember' %}selected{% endif %}>Desember</option>
-                    </select>
+                  <label for="nama">Nama:</label>
+                  <input type="text" class="form-control" id="nama" name="nama" value="{{ form.nama }}" required>
+                </div>
+
+                <div class="form-group">
+                  <label for="januari">Januari:</label>
+                  <input type="number" step="0.1" class="form-control" id="januari" name="januari" value="{{ form.januari }}" required>
                 </div>
                 <div class="form-group">
-                  <label for="divisi">division:</label>
-                  <select class="form-control" id="divisi" name="divisi" required>
-                      <option value="YPMI" {% if form.divisi.value == 'YPMI' %}selected{% endif %}>YPMI</option>
-                      <option value="PROD_PLANNING_DELIVERY" {% if form.divisi.value == 'PROD_PLANNING_DELIVERY' %}selected{% endif %}>PROD PLANNING & DELIVERY</option>
-                      <option value="QUALITY_ASSURANCE" {% if form.divisi.value == 'QUALITY_ASSURANCE' %}selected{% endif %}>QUALITY ASSURANCE</option>
-                      <option value="STEEL_PRODUCTION" {% if form.divisi.value == 'STEEL_PRODUCTION' %}selected{% endif %}>STEEL PRODUCTION</option>
-                      <option value="STEEL_PRODUCTION_ENGINEERING" {% if form.divisi.value == 'STEEL_PRODUCTION_ENGINEERING' %}selected{% endif %}>STEEL PRODUCTION ENGINEERING</option>
-                      <option value="MAINTENANCE" {% if form.divisi.value == 'MAINTENANCE' %}selected{% endif %}>MAINTENANCE</option>
-                      <option value="INVENTORY_CONTROL" {% if form.divisi.value == 'INVENTORY_CONTROL' %}selected{% endif %}>INVENTORY CONTROL</option>
-                      <option value="FINANCE" {% if form.divisi.value == 'FINANCE' %}selected{% endif %}>FINANCE</option>
-                      <option value="PROD_STRATEGY" {% if form.divisi.value == 'PROD_STRATEGY' %}selected{% endif %}>PROD. STRATEGY</option>
-                      <option value="GENERAL_AFFAIRS" {% if form.divisi.value == 'GENERAL_AFFAIRS' %}selected{% endif %}>GENERAL AFFAIRS</option>
-                      <option value="HUMAN_RESOURCES_DEPARTMENT" {% if form.divisi.value == 'HUMAN_RESOURCES_DEPARTMENT' %}selected{% endif %}>HUMAN RESOURCES DEPARTMENT</option>
-                      <option value="ALUMINIUM_PRODUCTION" {% if form.divisi.value == 'ALUMINIUM_PRODUCTION' %}selected{% endif %}>ALUMINIUM PRODUCTION</option>
-                      <option value="BUSINESS_MANUFACTURING_DEVELOPMENT" {% if form.divisi.value == 'BUSINESS_MANUFACTURING_DEVELOPMENT' %}selected{% endif %}>BUSINESS & MANUFACTURING DEVELOPMENT</option>
-                      <option value="ALUMINIUM_PRODUCTION_ENGINEERING" {% if form.divisi.value == 'ALUMINIUM_PRODUCTION_ENGINEERING' %}selected{% endif %}>ALUMINIUM PRODUCTION ENGINEERING</option>
-                  </select>
+                  <label for="februari">Februari:</label>
+                  <input type="number" step="0.1" class="form-control" id="februari" name="februari" value="{{ form.februari }}" >
                 </div>
                 <div class="form-group">
-                  <label for="image">Image:</label>
-                  <input type="file" class="form-control-file" value="{{ form.image.value }}" id="image" name="image" required>
+                  <label for="maret">Maret:</label>
+                  <input type="number" step="0.1" class="form-control" id="maret" name="maret" value="{{ form.maret }}" >
                 </div>
                 <div class="form-group">
-                  <label for="tanggal">Tanggal Upload:</label>
-                  <input type="date" class="form-control" id="tanggal" value="{{ form.tanggal.value }}" name="tanggal" required>
+                  <label for="april">April:</label>
+                  <input type="number" step="0.1" class="form-control" id="april" name="april" value="{{ form.april }}" >
                 </div>
                 <div class="form-group">
-                  <label for="keterangan">keterangan Upload:</label>
-                  <input type="text" class="form-control" id="keterangan" value="{{ form.keterangan.value }}" name="keterangan">
+                  <label for="mei">Mei:</label>
+                  <input type="number" step="0.1" class="form-control" id="mei" name="mei" value="{{ form.mei }}" >
                 </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <div class="form-group">
+                  <label for="juni">Juni:</label>
+                  <input type="number" step="0.1" class="form-control" id="juni" name="juni" value="{{ form.juni }}" >
+                </div>
+                <div class="form-group">
+                  <label for="juli">Juli:</label>
+                  <input type="number" step="0.1" class="form-control" id="juli" name="juli" value="{{ form.juli }}" >
+                </div>
+                <div class="form-group">
+                  <label for="agustus">Agustus:</label>
+                  <input type="number" step="0.1" class="form-control" id="agustus" name="agustus" value="{{ form.agustus }}" >
+                </div>
+                <div class="form-group">
+                  <label for="september">September:</label>
+                  <input type="number" step="0.1" class="form-control" id="september" name="september" value="{{ form.september }}" >
+                </div>
+                <div class="form-group">
+                  <label for="oktober">Oktober:</label>
+                  <input type="number" step="0.1" class="form-control" id="oktober" name="oktober" value="{{ form.oktober }}" >
+                </div>
+                <div class="form-group">
+                  <label for="november">November:</label>
+                  <input type="number" step="0.1" class="form-control" id="november" name="november" value="{{ form.november }}" >
+                </div>
+                <div class="form-group">
+                  <label for="desember">Desember:</label>
+                  <input type="number" step="0.1" class="form-control" id="desember" name="desember" value="{{ form.desember }}" >
+                </div>
+
+                <button type="submit" class="btn btn-primary">Update</button>
+                <a href="{% url 'dashboard' %}" class="btn btn-secondary">Batal</a>
               </form>
-            </div>            
+            </div>
           </div>
         </div>
       </div>
       <a id="scrollToTop" href="#" title="Go to top"><i class="ni ni-bold-up"></i></a>
     </div>
-    
+
     {% include "includes/footer.html" %}
 
 {% endblock content %}
 
-<!-- Specific JS goes HERE --> 
-{% block javascripts %}
-
-  <script src="/static/assets/vendor/chart.js/dist/Chart.min.js"></script>
-  <script src="/static/assets/vendor/chart.js/dist/Chart.extension.js"></script>
-
-{% endblock javascripts %}
