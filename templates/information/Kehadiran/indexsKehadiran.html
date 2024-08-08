@@ -10,21 +10,21 @@
   #mixed-chart {
     margin: 35px auto;
   }
-  
+
   .apexcharts-tooltip {
     z-index: 10;
     pointer-events: unset;
   }
-  
+
   .apexcharts-tooltip a {
     cursor: pointer;
   }
-  
+
   .apexcharts-tooltip span {
     padding: 5px 10px;
     display: inline-block;
   }
-  
+
   .apexcharts-tooltip.apexcharts-tooltip-active {
     opacity: 1;
     transition: 0.15s ease all;
@@ -46,7 +46,7 @@
       <div class="container-fluid">
         <div class="header-body">
           <div class="row py-4">
-            <div class="col-lg-12" style="text-align: right;">           
+            <div class="col-lg-12" style="text-align: right;">
             </div>
           </div>
         </div>
@@ -55,103 +55,113 @@
 
     <!-- Page content -->
     <div class="container-fluid mt--6 bg-white">
-      <row>
-        <div class="col-md-10 mx-auto ">
+      <div class="row">
+        <div class="col-md-10 mx-auto">
           <div class="card card-stats">
             <div class="card-body">
-              <h1 class="text-center">Selamat Datang di Sistem Informasi Kehadiran</h1>
+              <h1 class="text-center">{{ grafik.nama }}</h1>
+
 
               <div class="col-md-10 mx-auto rounded-border-primary">
                 <!-- Chart Container -->
-                <div id="mixed-chart" ></div>
+                <div id="mixed-chart"></div>
               </div>
               
             </div>
           </div>
         </div>
-      </row>
+      </div>
       <a id="scrollToTop" href="#" title="Go to top"><i class="ni ni-bold-up"></i></a>
     </div>
 
-    {% include "includes/footer.html" %}
+   <!-- Include ApexCharts JS -->
+<script src="{% static 'assets/js/apexchart/apexcharts.min.js' %}"></script>
+<script>
+  // Parse the JSON data from Django
+  var grafikData = JSON.parse('{{ grafik_data|escapejs }}');
+  
+  // Extract the `nama` from the first data item (assuming you have only one for now)
+  var nama = grafikData.length > 0 ? grafikData[0].nama : '';
 
-    <!-- Include ApexCharts JS -->
-    <script src="{% static 'assets/js/apexchart/apexcharts.min.js' %}"></script>
-    <script>
-      // Configuration for the mixed chart
-      var options = {
-        series: [{
-          name: 'Aktual',
-          type: 'column',
-          data: [98.5, 94, 99, 97, 97.5, 96.3, 97.8, 94.3, 95, 98, 99, 92] // Example data with actual percentages
-        }, {
-          name: 'Target',
-          type: 'line',
-          data: [95, 95, 95, 95, 95, 95, 95, 95, 95, 95, 95, 95].map(value => Math.round(value)) // Rounded target values
-        }],
-        chart: {
-          height: 450, // Height of the chart
-          type: 'line', // Type of chart
-          stacked: false, // Determines if the chart is stacked
-        },
-        stroke: {
-          width: [0, 6], // Width of the column (0) and line (6) series
-          curve: 'smooth' // Smooth curve for the line
-        },
-        plotOptions: {
-          bar: {
-            columnWidth: '50%' // Width of the columns
-          }
-        },
-        fill: {
-          opacity: [0.85, 0.75], // Opacity for the column (0.85) and line (0.75) series
-          gradient: {
-            inverseColors: false,
-            shade: 'light',
-            type: "vertical",
-            opacityFrom: 0.85,
-            opacityTo: 0.55,
-            stops: [0, 100, 100, 100]
-          }
-        },
-        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'], // X-axis labels
-        markers: {
-          size: 6 // Size of the markers on the line series
-        },
-        xaxis: {
-          type: 'category', // X-axis type
-          categories: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'] // X-axis categories
-        },
-        yaxis: {
-          title: {
-            text: 'Aktual (%)' // Y-axis title
-          },
-          min: 50, // Minimum value on the Y-axis
-          max: 100, // Maximum value on the Y-axis
-          labels: {
-            formatter: function (value) {
-              return value.toFixed(1) + "%"; // Format Y-axis labels with percentage
-            }
-          }
-        },
-        tooltip: {
-          shared: true, // Show tooltip for all series
-          intersect: false, // Allows tooltip to show values for all series
-          custom: function({ series, seriesIndex, dataPointIndex, w }) {
-            return (
-              '<div class="custom-tooltip">' +
-              "<span><b>" + w.config.xaxis.categories[dataPointIndex] + "</b></span><br/>" +
-              "<span>Aktual: " + series[0][dataPointIndex].toFixed(1) + "%</span><br/>" +
-              "<span>Target: " + series[1][dataPointIndex] + "%</span>" +
-              "</div>"
-            );
-          }
+  // Extract data for chart
+  var dataAktual = grafikData[0] ? Object.values(grafikData[0]).slice(1) : []; // Skipping the first element which is `nama`
+  var labels = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+
+  // Configuration for the mixed chart
+  var options = {
+    series: [{
+      name: 'Aktual',
+      type: 'column',
+      data: dataAktual
+    }, {
+      name: 'Target',
+      type: 'line',
+      data: [95, 95, 95, 95, 95, 95, 95, 95, 95, 95, 95, 95].map(value => Math.round(value))
+    }],
+    chart: {
+      height: 450,
+      type: 'line',
+      stacked: false,
+    },
+    stroke: {
+      width: [0, 6],
+      curve: 'smooth'
+    },
+    plotOptions: {
+      bar: {
+        columnWidth: '50%'
+      }
+    },
+    fill: {
+      opacity: [0.85, 0.75],
+      gradient: {
+        inverseColors: false,
+        shade: 'light',
+        type: "vertical",
+        opacityFrom: 0.85,
+        opacityTo: 0.55,
+        stops: [0, 100, 100, 100]
+      }
+    },
+    labels: labels,
+    markers: {
+      size: 6
+    },
+    xaxis: {
+      type: 'category',
+      categories: labels
+    },
+    yaxis: {
+      title: {
+        text: 'Aktual (%)'
+      },
+      min: 50,
+      max: 100,
+      labels: {
+        formatter: function (value) {
+          return value.toFixed(1) + "%";
         }
-      };
+      }
+    },
+    tooltip: {
+      shared: true,
+      intersect: false,
+      custom: function({ series, seriesIndex, dataPointIndex, w }) {
+        return (
+          '<div class="custom-tooltip">' +
+          "<span><b>" + w.config.xaxis.categories[dataPointIndex] + "</b></span><br/>" +
+          "<span>Aktual: " + series[0][dataPointIndex].toFixed(1) + "%</span><br/>" +
+          "<span>Target: " + series[1][dataPointIndex] + "%</span>" +
+          "</div>"
+        );
+      }
+    }
+  };
 
-      // Initialize and render the chart
-      var chart = new ApexCharts(document.querySelector("#mixed-chart"), options);
-      chart.render();
-    </script>
+  // Initialize and render the chart
+  var chart = new ApexCharts(document.querySelector("#mixed-chart"), options);
+  chart.render();
+</script>
+
 
 {% endblock content %}

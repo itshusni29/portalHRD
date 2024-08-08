@@ -14,7 +14,7 @@
         <div class="header-body">
           <div class="row py-4">
             <div class="col-lg-12" style="text-align: right;">
-              <a href="{% url 'grafik_create' %}" class="btn btn-primary">Tambah Grafik</a>
+              <a href="{% url 'information:grafik_create' %}" class="btn btn-primary">Tambah Grafik</a>
             </div>
           </div>
         </div>
@@ -47,8 +47,8 @@
                       <td>{{ grafik.created_at }}</td>
                       <td>{{ grafik.updated_at }}</td>
                       <td>
-                        <a href="{% url 'grafik_update' grafik.pk %}" class="btn btn-warning btn-sm">Edit</a>
-                        <a href="{% url 'grafik_delete' grafik.pk %}" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus grafik ini?')">Delete</a>
+                        <a href="{% url 'information:grafik_update' grafik.pk %}" class="btn btn-warning btn-sm">Edit</a>
+                        <a href="{% url 'information:grafik_delete' grafik.pk %}" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus grafik ini?')">Delete</a>
                       </td>
                     </tr>
                     {% empty %}

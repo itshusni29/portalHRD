@@ -31,60 +31,60 @@
                 
                 <div class="form-group">
                   <label for="nama">Nama:</label>
-                  <input type="text" class="form-control" id="nama" name="nama" value="{{ form.nama }}" required>
+                  <input type="text" class="form-control" id="nama" name="nama" value="{{ form.nama.value }}" required>
                 </div>
 
                 <div class="form-group">
                   <label for="januari">Januari:</label>
-                  <input type="number" step="0.1" class="form-control" id="januari" name="januari" value="{{ form.januari }}" required>
+                  <input type="number" step="0.1" class="form-control" id="januari" name="januari" value="{{ form.januari.value }}" required>
                 </div>
                 <div class="form-group">
                   <label for="februari">Februari:</label>
-                  <input type="number" step="0.1" class="form-control" id="februari" name="februari" value="{{ form.februari }}" >
+                  <input type="number" step="0.1" class="form-control" id="februari" name="februari" value="{{ form.februari.value }}" >
                 </div>
                 <div class="form-group">
                   <label for="maret">Maret:</label>
-                  <input type="number" step="0.1" class="form-control" id="maret" name="maret" value="{{ form.maret }}" >
+                  <input type="number" step="0.1" class="form-control" id="maret" name="maret" value="{{ form.maret.value }}" >
                 </div>
                 <div class="form-group">
                   <label for="april">April:</label>
-                  <input type="number" step="0.1" class="form-control" id="april" name="april" value="{{ form.april }}" >
+                  <input type="number" step="0.1" class="form-control" id="april" name="april" value="{{ form.april.value }}" >
                 </div>
                 <div class="form-group">
                   <label for="mei">Mei:</label>
-                  <input type="number" step="0.1" class="form-control" id="mei" name="mei" value="{{ form.mei }}" >
+                  <input type="number" step="0.1" class="form-control" id="mei" name="mei" value="{{ form.mei.value }}" >
                 </div>
                 <div class="form-group">
                   <label for="juni">Juni:</label>
-                  <input type="number" step="0.1" class="form-control" id="juni" name="juni" value="{{ form.juni }}" >
+                  <input type="number" step="0.1" class="form-control" id="juni" name="juni" value="{{ form.juni.value }}" >
                 </div>
                 <div class="form-group">
                   <label for="juli">Juli:</label>
-                  <input type="number" step="0.1" class="form-control" id="juli" name="juli" value="{{ form.juli }}" >
+                  <input type="number" step="0.1" class="form-control" id="juli" name="juli" value="{{ form.juli.value }}" >
                 </div>
                 <div class="form-group">
                   <label for="agustus">Agustus:</label>
-                  <input type="number" step="0.1" class="form-control" id="agustus" name="agustus" value="{{ form.agustus }}" >
+                  <input type="number" step="0.1" class="form-control" id="agustus" name="agustus" value="{{ form.agustus.value }}" >
                 </div>
                 <div class="form-group">
                   <label for="september">September:</label>
-                  <input type="number" step="0.1" class="form-control" id="september" name="september" value="{{ form.september }}" >
+                  <input type="number" step="0.1" class="form-control" id="september" name="september" value="{{ form.september.value }}" >
                 </div>
                 <div class="form-group">
                   <label for="oktober">Oktober:</label>
-                  <input type="number" step="0.1" class="form-control" id="oktober" name="oktober" value="{{ form.oktober }}" >
+                  <input type="number" step="0.1" class="form-control" id="oktober" name="oktober" value="{{ form.oktober.value }}" >
                 </div>
                 <div class="form-group">
                   <label for="november">November:</label>
-                  <input type="number" step="0.1" class="form-control" id="november" name="november" value="{{ form.november }}" >
+                  <input type="number" step="0.1" class="form-control" id="november" name="november" value="{{ form.november.value }}" >
                 </div>
                 <div class="form-group">
                   <label for="desember">Desember:</label>
-                  <input type="number" step="0.1" class="form-control" id="desember" name="desember" value="{{ form.desember }}" >
+                  <input type="number" step="0.1" class="form-control" id="desember" name="desember" value="{{ form.desember.value }}" >
                 </div>
 
                 <button type="submit" class="btn btn-primary">Update</button>
-                <a href="{% url 'dashboard' %}" class="btn btn-secondary">Batal</a>
+                <a href="{% url 'information:grafik_list' %}" class="btn btn-secondary">Batal</a>
               </form>
             </div>
           </div>
@@ -96,4 +96,3 @@
     {% include "includes/footer.html" %}
 
 {% endblock content %}
-
