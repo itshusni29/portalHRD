@@ -15,6 +15,14 @@ from .forms import AturanF, ProsedurF, SearchForm, kegiatanF
 
 
 
+
+
+
+# Views: Tim Kami
+# ======================================================================================================================
+def dashboard(request):
+    return render(request, "main/dashboard.html")
+
 # Views: Tim Kami
 # ======================================================================================================================
 def timKami(request):
