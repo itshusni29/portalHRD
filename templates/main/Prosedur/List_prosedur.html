@@ -61,25 +61,16 @@
                                         </thead>
                                         <tbody>
                                             {% for prosedur in daftar_prosedur %}
-                                                {% if prosedur.kategori == "Recruitment & Selection" %}
+                                                {% if prosedur.kategori == "Recruitment" %}
                                                     <tr>
                                                         <td>{{ forloop.counter }}</td>
                                                         <td>{{ prosedur.nama }}</td>
                                                         <td>{{ prosedur.no_prosedur }}</td>
                                                         <td>
                                                             <div class="d-flex">
-                                                                <a href="{% url 'unduh_file_prosedur' prosedur.id %}" class="btn btn-primary mb-1">
-                                                                    <i class="fas fa-download"></i>
+                                                                <a href="{% url 'prosedur_download' prosedur.pk %}" class="btn btn-primary mb-1">
+                                                                    <i class="fas fa-download"></i> Download
                                                                 </a>
-                                                                <a href="{% url 'ubah_prosedur' prosedur.id %}" class="btn btn-info mb-1">
-                                                                    <i class="fas fa-edit"></i>
-                                                                </a>
-                                                                <form method="post" action="{% url 'hapus_prosedur' prosedur.id %}" style="display: inline;">
-                                                                    {% csrf_token %}
-                                                                    <button type="submit" class="btn btn-danger">
-                                                                        <i class="fas fa-trash"></i>
-                                                                    </button>
-                                                                </form>
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -91,11 +82,10 @@
                                             {% endfor %}
                                         </tbody>
                                     </table>
-                                    <a href="{% url 'buat_prosedur' %}" class="btn btn-success mt-3">
-                                        <i class="fas fa-plus"></i> Add New
-                                    </a>
+                                    
                                 </div>
                             </div>
+                            
 
                             <!-- Training Tab -->
                             <div class="tab-pane fade" id="pills-Training" role="tabpanel" aria-labelledby="pills-Training-tab">
@@ -112,25 +102,14 @@
                                         </thead>
                                         <tbody>
                                             {% for prosedur in daftar_prosedur %}
-                                                {% if prosedur.kategori == "Training & Development" %}
+                                                {% if prosedur.kategori == "Training" %}
                                                     <tr>
                                                         <td>{{ forloop.counter }}</td>
                                                         <td>{{ prosedur.nama }}</td>
                                                         <td>{{ prosedur.no_prosedur }}</td>
                                                         <td>
                                                             <div class="d-flex">
-                                                                <a href="{% url 'unduh_file_prosedur' prosedur.id %}" class="btn btn-primary mb-1">
-                                                                    <i class="fas fa-download"></i>
-                                                                </a>
-                                                                <a href="{% url 'ubah_prosedur' prosedur.id %}" class="btn btn-info mb-1">
-                                                                    <i class="fas fa-edit"></i>
-                                                                </a>
-                                                                <form method="post" action="{% url 'hapus_prosedur' prosedur.id %}" style="display: inline;">
-                                                                    {% csrf_token %}
-                                                                    <button type="submit" class="btn btn-danger">
-                                                                        <i class="fas fa-trash"></i>
-                                                                    </button>
-                                                                </form>
+                                                                <a href="{% url 'prosedur_download' prosedur.pk %}" class="btn btn-primary mb-1">
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -142,9 +121,7 @@
                                             {% endfor %}
                                         </tbody>
                                     </table>
-                                    <a href="{% url 'buat_prosedur' %}" class="btn btn-success mt-3">
-                                        <i class="fas fa-plus"></i> Add New
-                                    </a>
+                                    
                                 </div>
                             </div>
 
@@ -163,25 +140,14 @@
                                         </thead>
                                         <tbody>
                                             {% for prosedur in daftar_prosedur %}
-                                                {% if prosedur.kategori == "Medical & Welfare" %}
+                                                {% if prosedur.kategori == "Welfare" %}
                                                     <tr>
                                                         <td>{{ forloop.counter }}</td>
                                                         <td>{{ prosedur.nama }}</td>
                                                         <td>{{ prosedur.no_prosedur }}</td>
                                                         <td>
                                                             <div class="d-flex">
-                                                                <a href="{% url 'unduh_file_prosedur' prosedur.id %}" class="btn btn-primary mb-1">
-                                                                    <i class="fas fa-download"></i>
-                                                                </a>
-                                                                <a href="{% url 'ubah_prosedur' prosedur.id %}" class="btn btn-info mb-1">
-                                                                    <i class="fas fa-edit"></i>
-                                                                </a>
-                                                                <form method="post" action="{% url 'hapus_prosedur' prosedur.id %}" style="display: inline;">
-                                                                    {% csrf_token %}
-                                                                    <button type="submit" class="btn btn-danger">
-                                                                        <i class="fas fa-trash"></i>
-                                                                    </button>
-                                                                </form>
+                                                                                                                                    <i class="fas fa-download"></i> Download
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -193,9 +159,7 @@
                                             {% endfor %}
                                         </tbody>
                                     </table>
-                                    <a href="{% url 'buat_prosedur' %}" class="btn btn-success mt-3">
-                                        <i class="fas fa-plus"></i> Add New
-                                    </a>
+                                    
                                 </div>
                             </div>
 
@@ -224,15 +188,6 @@
                                                                 <a href="{% url 'unduh_file_prosedur' prosedur.id %}" class="btn btn-primary mb-1">
                                                                     <i class="fas fa-download"></i>
                                                                 </a>
-                                                                <a href="{% url 'ubah_prosedur' prosedur.id %}" class="btn btn-info mb-1">
-                                                                    <i class="fas fa-edit"></i>
-                                                                </a>
-                                                                <form method="post" action="{% url 'hapus_prosedur' prosedur.id %}" style="display: inline;">
-                                                                    {% csrf_token %}
-                                                                    <button type="submit" class="btn btn-danger">
-                                                                        <i class="fas fa-trash"></i>
-                                                                    </button>
-                                                                </form>
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -244,9 +199,8 @@
                                             {% endfor %}
                                         </tbody>
                                     </table>
-                                    <a href="{% url 'buat_prosedur' %}" class="btn btn-success mt-3">
-                                        <i class="fas fa-plus"></i> Add New
-                                    </a>
+                                    
+                                    
                                 </div>
                             </div>
 
@@ -265,25 +219,14 @@
                                         </thead>
                                         <tbody>
                                             {% for prosedur in daftar_prosedur %}
-                                                {% if prosedur.kategori == "Payroll & Administration" %}
+                                                {% if prosedur.kategori == "Attendance" %}
                                                     <tr>
                                                         <td>{{ forloop.counter }}</td>
                                                         <td>{{ prosedur.nama }}</td>
                                                         <td>{{ prosedur.no_prosedur }}</td>
                                                         <td>
                                                             <div class="d-flex">
-                                                                <a href="{% url 'unduh_file_prosedur' prosedur.id %}" class="btn btn-primary mb-1">
-                                                                    <i class="fas fa-download"></i>
-                                                                </a>
-                                                                <a href="{% url 'ubah_prosedur' prosedur.id %}" class="btn btn-info mb-1">
-                                                                    <i class="fas fa-edit"></i>
-                                                                </a>
-                                                                <form method="post" action="{% url 'hapus_prosedur' prosedur.id %}" style="display: inline;">
-                                                                    {% csrf_token %}
-                                                                    <button type="submit" class="btn btn-danger">
-                                                                        <i class="fas fa-trash"></i>
-                                                                    </button>
-                                                                </form>
+                                                                                                                                </a>
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -295,9 +238,7 @@
                                             {% endfor %}
                                         </tbody>
                                     </table>
-                                    <a href="{% url 'buat_prosedur' %}" class="btn btn-success mt-3">
-                                        <i class="fas fa-plus"></i> Add New
-                                    </a>
+                                    
                                 </div>
                             </div>
 

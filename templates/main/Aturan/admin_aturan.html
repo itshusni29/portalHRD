@@ -1,0 +1,112 @@
+{% extends 'layouts/d_base.html' %}
+
+{% block title %} Dashboard {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+    <!-- Header -->
+    <div class="header bg-white">
+      <div class="container-fluid">
+        <div class="header-body">
+          <div class="row align-items-center py-4">
+            <div class="col-lg-6 col-7">
+              <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+                <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                  <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
+                  <li class="breadcrumb-item"><a href="#">Dashboards</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">Aturan</li>
+                </ol>
+              </nav>
+            </div>
+          </div>
+          <!-- Card stats -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Page content -->
+    <div class="container-fluid"> 
+      <div class="row">
+        <div class="col-xl-12">
+          <div class="card">
+            <div class="card-header border-0">
+              <div class="row align-items-center">
+                <div class="col">
+                  <h3 class="mb-0">Daftar Aturan</h3>
+                </div>
+                <div class="col text-right">
+                  <a href="{% url 'aturan_create' %}" class="btn btn-sm btn-primary"><i class="fas fa-plus"></i> Tambah Baru</a>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table">
+                    <thead class="table-head-bg">
+                        <tr>
+                            <th>Judul</th>
+                            <th>Kategori</th>
+                            <th>Deskripsi</th>
+                            <th>File PDF</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for aturan in aturans %}
+                            <tr>
+                                <td>{{ aturan.judul }}</td>
+                                <td>{{ aturan.kategori }}</td>
+                                <td>{{ aturan.deskripsi|truncatewords:10 }}</td>
+                                <td>
+                                  {% if aturan.file_pdf %}
+                                    <a href="{{ aturan.file_pdf.url }}" class="btn btn-sm btn-primary" download>
+                                      Download File
+                                    </a>
+                                  {% else %}
+                                    No file available
+                                  {% endif %}
+                                </td>
+                                <td>
+                                  <div class="d-flex">
+                                    <a href="{% url 'aturan_download' aturan.pk %}" class="btn btn-primary mb-1">
+                                      <i class="fas fa-download"></i>
+                                    </a>
+                                    <a href="{% url 'aturan_edit' aturan.pk %}" class="btn btn-info mb-1">
+                                      <i class="fas fa-edit"></i>
+                                    </a>
+                                    <form method="post" action="{% url 'aturan_delete' aturan.pk %}" style="display:inline;">
+                                      {% csrf_token %}
+                                      <button type="submit" class="btn btn-danger">
+                                        <i class="fas fa-trash"></i>
+                                      </button>
+                                    </form>
+                                  </div>
+                                </td>
+                            </tr>
+                        {% empty %}
+                            <tr>
+                                <td colspan="5">No rules available.</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {% include "includes/footer.html" %}
+
+    </div>
+
+{% endblock content %}
+
+<!-- Specific JS goes HERE -->
+{% block javascripts %}
+  <script src="/static/assets/vendor/chart.js/dist/Chart.min.js"></script>
+  <script src="/static/assets/vendor/chart.js/dist/Chart.extension.js"></script>
+{% endblock javascripts %}

@@ -58,3 +58,4 @@ class GrafikForm(forms.ModelForm):
     class Meta:
         model = Grafik
         fields = ['nama', 'januari', 'februari', 'maret', 'april', 'mei', 'juni', 'juli', 'agustus', 'september', 'oktober', 'november', 'desember']
+

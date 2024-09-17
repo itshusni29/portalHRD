@@ -1,6 +1,6 @@
 {% extends 'layouts/base.html' %}
 
-{% block title %} Dashboard {% endblock title %}
+{% block title %} Kegiatan {% endblock title %}
 
 <!-- Specific CSS goes HERE -->
 {% block stylesheets %}{% endblock stylesheets %}
@@ -36,7 +36,7 @@
                   <div class="col-md-6" style="display: flex; flex-direction: column; justify-content: center; align-items: flex-start;">
                     <h3 style="font-size: 2em; color: #4f98ff; font-weight: bold; text-align: left;">{{ recent_kegiatan.tanggal }}</h3>
                     <h1 class="text-white">{{ recent_kegiatan.judulKegiatan }}</h1>
-                    <p>{{ recent_kegiatan.description }}</p>
+                    <p>{{ recent_kegiatan.deskripsi }}</p>
                   </div>                         
                 </div>
                 {% endwith %}
@@ -65,7 +65,7 @@
                     <div class="col-md-9" style="display: flex; flex-direction: column; justify-content: center; align-items: flex-start;">
                       <h3 style="font-size: 1em; color: #1778FF; font-weight: bold;">{{ kegiatan.tanggal }}</h3>
                       <h1 style="color: #00255d; font-weight: bold;">{{ kegiatan.judulKegiatan }}</h1>
-                      <p style="color: #1778FF">{{ kegiatan.description }}</p>
+                      <p style="color: #1778FF">{{ kegiatan.deskripsi }}</p>
                     </div>
                   </div>
                   {% endif %}

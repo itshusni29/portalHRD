@@ -123,6 +123,12 @@ def search(request):
 
 # Views: Manajemen Prosedur
 # ======================================================================================================================
+
+def admin_prosedur(request):
+    daftar_prosedur = ProsedurM.objects.all()
+    return render(request, "main/prosedur/admin_prosedur.html", {"daftar_prosedur": daftar_prosedur})
+
+
 def daftar_prosedur(request):
     # View untuk menampilkan daftar semua prosedur dengan fungsionalitas pencarian.
     daftar_prosedur = ProsedurM.objects.all()
@@ -137,26 +143,24 @@ def daftar_prosedur(request):
         "query_pencarian": query_pencarian,
     })
 
-def unduh_file_prosedur(request, prosedur_id):
-    # View untuk mengunduh file prosedur.
-    prosedur = get_object_or_404(ProsedurM, id=prosedur_id)
-    file_path = prosedur.file_upload.path
 
-    with open(file_path, "rb") as f:
-        response = HttpResponse(f.read(), content_type="application/octet-stream")
-        response["Content-Disposition"] = f"attachment; filename={prosedur.file_upload.name}"
-        return response
+def unduh_file_prosedur(request, pk):
+    # View untuk mengunduh file PDF prosedur.
+    prosedur = get_object_or_404(ProsedurM, pk=pk)
+    return FileResponse(prosedur.file_upload, as_attachment=True)
 
 def buat_prosedur(request):
-    # View untuk membuat prosedur baru.
+    # View to handle both GET (display the form) and POST (save the form data).
     if request.method == "POST":
         form = ProsedurF(request.POST, request.FILES)
-        if form.is_valid():
+        if form.is_valid(): 
             form.save()
-            return redirect("daftar_prosedur")
+            return redirect("admin_prosedur")  # Redirect to the procedure list view after saving
     else:
         form = ProsedurF()
+    
     return render(request, "main/prosedur/create_prosedur.html", {"form": form})
+
 
 def ubah_prosedur(request, prosedur_id):
     # View untuk memperbarui prosedur yang ada.
@@ -165,7 +169,7 @@ def ubah_prosedur(request, prosedur_id):
         form = ProsedurF(request.POST, request.FILES, instance=prosedur)
         if form.is_valid():
             form.save()
-            return redirect("daftar_prosedur")
+            return redirect("admin_prosedur")
     else:
         form = ProsedurF(instance=prosedur)
     return render(request, "main/prosedur/update_prosedur.html", {"form": form})
@@ -175,12 +179,16 @@ def hapus_prosedur(request, prosedur_id):
     prosedur = get_object_or_404(ProsedurM, id=prosedur_id)
     if request.method == "POST":
         prosedur.delete()
-        return redirect("daftar_prosedur")
+        return redirect("admin_prosedur")
     return render(request, "main/prosedur/delete_prosedur.html", {"prosedur": prosedur})
 
 
 # Views: Manajemen Aturan
 # ======================================================================================================================
+def admin_aturan(request):
+    aturans = AturanM.objects.all()
+    return render(request, "main/aturan/admin_aturan.html", {"aturans": aturans})
+
 def daftar_aturan(request):
     # View untuk menampilkan daftar semua aturan.
     aturans = AturanM.objects.all()
@@ -197,40 +205,43 @@ def buat_aturan(request):
         form = AturanF(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return redirect("aturan_list")
+            return redirect("admin_aturan")
     else:
         form = AturanF()
+    
+    # Jika form tidak valid atau request GET
     return render(request, "main/aturan/Create_aturan.html", {"form": form, "title": "Buat Aturan"})
 
+
 def ubah_aturan(request, pk):
-    # View untuk memperbarui aturan yang ada.
-    aturan = get_object_or_404(AturanM, pk=pk)
+    aturan = get_object_or_404(AturanM, pk=pk)  # Ambil data AturanM berdasarkan primary key (pk)
+    
     if request.method == "POST":
         form = AturanF(request.POST, request.FILES, instance=aturan)
         if form.is_valid():
-            form.save()
-            return redirect("aturan_list")
+            form.save()  # Jika valid, simpan data yang diubah
+            return redirect("admin_aturan")  # Redirect ke halaman daftar aturan setelah berhasil update
     else:
-        form = AturanF(instance=aturan)
-    return render(request, "main/aturan/Update_aturan.html", {"form": form, "title": "Ubah Aturan"})
+        form = AturanF(instance=aturan)  # Tampilkan form dengan data yang sudah ada
+
+    return render(request, "main/aturan/Update_aturan.html", {"form": form, "title": "Ubah Aturan", "aturan": aturan})
+
 
 def hapus_aturan(request, pk):
     # View untuk menghapus aturan.
     aturan = get_object_or_404(AturanM, pk=pk)
     if request.method == "POST":
         aturan.delete()
-        return redirect("aturan_list")
+        return redirect("admin_aturan")
     return render(request, "main/aturan/Delete_aturan.html", {"aturan": aturan})
 
 
 
 # Views: Manajemen Aturan
 # ======================================================================================================================
-def list_kegiatan_table(request):
-    kegiatans = kegiatanM.objects.all().order_by('-created_at')
-    kegiatandict = {'kegiatans': kegiatans}
-    return render(request, 'main/Kegiatan/kegiatan-list.html', context=kegiatandict)
-
+def admin_kegiatan(request):
+    kegiatans = kegiatanM.objects.all()
+    return render(request, "main/Kegiatan/admin_kegiatan.html", {"kegiatans": kegiatans})
 
 def list_kegiatan(request):
     kegiatans = kegiatanM.objects.all().order_by('-created_at')
@@ -242,27 +253,40 @@ def Create_kegiatan(request):
     form = kegiatanF(request.POST or None, request.FILES or None)
     if form.is_valid():
         form.save()
-        return redirect('list_kegiatan')
+        return redirect('admin_kegiatan')
     
     kegiatans['form'] = form
     return render(request, 'main/Kegiatan/Create_kegiatan.html', kegiatans)
     
 
-def Update_kegiatan(request, id):
+'''def Update_kegiatan(request, id):
     kegiatan_rec = kegiatanM.objects.get(id=id)
     form = kegiatanF(request.POST or None, request.FILES or None, instance=kegiatan_rec)
     if form.is_valid():
         form.save()
-        return redirect('list_kegiatan')
+        return redirect('admin_kegiatan')
     kegiatans = {'form': form}
-    return render(request, 'main/Kegiatan/Update_kegiatan.html', context=kegiatans)
+    return render(request, 'main/Kegiatan/Update_kegiatan.html', context=kegiatans)'''
+
+
+def Update_kegiatan(request, id):
+    kegiatan_rec = get_object_or_404(kegiatanM, id=id)  # Use get_object_or_404 for better error handling
+    form = kegiatanF(request.POST or None, request.FILES or None, instance=kegiatan_rec)
+
+    if form.is_valid():
+        form.save()
+        return redirect('admin_kegiatan')  # Redirect after successful form submission
+
+    # Pass the form and record to the template for rendering
+    context = {'form': form, 'kegiatan_rec': kegiatan_rec}
+    return render(request, 'main/Kegiatan/Update_kegiatan.html', context)
 
 
 def Delete_kegiatan(request, id):
     kegiatan_rec = kegiatanM.objects.get(id=id)
     if request.method == 'POST':
         kegiatan_rec.delete()
-        return redirect('list_kegiatan')
+        return redirect('admin_kegiatan')
     return render(request, 'main/Kegiatan/Delete_kegiatan.html')
 '''
 def View_kegiatan(request, id):

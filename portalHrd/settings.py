@@ -80,10 +80,15 @@ WSGI_APPLICATION = 'portalHrd.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'portalnewstructure',  # Name of your MySQL database
+        'USER': 'root',     # MySQL username
+        'PASSWORD': '',  # MySQL password
+        'HOST': 'localhost',           # Or the host where MySQL is running
+        'PORT': '3306',                # Default MySQL port
     }
 }
+
 
 
 # Password validation
