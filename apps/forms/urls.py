@@ -1,8 +1,6 @@
 from django.urls import path, include
-from . import views
-
 
 urlpatterns = [
-    path('Form-list/', views.formList, name='formList'),  # URL Configuration for Form-list
-    path('sumbangan/', include('apps.forms.sumbangan.urls')), # URL Configuration for sumbangan
+    path('form_hard_copy/', include('apps.forms.formHardCopy.urls', namespace='formHardCopy')),  # Include URLs from formHardCopy
+    path('sumbangan/', include('apps.forms.sumbangan.urls')),  # Include URLs from sumbangan if needed
 ]

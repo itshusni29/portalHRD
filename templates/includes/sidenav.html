@@ -1,10 +1,14 @@
+
+{% load static %}
+
 <nav class="sidenav navbar navbar-vertical  fixed-left  navbar-expand-xs navbar-light bg-white" id="sidenav-main">
   <div class="scrollbar-inner">
     <!-- Brand -->
     <div class="sidenav-header  align-items-center">
       <a class="navbar-brand" href="/">
-        <img src="/static/assets/img/brand/blue.png" class="navbar-brand-img" alt="Argon Design - Jinja Template Logo.">
-      </a>
+        <img src="{% static 'assets/img/brand/hrdportal4.png' %}" class="navbar-brand-img" alt="HRD Portal Logo">
+    </a>
+    
     </div>
     <div class="navbar-inner">
       <!-- Collapse -->
@@ -18,11 +22,12 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'formList' %}">
-              <i class="ni ni-planet text-orange"></i>
-              <span class="nav-link-text">Forms</span>
+            <a class="nav-link" href="{% url 'formHardCopy:form_hard_copy_admin_list' %}">
+                <i class="ni ni-planet text-orange"></i>
+                <span class="nav-link-text">Forms Hard Copy</span>
             </a>
-          </li>
+        </li>
+        
           <li class="nav-item">
             <a class="nav-link " href="{% url 'admin_kegiatan' %}">
               <i class="ni ni-pin-3 text-primary"></i>

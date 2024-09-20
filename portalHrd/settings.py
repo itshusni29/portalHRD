@@ -40,8 +40,10 @@ INSTALLED_APPS = [
     'apps.main',
     'apps.user',
     'apps.information',
-    'apps.forms',
+    'apps.forms',  # This includes the forms app
+    'apps.forms.formHardCopy',  # Ensure this is correctly defined if formHardCopy is its own module
 ]
+
 
 
 MIDDLEWARE = [
