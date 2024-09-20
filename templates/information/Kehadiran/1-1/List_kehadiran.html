@@ -1,0 +1,73 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %} Data Grafik Kehadiran {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+{% load static %}
+
+    <!-- Header -->
+    <div class="header bg-white pb-6">
+      <div class="container-fluid">
+        <div class="header-body">
+          <div class="row py-4">
+            <div class="col-lg-12" style="text-align: right;">
+              <a href="{% url 'information:grafik_create' %}" class="btn btn-primary">Tambah Grafik</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Page content -->
+    <div class="container-fluid mt--6 bg-white">
+      <div class="row">
+        <div class="col-md-12 mx-auto">
+          <div class="card card-stats">
+            <div class="card-body">
+              <h1 class="header_page_label">Data Grafik Kehadiran</h1>
+              
+              <!-- Tabel untuk menampilkan data grafik -->
+              <div class="col-md-12 mx-auto">
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th>Nama</th>
+                      <th>Created At</th>
+                      <th>Updated At</th>
+                      <th>Aksi</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for grafik in grafik %}
+                    <tr>
+                      <td>{{ grafik.nama }}</td>
+                      <td>{{ grafik.created_at }}</td>
+                      <td>{{ grafik.updated_at }}</td>
+                      <td>
+                        <a href="{% url 'information:grafik_update' grafik.pk %}" class="btn btn-warning btn-sm">Edit</a>
+                        <a href="{% url 'information:grafik_delete' grafik.pk %}" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus grafik ini?')">Delete</a>
+                      </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                      <td colspan="4" class="text-center">Tidak ada data tersedia</td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <a id="scrollToTop" href="#" title="Go to top"><i class="ni ni-bold-up"></i></a>
+    </div>
+
+    {% include "includes/footer.html" %}
+
+{% endblock content %}
+

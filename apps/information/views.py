@@ -59,6 +59,12 @@ def komite(request):
 # ======================================================================================================================
 # Views: Manajemen Jadwal Bus
 # ======================================================================================================================
+def admin_jadwalbus(request):
+    # View untuk menampilkan daftar semua jadwal bus.
+    jadwal_bus_list = JadwalBusM.objects.all()
+    return render(request, 'information/Jadwal_bus/admin_jadwalbus.html', {'jadwal_bus_list': jadwal_bus_list})
+
+
 def jadwal_bus(request):
     # View untuk menampilkan daftar semua jadwal bus.
     jadwal_bus_list = JadwalBusM.objects.all()
@@ -73,7 +79,7 @@ def jadwal_bus_create(request):
         form = JadwalBusF(request.POST, request.FILES)
         if form.is_valid():
             form.save()  # Menyimpan formulir dan membuat instance baru
-            return redirect("jadwal_bus_list")  # Redirect ke daftar jadwal bus
+            return redirect("information:admin_jadwalbus")  # Redirect ke daftar jadwal bus
     else:
         form = JadwalBusF()
     return render(request, "information/Jadwal_bus/Create_jadwal.html", {"form": form})
@@ -86,7 +92,7 @@ def jadwal_bus_update(request, pk):
         form = JadwalBusF(request.POST, request.FILES, instance=jadwal)
         if form.is_valid():
             form.save()  # Menyimpan perubahan pada instance yang ada
-            return redirect("jadwal_bus_list")  # Redirect ke daftar jadwal bus
+            return redirect("information:admin_jadwalbus")  # Redirect ke daftar jadwal bus
     else:
         form = JadwalBusF(instance=jadwal)
     return render(request, "information/Jadwal_bus/Update_jadwal.html", {"form": form})
@@ -97,13 +103,16 @@ def jadwal_bus_delete(request, pk):
     jadwal = get_object_or_404(JadwalBusM, pk=pk)
     if request.method == "POST":
         jadwal.delete()  # Menghapus instance dari database
-        return redirect("jadwal_bus_list")  # Redirect ke daftar jadwal bus
+        return redirect("information:admin_jadwalbus")  # Redirect ke daftar jadwal bus
     return render(request, "information/Jadwal_bus/Delete_jadwal.html", {"jadwal": jadwal})
 
 
 # ======================================================================================================================
 # Views: Manajemen Pengumuman
 # ======================================================================================================================
+def admin_pengumuman(request):
+    pengumuman = PengumumanM.objects.all()
+    return render(request, 'information/Pengumuman/admin_pengumuman.html', {'pengumuman': pengumuman})
 
 def pengumuman_list(request):
     # View untuk menampilkan daftar semua pengumuman dengan opsi pencarian.
@@ -169,6 +178,12 @@ def file_pengumuman_download(request, pengumuman_id):
 # ======================================================================================================================
 # Views: Manajemen Menu Kantin
 # ======================================================================================================================
+def admin_menukantin(request):
+    # View untuk menampilkan daftar semua menu kantin.
+    menukantin = MenuKantinM.objects.all()
+    return render(request, 'information/Menu_kantin/admin_menukantin.html', {'menukantin': menukantin})
+
+
 def upload_csv(request):
     if request.method == "POST":
         form = MenuKantinF(request.POST, request.FILES)
