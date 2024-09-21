@@ -1,0 +1,110 @@
+{% extends 'layouts/d_base.html' %}
+
+{% block title %} User Management {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+    <!-- Header -->
+    <div class="header">
+      <div class="container-fluid">
+        <div class="header-body">
+          <div class="row align-items-center py-4">
+            <div class="col-lg-6 col-7">
+              <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+                <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                  <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
+                  <li class="breadcrumb-item"><a href="#">Dashboards</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">User Management</li>
+                </ol>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Page content -->
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-xl-12">
+          <div class="card">
+            <div class="card-header border-0">
+              <div class="row align-items-center">
+                <div class="col">
+                  <h3 class="mb-0">Daftar Pengguna</h3>
+                </div>
+                <div class="col text-right">
+                  <a href="{% url 'create_user' %}" class="btn btn-sm btn-primary">
+                    <i class="fas fa-plus"></i> Tambah Pengguna Baru
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+
+              <div class="table-responsive">
+                <table class="table">
+                  <thead class="table-head-bg">
+                      <tr>
+                          <th>NO</th>
+                          <th>Username</th>
+                          <th>First Name</th>  <!-- Add First Name -->
+                          <th>Last Name</th>   <!-- Add Last Name -->
+                          <th>Email</th>
+                          <th>Role</th>
+                          <th>Occupation</th>
+                          <th>Department</th>
+                          <th>Section</th>
+                          <th>NIK</th>
+                          <th>Action</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      {% for user in users %}
+                          <tr>
+                              <td>{{ forloop.counter }}</td>
+                              <td>{{ user.username }}</td>
+                              <td>{{ user.first_name }}</td>  <!-- Display First Name -->
+                              <td>{{ user.last_name }}</td>    <!-- Display Last Name -->
+                              <td>{{ user.email }}</td>
+                              <td>{{ user.get_role_display }}</td>
+                              <td>{{ user.get_occupation_display }}</td>
+                              <td>{{ user.get_department_display }}</td>
+                              <td>{{ user.get_section_display }}</td>
+                              <td>{{ user.nik }}</td>
+                              <td>
+                                  <div class="d-flex">
+                                      <a href="{% url 'edit_user' user.id %}" class="btn btn-info mb-1">
+                                          <i class="fas fa-edit"></i>
+                                      </a>
+                                      <form method="post" action="{% url 'delete_user' user.id %}" style="display: inline;">
+                                          {% csrf_token %}
+                                          <button type="submit" class="btn btn-danger">
+                                              <i class="fas fa-trash"></i>
+                                          </button>
+                                      </form>
+                                  </div>
+                              </td>
+                          </tr>
+                      {% empty %}
+                          <tr>
+                              <td colspan="11">Tidak ada pengguna tersedia.</td>
+                          </tr>
+                      {% endfor %}
+                  </tbody>
+              </table>
+              
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {% include "includes/footer.html" %}
+
+    </div>
+
+{% endblock content %}

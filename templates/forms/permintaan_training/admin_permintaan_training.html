@@ -1,0 +1,102 @@
+{% extends 'layouts/d_base.html' %}
+
+{% block title %} Form Hard Copy {% endblock title %}
+
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+    <!-- Header -->
+    <div class="header">
+      <div class="container-fluid">
+        <div class="header-body">
+          <div class="row align-items-center py-4">
+            <div class="col-lg-6 col-7">
+              <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+                <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                  <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
+                  <li class="breadcrumb-item"><a href="#">Dashboards</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">Form Hardcopy</li>
+                </ol>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Page content -->
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-xl-12">
+          <div class="card">
+            <div class="card-header border-0">
+              <div class="row align-items-center">
+                <div class="col">
+                  <h3 class="mb-0">Daftar Form Hardcopy</h3>
+                </div>
+                <div class="col text-right">
+                  <a href="{% url 'formHardCopy:form_hard_copy_create' %}" class="btn btn-sm btn-primary">
+                    <i class="fas fa-plus"></i> Tambah Baru
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table">
+                  <thead class="table-head-bg">
+                    <tr>
+                      <th>No</th>
+                      <th>Nama Form</th>
+                      <th>No Form</th>
+                      <th>Kategori Form</th>
+                      <th>Created At</th>
+                      <th>Updated At</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for form in forms %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ form.nama_form }}</td>
+                            <td>{{ form.no_form }}</td>
+                            <td>{{ form.category_form }}</td>
+                            <td>{{ form.created_at }}</td>  {# Assuming you have created_at field in your model #}
+                            <td>{{ form.updated_at }}</td>  {# Assuming you have updated_at field in your model #}
+                            <td>
+                                <div class="d-flex">
+                                    <a href="{% url 'formHardCopy:form_hard_copy_download' form.id %}" class="btn btn-primary mb-1" target="_blank">
+                                        <i class="fas fa-download"></i> Download
+                                    </a>
+                                    <a href="{% url 'formHardCopy:form_hard_copy_update' pk=form.id %}" class="btn btn-info mb-1">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <form method="post" action="{% url 'formHardCopy:form_hard_copy_delete' pk=form.id %}" style="display:inline;">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-danger">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="7">No hardcopy forms available.</td>
+                        </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {% include "includes/footer.html" %}
+
+    </div>
+
+{% endblock content %}

@@ -1,0 +1,44 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %} Hapus Form Hard Copy {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+    <!-- Header -->
+    <div class="header bg-white pb-6">
+        <div class="container-fluid">
+            <div class="header-body">
+                <div class="row py-4">
+                    <div class="col-lg-12" style="text-align: right;">
+                        <h1 class="h3 d-inline">Hapus Form Hard Copy</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Page content -->
+    <div class="container-fluid mt--6 bg-white">
+        <div class="row" style="padding-bottom: 20px;">
+            <div class="col-md-6 mx-auto text-center">
+                <div class="card card-stats">
+                    <div class="card-body">
+                        <h1>Konfirmasi Hapus</h1>
+                        <p>Apakah Anda yakin ingin menghapus form "{{ form.nama_form }}"?</p>
+                        <form method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger">Hapus</button>
+                            <a href="{% url 'formHardCopy:form_hard_copy_list' %}" class="btn btn-secondary">Batal</a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <a id="scrollToTop" href="#" title="Go to top"><i class="ni ni-bold-up"></i></a>
+    </div>
+    {% include "includes/footer.html" %}
+
+{% endblock content %}
