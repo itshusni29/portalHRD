@@ -88,3 +88,6 @@ coverage.xml
 
 # Windows specific
 Thumbs.db
+
+.pdf
+.pptx

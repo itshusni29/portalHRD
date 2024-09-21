@@ -80,7 +80,7 @@ WSGI_APPLICATION = 'portalHrd.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-DATABASES = {
+'''DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'portalnewstructure',  # Name of your MySQL database
@@ -89,8 +89,16 @@ DATABASES = {
         'HOST': 'localhost',           # Or the host where MySQL is running
         'PORT': '3306',                # Default MySQL port
     }
-}
+}'''
 
+# myproject/settings.py
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / "db.sqlite3",
+    }
+}
 
 
 # Password validation
