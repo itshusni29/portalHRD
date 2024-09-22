@@ -1,6 +1,6 @@
 {% extends 'layouts/base.html' %}
 
-{% block title %}Form HRD Hard Copy{% endblock title %}
+{% block title %}List Requset Training{% endblock title %}
 
 <!-- Specific CSS goes HERE -->
 {% block stylesheets %}{% endblock stylesheets %}
@@ -13,7 +13,6 @@
             <div class="header-body">
                 <div class="row py-4">
                     <div class="col-lg-12" style="text-align: right;">
-                        <!-- Any header buttons or links can go here -->
                     </div>
                 </div>
             </div>
@@ -25,16 +24,26 @@
         <div class="row">
             <div class="col-md-10 mx-auto" style="margin-bottom: 150px;">
                 <div class="card card-stats">
+                    <div class="card-header border-0">
+                        <div class="row align-items-center">
+                          <div class="col">
+                            <h3 class="mb-0">List Requset Training</h3>
+                          </div>
+                          <div class="col text-right">
+                            <a href="{% url 'request_training:request_training_user' %}" class="btn btn-sm btn-primary">
+                              <i class="fas fa-plus"></i> Tambah Baru
+                            </a>
+                          </div>
+                        </div>
+                      </div>
                     <div class="card-body">
-                        <h3 class="text-center">Training Requests</h3>
                         <table class="table table-striped">
-                            <thead>
+                            <thead class="table-head-bg">
                                 <tr>
                                     <th>Requestor</th>
                                     <th>Topic</th>
                                     <th>Date</th>
                                     <th>Status</th>
-                                    <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -44,11 +53,7 @@
                                         <td>{{ training.topic }}</td>
                                         <td>{{ training.date }}</td>
                                         <td>{{ training.status }}</td>
-                                        <td>
-                                            <a href="{% url 'training_detail' training.id %}" class="btn btn-info">View</a>
-                                            <a href="{% url 'update_training' training.id %}" class="btn btn-warning">Edit</a>
-                                            <a href="{% url 'delete_training' training.id %}" class="btn btn-danger">Delete</a>
-                                        </td>
+                                        
                                     </tr>
                                 {% empty %}
                                     <tr>

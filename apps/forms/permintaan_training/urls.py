@@ -1,8 +1,18 @@
 # apps/forms/permintaan_training/urls.py
 from django.urls import path
-from .views import create_training, training_list
+from .views import request_training_list, admin_request_training_list, requset_training_user, create_training, fetch_user_details
+
+
+app_name = 'permintaan_training'  
+
 
 urlpatterns = [
-    path('create-training/', create_training, name='create_training'),  # URL for creating a training
-    path('training-list/', training_list, name='training_list'),  # URL for the training list
+    path('request_training/', request_training_list, name='request_training_list'),
+    path('dashboard/request_training/', admin_request_training_list, name='admin_request_training_list'),
+    path('request_training_user/', requset_training_user, name='request_training_user'),
+    path('dashboard/create_training/', create_training, name='create_training'),
+    path('fetch_user_details/', fetch_user_details, name='fetch_user_details'),
+
+
+    
 ]

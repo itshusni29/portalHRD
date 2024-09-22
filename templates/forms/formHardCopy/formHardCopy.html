@@ -28,19 +28,22 @@
               <!-- Nav Pills for Categories -->
               <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
                 <li class="nav-item" role="presentation">
-                  <button class="nav-link active" id="pills-Recruitment-tab" data-toggle="pill" data-target="#pills-Recruitment" type="button" role="tab" aria-controls="pills-Recruitment" aria-selected="true">Recruitment & Selection</button>
+                    <button class="nav-link active" id="pills-Recruitment-tab" data-toggle="pill" data-target="#pills-Recruitment" type="button" role="tab" aria-controls="pills-Recruitment" aria-selected="true">Recruitment & Selection</button>
                 </li>
                 <li class="nav-item" role="presentation">
-                  <button class="nav-link" id="pills-Training-tab" data-toggle="pill" data-target="#pills-Training" type="button" role="tab" aria-controls="pills-Training" aria-selected="false">Training and Development</button>
+                    <button class="nav-link" id="pills-Training-tab" data-toggle="pill" data-target="#pills-Training" type="button" role="tab" aria-controls="pills-Training" aria-selected="false">Training and Development</button>
                 </li>
                 <li class="nav-item" role="presentation">
-                  <button class="nav-link" id="pills-Legal-tab" data-toggle="pill" data-target="#pills-HRA_IR" type="button" role="tab" aria-controls="pills-HRA_IR" aria-selected="false">HRA & IR</button>
+                    <button class="nav-link" id="pills-Legal-tab" data-toggle="pill" data-target="#pills-HRA_IR" type="button" role="tab" aria-controls="pills-HRA_IR" aria-selected="false">HRA & IR</button>
                 </li>
                 <li class="nav-item" role="presentation">
-                  <button class="nav-link" id="pills-Wellfare-tab" data-toggle="pill" data-target="#pills-Medical_Welfare" type="button" role="tab" aria-controls="pills-Medical_Welfare" aria-selected="false">Medical & Welfare</button>
+                    <button class="nav-link" id="pills-Welfare-tab" data-toggle="pill" data-target="#pills-Medical_Welfare" type="button" role="tab" aria-controls="pills-Medical_Welfare" aria-selected="false">Medical & Welfare</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="pills-External-tab" type="button" onclick="window.open('{% url 'request_training:request_training_list' %}', '_blank');" aria-selected="false">Request Training</button>
                 </li>
               </ul>
-
+            
               <!-- Tab content -->
               <div class="tab-content" id="pills-tabContent">
 

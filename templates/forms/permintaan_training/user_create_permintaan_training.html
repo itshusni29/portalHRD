@@ -1,0 +1,245 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %}Requset Training{% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+    <!-- Header -->
+    <div class="header bg-white pb-6">
+        <div class="container-fluid">
+            <div class="header-body">
+                <div class="row py-4">
+                    <div class="col-lg-12" style="text-align: right;">
+                        <!-- Any header buttons or links can go here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Page content -->
+    <div class="container-fluid mt--6 bg-white">
+        <div class="row">
+            <div class="col-md-10 mx-auto" style="margin-bottom: 150px;">
+                <div class="card card-stats">
+                    <div class="card-body">
+                        <!-- Form Start -->
+                        <form method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+
+                            <!-- Requestor Field -->
+                            <div class="form-group">
+                                <label for="id_requestor">Requestor (NIK):</label>
+                                <input type="text" class="form-control{% if training_form.requestor_nik.errors %} is-invalid{% endif %}" id="id_requestor" name="requestor_nik" oninput="fetchUserDetails(this.value)">
+                                <div id="user-details" class="user-details"></div>
+                                {% for error in training_form.requestor_nik.errors %}
+                                    <div class="invalid-feedback">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+
+                            <!-- Full Name Field -->
+                            <div class="form-group">
+                                <label for="id_full_name">Full Name:</label>
+                                <input type="text" class="form-control" id="id_full_name" name="full_name" readonly>
+                            </div>
+
+                            <!-- Department Field -->
+                            <div class="form-group">
+                                <label for="id_department">Department:</label>
+                                <input type="text" class="form-control" id="id_department" name="department" readonly>
+                            </div>
+
+                            <!-- CC Field -->
+                            <div class="form-group">
+                                <label for="id_cc">CC:</label>
+                                <input type="text" class="form-control" id="id_cc" name="cc" readonly>
+                            </div>
+
+                            <!-- Topic Field -->
+                            <div class="form-group">
+                                <label for="id_topic">Topik:</label>
+                                <input type="text" class="form-control{% if training_form.topic.errors %} is-invalid{% endif %}" id="id_topic" name="topic" value="{{ training_form.topic.value }}">
+                                {% for error in training_form.topic.errors %}
+                                    <div class="invalid-feedback">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+
+                            <!-- Background Field -->
+                            <div class="form-group">
+                                <label for="id_background">Latar Belakang:</label>
+                                <textarea class="form-control{% if training_form.background.errors %} is-invalid{% endif %}" id="id_background" name="background">{{ training_form.background.value }}</textarea>
+                                {% for error in training_form.background.errors %}
+                                    <div class="invalid-feedback">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+
+                            <!-- Target Field -->
+                            <div class="form-group">
+                                <label for="id_target">Target:</label>
+                                <input type="text" class="form-control{% if training_form.target.errors %} is-invalid{% endif %}" id="id_target" name="target" value="{{ training_form.target.value }}">
+                                {% for error in training_form.target.errors %}
+                                    <div class="invalid-feedback">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+                           
+
+                            <!-- Participants Field -->
+                            <div class="form-group">
+                                <label for="id_participants">Peserta:</label>
+                                <div id="participant-formset">
+                                    {% for form in participant_formset %}
+                                        <div class="participant-form">
+                                            <h5>Peserta {{ forloop.counter }}</h5>
+                                            {{ form.nik.label }} {{ form.nik }}
+                                            {% if form.nik.errors %}<div class="invalid-feedback">{{ form.nik.errors }}</div>{% endif %}
+                                            {{ form.name.label }} {{ form.name }}
+                                            {% if form.name.errors %}<div class="invalid-feedback">{{ form.name.errors }}</div>{% endif %}
+                                            {{ form.section.label }} {{ form.section }}
+                                            {% if form.section.errors %}<div class="invalid-feedback">{{ form.section.errors }}</div>{% endif %}
+                                            {{ form.cc.label }} {{ form.cc }}
+                                            {% if form.cc.errors %}<div class="invalid-feedback">{{ form.cc.errors }}</div>{% endif %}
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+                            <!-- Trainer Field -->
+                            <div class="form-group">
+                                <label for="id_trainer">Trainer:</label>
+                                <input type="text" class="form-control{% if training_form.trainer.errors %} is-invalid{% endif %}" id="id_trainer" name="trainer" value="{{ training_form.trainer.value }}">
+                                {% for error in training_form.trainer.errors %}
+                                    <div class="invalid-feedback">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+
+                            <!-- Date Field -->
+                            <div class="form-group">
+                                <label for="id_date">Tanggal:</label>
+                                <input type="date" class="form-control{% if training_form.date.errors %} is-invalid{% endif %}" id="id_date" name="date" value="{{ training_form.date.value }}">
+                                {% for error in training_form.date.errors %}
+                                    <div class="invalid-feedback">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+
+                            <!-- Location Field -->
+                            <div class="form-group">
+                                <label for="id_location">Lokasi:</label>
+                                <input type="text" class="form-control{% if training_form.location.errors %} is-invalid{% endif %}" id="id_location" name="location" value="{{ training_form.location.value }}">
+                                {% for error in training_form.location.errors %}
+                                    <div class="invalid-feedback">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+
+                            <!-- Cost Field -->
+                            <div class="form-group">
+                                <label for="id_cost">Biaya:</label>
+                                <input type="number" step="0.01" class="form-control{% if training_form.cost.errors %} is-invalid{% endif %}" id="id_cost" name="cost" value="{{ training_form.cost.value }}">
+                                {% for error in training_form.cost.errors %}
+                                    <div class="invalid-feedback">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+
+                            <!-- Evaluation Level Field -->
+                            <div class="form-group">
+                                <label for="id_evaluation_level">Level Evaluasi:</label>
+                                <select class="form-control{% if training_form.evaluation_level.errors %} is-invalid{% endif %}" id="id_evaluation_level" name="evaluation_level">
+                                    {% for choice in training_form.evaluation_level.field.choices %}
+                                        <option value="{{ choice.0 }}" {% if choice.0 == training_form.evaluation_level.value %}selected{% endif %}>{{ choice.1 }}</option>
+                                    {% endfor %}
+                                </select>
+                                {% for error in training_form.evaluation_level.errors %}
+                                    <div class="invalid-feedback">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+
+                            <!-- Monitoring Type Field -->
+                            <div class="form-group">
+                                <label for="id_monitoring_type">Tipe Monitoring:</label>
+                                <input type="text" class="form-control{% if training_form.monitoring_type.errors %} is-invalid{% endif %}" id="id_monitoring_type" name="monitoring_type" value="{{ training_form.monitoring_type.value }}">
+                                {% for error in training_form.monitoring_type.errors %}
+                                    <div class="invalid-feedback">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+
+                            <!-- Monitoring Date Field -->
+                            <div class="form-group">
+                                <label for="id_monitoring_date">Tanggal Monitoring:</label>
+                                <input type="date" class="form-control{% if training_form.monitoring_date.errors %} is-invalid{% endif %}" id="id_monitoring_date" name="monitoring_date" value="{{ training_form.monitoring_date.value }}">
+                                {% for error in training_form.monitoring_date.errors %}
+                                    <div class="invalid-feedback">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+
+                            <!-- Manager Field -->
+                            <div class="form-group">
+                                <label for="id_manager">Manager:</label>
+                                <select class="form-control{% if training_form.manager.errors %} is-invalid{% endif %}" id="id_manager" name="manager">
+                                    {% for choice in training_form.manager.field.choices %}
+                                        <option value="{{ choice.0 }}" {% if choice.0 == training_form.manager.value %}selected{% endif %}>{{ choice.1 }}</option>
+                                    {% endfor %}
+                                </select>
+                                {% for error in training_form.manager.errors %}
+                                    <div class="invalid-feedback">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+
+                            <!-- GM Field -->
+                            <div class="form-group">
+                                <label for="id_gm">GM:</label>
+                                <select class="form-control{% if training_form.gm.errors %} is-invalid{% endif %}" id="id_gm" name="gm">
+                                    {% for choice in training_form.gm.field.choices %}
+                                        <option value="{{ choice.0 }}" {% if choice.0 == training_form.gm.value %}selected{% endif %}>{{ choice.1 }}</option>
+                                    {% endfor %}
+                                </select>
+                                {% for error in training_form.gm.errors %}
+                                    <div class="invalid-feedback">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+
+                          
+
+                            <!-- Submit Button -->
+                            <button type="submit" class="btn btn-primary">Kirim Permintaan</button>
+                        </form>
+                        <!-- Form End -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <a id="scrollToTop" href="#" title="Go to top"><i class="ni ni-bold-up"></i></a>
+    </div>
+    {% include "includes/footer.html" %}
+
+    <script>
+        function fetchUserDetails(nik) {
+            // Fetch user details only when the NIK is exactly 7 characters
+            if (nik.length !== 7) return;
+        
+            fetch(`/forms/permintaan_training/fetch_user_details/?nik=${nik}`)
+                .then(response => response.text())
+                .then(data => {
+                    console.log("Response data:", data);  // Log the response data
+                    const userDetailsDiv = document.getElementById('user-details');
+                    userDetailsDiv.innerHTML = '';
+                    const userDetails = data.split('|'); // Assuming your view returns data in this format
+                    
+                    if (userDetails.length === 3) {
+                        // Update the full name, department, and cc fields
+                        document.getElementById('id_full_name').value = userDetails[0]; // Full Name
+                        document.getElementById('id_department').value = userDetails[1]; // Department
+                        document.getElementById('id_cc').value = userDetails[2]; // CC
+                    } else {
+                        userDetailsDiv.innerHTML = '<p>User not found</p>';
+                        document.getElementById('id_full_name').value = '';
+                        document.getElementById('id_department').value = '';
+                        document.getElementById('id_cc').value = '';
+                    }
+                });
+        }
+        
+        
+    </script>
+{% endblock content %}

@@ -35,6 +35,7 @@ class User(AbstractUser):
     department = models.CharField(max_length=20, choices=Department.choices, default=Department.OTHER)
     section = models.CharField(max_length=20, choices=Section.choices, default=Section.OTHER)
     nik = models.CharField(max_length=50, unique=True, blank=False, null=False)
+    cc = models.CharField(max_length=5, blank=True, null=True)
 
     def save(self, *args, **kwargs):
         if not self.pk:
