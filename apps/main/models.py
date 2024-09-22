@@ -5,14 +5,21 @@ from django.utils import timezone
 # Model: Manajemen Prosedur
 # ======================================================================================================================
 class ProsedurM(models.Model):
+    CATEGORY_CHOICES = [
+        ('HRA_IR', 'HRA & IR'),
+        ('MEDICAL_WELFARE', 'Medical Welfare'),
+        ('RECRUITMENT', 'Recruitment'),
+        ('TRAINING', 'Training'),
+    ]
     nama = models.CharField(max_length=100)
-    kategori = models.CharField(max_length=100)
+    kategori = models.CharField(max_length=20, choices=CATEGORY_CHOICES)  # Gunakan choices
     file_upload = models.FileField(upload_to="uploads/prosedur")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.nama
+
 
 # Model: Manajemen Aturan
 # ======================================================================================================================

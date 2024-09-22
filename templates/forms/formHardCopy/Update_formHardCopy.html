@@ -1,6 +1,6 @@
 {% extends 'layouts/d_base.html' %}
 
-{% block title %} Dashboard {% endblock title %}
+{% block title %} Update Form Hard Copy {% endblock title %}
 
 <!-- Specific CSS goes HERE -->
 {% block stylesheets %}{% endblock stylesheets %}
@@ -17,12 +17,11 @@
                 <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
                   <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
                   <li class="breadcrumb-item"><a href="#">Dashboards</a></li>
-                  <li class="breadcrumb-item active" aria-current="page">Default</li>
+                  <li class="breadcrumb-item active" aria-current="page">Update Form</li>
                 </ol>
               </nav>
             </div>
           </div>
-          <!-- Card stats -->
         </div>
       </div>
     </div>
@@ -35,40 +34,47 @@
             <div class="card-header border-0">
               <div class="row align-items-center">
                 <div class="col">
-                  <h3 class="mb-0">Daftar Prosedur</h3>
+                  <h3 class="mb-0">Update Form Hard Copy</h3>
                 </div>
-                
               </div>
             </div>
             <div class="card-body">
+              <!-- Form Start -->
               <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 
                 <div class="form-group">
                     <label for="nama_form">Nama Form:</label>
-                    <input type="text" class="form-control" id="nama_form" name="nama_form" value="{{ form.nama_form }}" required>
+                    <input type="text" class="form-control" id="nama_form" name="nama_form" value="{{ form.instance.nama_form }}" required>
                 </div>
                 
                 <div class="form-group">
                     <label for="no_form">No Form:</label>
-                    <input type="text" class="form-control" id="no_form" name="no_form" value="{{ form.no_form }}" required>
+                    <input type="text" class="form-control" id="no_form" name="no_form" value="{{ form.instance.no_form }}" required>
                 </div>
                 
                 <div class="form-group">
                     <label for="category_form">Kategori Form:</label>
-                    <input type="text" class="form-control" id="category_form" name="category_form" value="{{ form.category_form }}" required>
+                    <select class="form-control" id="category_form" name="category_form" required>
+                        <option value="HRA_IR" {% if form.instance.category_form == 'HRA_IR' %}selected{% endif %}>HRA & IR</option>
+                        <option value="MEDICAL_WELFARE" {% if form.instance.category_form == 'MEDICAL_WELFARE' %}selected{% endif %}>Medical Welfare</option>
+                        <option value="RECRUITMENT" {% if form.instance.category_form == 'RECRUITMENT' %}selected{% endif %}>Recruitment</option>
+                        <option value="TRAINING" {% if form.instance.category_form == 'TRAINING' %}selected{% endif %}>Training</option>
+                    </select>
                 </div>
 
                 <div class="form-group">
                     <label for="file_upload">File Upload:</label>
                     <input type="file" class="form-control-file" id="file_upload" name="file_upload">
-                    {% if form.file_upload %}
-                        <small>Current file: {{ form.file_upload }}</small>
+                    {% if form.instance.file_upload %}
+                        <small>Current file: <a href="{{ form.instance.file_upload.url }}" target="_blank">{{ form.instance.file_upload.name }}</a></small>
                     {% endif %}
                 </div>
                 
                 <button type="submit" class="btn btn-primary">Update</button>
+                <a href="{% url 'formHardCopy:form_hard_copy_admin_list' %}" class="btn btn-secondary">Kembali</a>
               </form>   
+              <!-- Form End -->
             </div>
           </div>
         </div>

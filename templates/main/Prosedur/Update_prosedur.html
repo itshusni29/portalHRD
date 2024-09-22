@@ -22,7 +22,6 @@
               </nav>
             </div>
           </div>
-          <!-- Card stats -->
         </div>
       </div>
     </div>
@@ -37,7 +36,6 @@
                 <div class="col">
                   <h3 class="mb-0">Daftar Prosedur</h3>
                 </div>
-                
               </div>
             </div>
             <div class="card-body">
@@ -59,7 +57,11 @@
                 
                 <div class="form-group">
                     <label for="kategori">Kategori:</label>
-                    <input type="text" class="form-control{% if form.kategori.errors %} is-invalid{% endif %}" id="kategori" name="kategori" value="{{ form.kategori.value }}" required>
+                    <select class="form-control{% if form.kategori.errors %} is-invalid{% endif %}" id="kategori" name="kategori" required>
+                        {% for key, value in form.kategori.field.choices %}
+                            <option value="{{ key }}" {% if form.kategori.value == key %}selected{% endif %}>{{ value }}</option>
+                        {% endfor %}
+                    </select>
                     {% for error in form.kategori.errors %}
                         <div class="invalid-feedback">{{ error }}</div>
                     {% endfor %}
@@ -96,9 +98,3 @@
     </div>
 
 {% endblock content %}
-
-<!-- Specific JS goes HERE -->
-{% block javascripts %}
-  <script src="/static/assets/vendor/chart.js/dist/Chart.min.js"></script>
-  <script src="/static/assets/vendor/chart.js/dist/Chart.extension.js"></script>
-{% endblock javascripts %}

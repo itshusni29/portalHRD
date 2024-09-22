@@ -38,10 +38,7 @@
                                 <button class="nav-link" id="pills-Medical-tab" data-toggle="pill" data-target="#pills-Medical" type="button" role="tab" aria-controls="pills-Medical" aria-selected="false">Medical & Welfare</button>
                             </li>
                             <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="pills-Legal-tab" data-toggle="pill" data-target="#pills-Legal" type="button" role="tab" aria-controls="pills-Legal" aria-selected="false">Legal</button>
-                            </li>
-                            <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="pills-Payroll-tab" data-toggle="pill" data-target="#pills-Payroll" type="button" role="tab" aria-controls="pills-Payroll" aria-selected="false">Payroll & Administration</button>
+                                <button class="nav-link" id="pills-HRA_IR-tab" data-toggle="pill" data-target="#pills-HRA_IR" type="button" role="tab" aria-controls="pills-HRA_IR" aria-selected="false">HRA & IR</button>
                             </li>
                         </ul>
                         <div class="tab-content" id="pills-tabContent">
@@ -61,7 +58,7 @@
                                         </thead>
                                         <tbody>
                                             {% for prosedur in daftar_prosedur %}
-                                                {% if prosedur.kategori == "Recruitment" %}
+                                                {% if prosedur.kategori == "RECRUITMENT" %}
                                                     <tr>
                                                         <td>{{ forloop.counter }}</td>
                                                         <td>{{ prosedur.nama }}</td>
@@ -82,10 +79,8 @@
                                             {% endfor %}
                                         </tbody>
                                     </table>
-                                    
                                 </div>
                             </div>
-                            
 
                             <!-- Training Tab -->
                             <div class="tab-pane fade" id="pills-Training" role="tabpanel" aria-labelledby="pills-Training-tab">
@@ -102,7 +97,7 @@
                                         </thead>
                                         <tbody>
                                             {% for prosedur in daftar_prosedur %}
-                                                {% if prosedur.kategori == "Training" %}
+                                                {% if prosedur.kategori == "TRAINING" %}
                                                     <tr>
                                                         <td>{{ forloop.counter }}</td>
                                                         <td>{{ prosedur.nama }}</td>
@@ -110,83 +105,7 @@
                                                         <td>
                                                             <div class="d-flex">
                                                                 <a href="{% url 'prosedur_download' prosedur.pk %}" class="btn btn-primary mb-1">
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                {% endif %}
-                                            {% empty %}
-                                                <tr>
-                                                    <td colspan="4">No procedures available.</td>
-                                                </tr>
-                                            {% endfor %}
-                                        </tbody>
-                                    </table>
-                                    
-                                </div>
-                            </div>
-
-                            <!-- Medical Tab -->
-                            <div class="tab-pane fade" id="pills-Medical" role="tabpanel" aria-labelledby="pills-Medical-tab">
-                                <div class="table-responsive">
-                                    <h1 class="table-label">List Prosedur dan Ketentuan Section Medical & Welfare</h1>
-                                    <table class="table">
-                                        <thead class="table-head-bg">
-                                            <tr>
-                                                <th>NO</th>
-                                                <th>Nama Prosedur</th>
-                                                <th>No Prosedur</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {% for prosedur in daftar_prosedur %}
-                                                {% if prosedur.kategori == "Welfare" %}
-                                                    <tr>
-                                                        <td>{{ forloop.counter }}</td>
-                                                        <td>{{ prosedur.nama }}</td>
-                                                        <td>{{ prosedur.no_prosedur }}</td>
-                                                        <td>
-                                                            <div class="d-flex">
-                                                                                                                                    <i class="fas fa-download"></i> Download
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                {% endif %}
-                                            {% empty %}
-                                                <tr>
-                                                    <td colspan="4">No procedures available.</td>
-                                                </tr>
-                                            {% endfor %}
-                                        </tbody>
-                                    </table>
-                                    
-                                </div>
-                            </div>
-
-                            <!-- Legal Tab -->
-                            <div class="tab-pane fade" id="pills-Legal" role="tabpanel" aria-labelledby="pills-Legal-tab">
-                                <div class="table-responsive">
-                                    <h1 class="table-label">List Prosedur dan Ketentuan Section Legal</h1>
-                                    <table class="table">
-                                        <thead class="table-head-bg">
-                                            <tr>
-                                                <th>NO</th>
-                                                <th>Nama Prosedur</th>
-                                                <th>No Prosedur</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {% for prosedur in daftar_prosedur %}
-                                                {% if prosedur.kategori == "Legal" %}
-                                                    <tr>
-                                                        <td>{{ forloop.counter }}</td>
-                                                        <td>{{ prosedur.nama }}</td>
-                                                        <td>{{ prosedur.no_prosedur }}</td>
-                                                        <td>
-                                                            <div class="d-flex">
-                                                                <a href="{% url 'unduh_file_prosedur' prosedur.id %}" class="btn btn-primary mb-1">
-                                                                    <i class="fas fa-download"></i>
+                                                                    <i class="fas fa-download"></i> Download
                                                                 </a>
                                                             </div>
                                                         </td>
@@ -199,15 +118,13 @@
                                             {% endfor %}
                                         </tbody>
                                     </table>
-                                    
-                                    
                                 </div>
                             </div>
 
-                            <!-- Payroll Tab -->
-                            <div class="tab-pane fade" id="pills-Payroll" role="tabpanel" aria-labelledby="pills-Payroll-tab">
+                            <!-- Medical Tab -->
+                            <div class="tab-pane fade" id="pills-Medical" role="tabpanel" aria-labelledby="pills-Medical-tab">
                                 <div class="table-responsive">
-                                    <h1 class="table-label">List Prosedur dan Ketentuan Section Payroll & Administration</h1>
+                                    <h1 class="table-label">List Prosedur dan Ketentuan Section Medical Welfare</h1>
                                     <table class="table">
                                         <thead class="table-head-bg">
                                             <tr>
@@ -219,14 +136,16 @@
                                         </thead>
                                         <tbody>
                                             {% for prosedur in daftar_prosedur %}
-                                                {% if prosedur.kategori == "Attendance" %}
+                                                {% if prosedur.kategori == "MEDICAL_WELFARE" %}
                                                     <tr>
                                                         <td>{{ forloop.counter }}</td>
                                                         <td>{{ prosedur.nama }}</td>
                                                         <td>{{ prosedur.no_prosedur }}</td>
                                                         <td>
                                                             <div class="d-flex">
-                                                                                                                                </a>
+                                                                <a href="{% url 'prosedur_download' prosedur.pk %}" class="btn btn-primary mb-1">
+                                                                    <i class="fas fa-download"></i> Download
+                                                                </a>
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -238,7 +157,45 @@
                                             {% endfor %}
                                         </tbody>
                                     </table>
-                                    
+                                </div>
+                            </div>
+
+                            <!-- HRA & IR Tab -->
+                            <div class="tab-pane fade" id="pills-HRA_IR" role="tabpanel" aria-labelledby="pills-HRA_IR-tab">
+                                <div class="table-responsive">
+                                    <h1 class="table-label">List Prosedur dan Ketentuan Section HRA & IR</h1>
+                                    <table class="table">
+                                        <thead class="table-head-bg">
+                                            <tr>
+                                                <th>NO</th>
+                                                <th>Nama Prosedur</th>
+                                                <th>No Prosedur</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for prosedur in daftar_prosedur %}
+                                                {% if prosedur.kategori == "HRA_IR" %}
+                                                    <tr>
+                                                        <td>{{ forloop.counter }}</td>
+                                                        <td>{{ prosedur.nama }}</td>
+                                                        <td>{{ prosedur.no_prosedur }}</td>
+                                                        <td>
+                                                            <div class="d-flex">
+                                                                <a href="{% url 'prosedur_download' prosedur.pk %}" class="btn btn-primary mb-1">
+                                                                    <i class="fas fa-download"></i> Download
+                                                                </a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                {% endif %}
+                                            {% empty %}
+                                                <tr>
+                                                    <td colspan="4">No procedures available.</td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
 

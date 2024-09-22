@@ -1,5 +1,4 @@
 # Byte-compiled / optimized / DLL files
-
 *$py.class
 
 # C extensions
@@ -30,7 +29,6 @@ pip-wheel-metadata/
 
 # Django stuff:
 *.log
-
 
 # SQLite database files
 *.sqlite3
@@ -67,14 +65,8 @@ coverage.xml
 .hypothesis/
 .coverage
 
-# pytest cache
-.cache
-
 # pylint
 .pylint.d/
-
-# pytest
-.pytest_cache/
 
 # IDEs
 .idea/
@@ -89,5 +81,11 @@ coverage.xml
 # Windows specific
 Thumbs.db
 
-.pdf
-.pptx
+# Document files to ignore
+*.csv
+*.xlsx
+*.doc
+*.docx
+*.pdf
+*.ppt
+*.pptx

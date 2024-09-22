@@ -2,17 +2,31 @@
 
 from django.db import models
 from django.contrib.auth.models import User
-from django.conf import settings  # Import settings to use AUTH_USER_MODEL
+from django.conf import settings  
+
+
 # Form model for hardcopy
+from django.db import models
+
 class FormHardcopy(models.Model):
+    CATEGORY_CHOICES = [
+        ('HRA_IR', 'HRA & IR'),
+        ('MEDICAL_WELFARE', 'Medical Welfare'),
+        ('RECRUITMENT', 'Recruitment'),
+        ('TRAINING', 'Training'),
+    ]
+
     id = models.AutoField(primary_key=True)
     nama_form = models.CharField(max_length=100)
     no_form = models.CharField(max_length=51)
-    category_form = models.CharField(max_length=100)
-    file_upload = models.FileField(upload_to="uploads/")
+    category_form = models.CharField(max_length=20, choices=CATEGORY_CHOICES)
+    file_upload = models.FileField(upload_to="uploads/forms/request_training")
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.nama_form
+
     
     
     

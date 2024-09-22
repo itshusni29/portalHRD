@@ -34,9 +34,8 @@
             <div class="card-header border-0">
               <div class="row align-items-center">
                 <div class="col">
-                  <h3 class="mb-0">Daftar Prosedur</h3>
+                  <h3 class="mb-0">Tambah Prosedur Baru</h3>
                 </div>
-                
               </div>
             </div>
             <div class="card-body">
@@ -57,11 +56,9 @@
                 <div class="form-group">
                     <label for="id_kategori">Kategori:</label>
                     <select class="form-control{% if form.kategori.errors %} is-invalid{% endif %}" id="id_kategori" name="kategori">
-                        <option value="Recruitment" {% if form.kategori.value == "Recruitment" %}selected{% endif %}>Recruitment</option>
-                        <option value="Training" {% if form.kategori.value == "Training" %}selected{% endif %}>Training</option>
-                        <option value="Welfare" {% if form.kategori.value == "Welfare" %}selected{% endif %}>Medical & Welfare</option>
-                        <option value="Legal" {% if form.kategori.value == "Legal" %}selected{% endif %}>Legal</option>
-                        <option value="Attendance" {% if form.kategori.value == "Attendance" %}selected{% endif %}>Payroll & Administration</option>
+                        {% for key, value in form.kategori.field.choices %}
+                            <option value="{{ key }}" {% if form.kategori.value == key %}selected{% endif %}>{{ value }}</option>
+                        {% endfor %}
                     </select>
                     {% for error in form.kategori.errors %}
                         <div class="invalid-feedback">{{ error }}</div>
@@ -92,8 +89,3 @@
 
 {% endblock content %}
 
-<!-- Specific JS goes HERE -->
-{% block javascripts %}
-  <script src="/static/assets/vendor/chart.js/dist/Chart.min.js"></script>
-  <script src="/static/assets/vendor/chart.js/dist/Chart.extension.js"></script>
-{% endblock javascripts %}
