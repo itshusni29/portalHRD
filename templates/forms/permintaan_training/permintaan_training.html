@@ -1,8 +1,7 @@
 {% extends 'layouts/base.html' %}
 
-{% block title %}List Requset Training{% endblock title %}
+{% block title %}List Request Training{% endblock title %}
 
-<!-- Specific CSS goes HERE -->
 {% block stylesheets %}{% endblock stylesheets %}
 
 {% block content %}
@@ -27,10 +26,10 @@
                     <div class="card-header border-0">
                         <div class="row align-items-center">
                           <div class="col">
-                            <h3 class="mb-0">List Requset Training</h3>
+                            <h3 class="mb-0">List Request Training</h3>
                           </div>
                           <div class="col text-right">
-                            <a href="{% url 'request_training:request_training_user' %}" class="btn btn-sm btn-primary">
+                            <a href="{% url 'permintaan_training:request_training_user' %}" class="btn btn-sm btn-primary">
                               <i class="fas fa-plus"></i> Tambah Baru
                             </a>
                           </div>
@@ -40,20 +39,21 @@
                         <table class="table table-striped">
                             <thead class="table-head-bg">
                                 <tr>
-                                    <th>Requestor</th>
+                                    <th>NIK</th>
+                                    <th>Full Name</th>
+                                    <th>Department</th>
                                     <th>Topic</th>
-                                    <th>Date</th>
-                                    <th>Status</th>
+                                    <th>Created At</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {% for training in trainings %}
                                     <tr>
-                                        <td>{{ training.requestor.username }}</td>
+                                        <td>{{ training.requestor.nik }}</td>
+                                        <td>{{ training.requestor.first_name }} {{ training.requestor.last_name }}</td>
+                                        <td>{{ training.requestor.department }}</td>
                                         <td>{{ training.topic }}</td>
-                                        <td>{{ training.date }}</td>
-                                        <td>{{ training.status }}</td>
-                                        
+                                        <td>{{ training.created_at }}</td>  <!-- Assuming this field exists -->
                                     </tr>
                                 {% empty %}
                                     <tr>
