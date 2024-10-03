@@ -89,3 +89,4 @@ Thumbs.db
 *.pdf
 *.ppt
 *.pptx
+"*.pyc" 

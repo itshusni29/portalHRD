@@ -42,15 +42,6 @@ class Sumbangan(models.Model):
 
 
 
-class Participant(models.Model):
-    nik = models.CharField(max_length=50, unique=True)
-    name = models.CharField(max_length=100)
-    section = models.CharField(max_length=100)  # Section of the participant
-    cc = models.CharField(blank=True, max_length=255)  # Additional CC emails
-
-    def __str__(self):
-        return self.name
-
 class Training(models.Model):
     LEVEL_CHOICES = [
         ('1', 'Level 1'),
@@ -73,7 +64,7 @@ class Training(models.Model):
     topic = models.CharField(max_length=200)
     background = models.TextField()
     target = models.CharField(max_length=200)
-    participants = models.ManyToManyField(Participant)  # ManyToManyField for participants
+    participants = models.TextField(max_length=500)
     trainer = models.CharField(max_length=100)
     date = models.DateField()
     location = models.CharField(max_length=200)

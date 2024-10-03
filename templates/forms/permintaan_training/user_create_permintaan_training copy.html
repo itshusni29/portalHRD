@@ -233,14 +233,14 @@
     <script>
         function fetchUserDetails(nik) {
             if (nik.length !== 7) return;
-
+        
             fetch(`/forms/permintaan_training/fetch_user_details/?nik=${nik}`)
                 .then(response => response.text())
                 .then(data => {
                     const userDetailsDiv = document.getElementById('user-details');
                     userDetailsDiv.innerHTML = '';
                     const userDetails = data.split('|');
-
+        
                     if (userDetails.length === 3) {
                         document.getElementById('id_full_name').value = userDetails[0];
                         document.getElementById('id_department').value = userDetails[1];
@@ -257,37 +257,41 @@
                     document.getElementById('user-details').innerHTML = '<p>Error fetching user details</p>';
                 });
         }
+        
 
         let participantCount = {{ participant_formset.total_form_count|default:0 }}; // Start from the existing count
 
         function addParticipantForm() {
-            participantCount++;
             const participantFormset = document.getElementById('participant-formset');
+            const totalForms = document.getElementById('id_form-TOTAL_FORMS');
 
             const newForm = `
                 <div class="participant-form">
-                    <h5>Peserta ${participantCount}</h5>
+                    <h5>Peserta ${participantCount + 1}</h5>
                     <div class="form-group">
-                        <label for="id_participants-${participantCount}-nik">NIK:</label>
-                        <input type="text" name="form-${participantCount}-nik" required class="form-control">
+                        <label for="id_form-${participantCount}-nik">NIK:</label>
+                        <input type="text" name="form-${participantCount}-nik" required class="form-control" id="id_form-${participantCount}-nik">
                     </div>
                     <div class="form-group">
-                        <label for="id_participants-${participantCount}-name">Name:</label>
-                        <input type="text" name="form-${participantCount}-name" required class="form-control">
+                        <label for="id_form-${participantCount}-name">Name:</label>
+                        <input type="text" name="form-${participantCount}-name" required class="form-control" id="id_form-${participantCount}-name">
                     </div>
                     <div class="form-group">
-                        <label for="id_participants-${participantCount}-section">Section:</label>
-                        <input type="text" name="form-${participantCount}-section" class="form-control">
+                        <label for="id_form-${participantCount}-section">Section:</label>
+                        <input type="text" name="form-${participantCount}-section" class="form-control" id="id_form-${participantCount}-section">
                     </div>
                     <div class="form-group">
-                        <label for="id_participants-${participantCount}-cc">CC:</label>
-                        <input type="text" name="form-${participantCount}-cc" class="form-control">
+                        <label for="id_form-${participantCount}-cc">CC:</label>
+                        <input type="text" name="form-${participantCount}-cc" class="form-control" id="id_form-${participantCount}-cc">
                     </div>
                 </div>
             `;
 
             participantFormset.insertAdjacentHTML('beforeend', newForm);
+            participantCount++;
+            totalForms.value = participantCount; // Update TOTAL_FORMS count
         }
+
     </script>
     
 {% endblock content %}
