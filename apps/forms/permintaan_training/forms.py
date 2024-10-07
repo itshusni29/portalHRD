@@ -10,7 +10,7 @@ class TrainingForm(forms.ModelForm):
     class Meta:
         model = Training
         fields = [
-            'requestor_nik', 'topic', 'background', 'target', 'participants',  # Include participants here
+            'requestor_nik', 'topic', 'background', 'target', 'participants', 
             'trainer', 'date', 'location', 'cost', 'evaluation_level', 
             'monitoring_type', 'monitoring_date', 'manager', 'gm', 'hrd_manager'
         ]
@@ -18,7 +18,7 @@ class TrainingForm(forms.ModelForm):
             'topic': forms.TextInput(attrs={'class': 'form-control'}),
             'background': forms.Textarea(attrs={'class': 'form-control'}),
             'target': forms.TextInput(attrs={'class': 'form-control'}),
-            'participants': forms.Textarea(attrs={'class': 'form-control'}),  # Ensure it's included in the widgets
+            'participants': forms.Textarea(attrs={'class': 'form-control'}),
             'trainer': forms.TextInput(attrs={'class': 'form-control'}),
             'date': forms.DateInput(attrs={'class': 'form-control'}),
             'location': forms.TextInput(attrs={'class': 'form-control'}),
@@ -28,7 +28,6 @@ class TrainingForm(forms.ModelForm):
             'monitoring_date': forms.DateInput(attrs={'class': 'form-control'}),
             'manager': forms.Select(attrs={'class': 'form-control'}),
             'gm': forms.Select(attrs={'class': 'form-control'}),
-            'hrd_manager': forms.Select(attrs={'class': 'form-control'}),
         }
 
     def __init__(self, *args, **kwargs):
@@ -41,3 +40,7 @@ class TrainingForm(forms.ModelForm):
         if len(nik) != 7:
             raise forms.ValidationError("Requestor NIK must be exactly 7 characters long.")
         return nik
+
+    # Optionally, hide the HRD Manager field from the form
+    def clean_hrd_manager(self):
+        return User.objects.get(id=3)  # Set HRD Manager ID to 3 by default

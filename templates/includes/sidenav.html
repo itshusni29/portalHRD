@@ -1,86 +1,81 @@
-
 {% load static %}
 
 <nav class="sidenav navbar navbar-vertical  fixed-left  navbar-expand-xs navbar-light bg-white" id="sidenav-main">
   <div class="scrollbar-inner">
     <!-- Brand -->
-    <div class="sidenav-header  align-items-center">
+    <div class="sidenav-header align-items-center">
       <a class="navbar-brand" href="/">
         <img src="{% static 'assets/img/brand/hrdportal4.png' %}" class="navbar-brand-img" alt="HRD Portal Logo">
-    </a>
-    
+      </a>
     </div>
     <div class="navbar-inner">
       <!-- Collapse -->
       <div class="collapse navbar-collapse" id="sidenav-collapse-main">
         <!-- Nav items -->
         <ul class="navbar-nav">
+          
+          <!-- Common for all users -->
           <li class="nav-item">
             <a class="nav-link" href="{% url 'dashboard' %}">
               <i class="ni ni-tablet-button text-red"></i>
               <span class="nav-link-text">Dashboard</span>
             </a>
           </li>
+          
+          <!-- Different menu for MANAGER and GENERAL MANAGER -->
+          {% if request.user.occupation == 'manager' %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'dashboard' %}">
+              <i class="ni ni-planet text-indigo"></i>
+              <span class="nav-link-text">Manager Dashboard</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'dashboard' %}">
+              <i class="ni ni-chart-bar-32 text-orange"></i>
+              <span class="nav-link-text">Reports</span>
+            </a>
+          </li>
+
+          {% elif request.user.occupation == 'general_manager' or request.user.occupation == 'deputy_director' %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'gm_dashboard' %}">
+              <i class="ni ni-settings text-purple"></i>
+              <span class="nav-link-text">General Manager Dashboard</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'gm_overview' %}">
+              <i class="ni ni-world-2 text-teal"></i>
+              <span class="nav-link-text">Company Overview</span>
+            </a>
+          </li>
+
+          <!-- Default links for other occupations -->
+          {% else %}
           <li class="nav-item">
             <a class="nav-link" href="{% url 'user_list' %}">
-                <i class="ni ni-single-02 text-pink"></i>
-                <span class="nav-link-text">User</span>
+              <i class="ni ni-single-02 text-pink"></i>
+              <span class="nav-link-text">User</span>
             </a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="{% url 'formHardCopy:form_hard_copy_admin_list' %}">
-                <i class="ni ni-planet text-indigo"></i>
-                <span class="nav-link-text">Forms Hard Copy</span>
+              <i class="ni ni-planet text-indigo"></i>
+              <span class="nav-link-text">Forms Hard Copy</span>
             </a>
           </li>
-        
+          <!-- Additional common links -->
           <li class="nav-item">
-            <a class="nav-link " href="{% url 'admin_kegiatan' %}">
+            <a class="nav-link" href="{% url 'admin_kegiatan' %}">
               <i class="ni ni-pin-3 text-purple"></i>
               <span class="nav-link-text">Kegiatan</span>
             </a>
           </li>
+          <!-- Add more common links here -->
+          {% endif %}
           
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'admin_prosedur' %}">
-              <i class="ni ni-book-bookmark text-orange"></i>
-              <span class="nav-link-text">Prosedur</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'admin_aturan' %}">
-              <i class="ni ni-books text-yellow"></i>
-              <span class="nav-link-text">Aturan</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'information:admin_menukantin' %}">
-              <i class="ni ni-bag-17 text-green"></i>
-              <span class="nav-link-text">Menu Kantin</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'information:admin_pengumuman' %}">
-              <i class="ni ni-notification-70 text-teal"></i>
-              <span class="nav-link-text">Pengumuman</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'information:grafik_list' %}">
-              <i class="ni ni-watch-time text-cyan"></i>
-              <span class="nav-link-text">Kehadiran</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'information:admin_jadwalbus' %}">
-              <i class="ni ni-bus-front-12 text-red"></i>
-              <span class="nav-link-text">Jadwal Bus</span>
-            </a>
-          </li>
-                     
         </ul>
-        <!-- Divider -->
-        
       </div>
     </div>
   </div>
