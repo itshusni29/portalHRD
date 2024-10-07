@@ -31,13 +31,13 @@
 
           {% elif request.user.occupation == 'general_manager' or request.user.occupation == 'deputy_director' %}
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'gm_dashboard' %}">
+            <a class="nav-link" href="{% url 'dashboard' %}">
               <i class="ni ni-settings text-purple"></i>
               <span class="nav-link-text">Dashboard</span>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'gm_overview' %}">
+            <a class="nav-link" href="{% url 'dashboard' %}">
               <i class="ni ni-world-2 text-teal"></i>
               <span class="nav-link-text">Company Overview</span>
             </a>

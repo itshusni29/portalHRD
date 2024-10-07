@@ -18435,3 +18435,57 @@ p {
     }
 
 }
+
+/* timeline for approval */
+ul.timeline {
+  list-style-type: none;
+  position: relative;
+  padding: 0; /* Remove default padding */
+}
+
+ul.timeline:before {
+  content: ' ';
+  background: #d4d9df;
+  display: inline-block;
+  position: absolute;
+  left: 29px;
+  width: 2px;
+  height: 100%;
+  z-index: 400;
+}
+
+ul.timeline > li {
+  margin: 20px 0;
+  padding-left: 50px; /* Increased left padding for better visibility */
+  position: relative; /* Positioning context for before elements */
+}
+
+/* Added styles for text wrapping */
+ul.timeline > li p {
+  word-wrap: break-word; /* Allows long words to break */
+  overflow-wrap: break-word; /* Ensures the text wraps within the container */
+  max-width: 90%; /* Prevents text from extending too far; you can adjust this */
+  margin-top: 5px; /* Optional: adds some spacing above the text */
+}
+
+ul.timeline > li:before {
+  content: ' ';
+  background: white;
+  display: inline-block;
+  position: absolute;
+  border-radius: 50%;
+  border: 3px solid #22c0e8;
+  left: 20px;
+  width: 20px;
+  height: 20px;
+  z-index: 400;
+}
+
+/* Additional styling for the modal to ensure proper spacing */
+.card-body {
+  padding: 1.5rem; /* Increased padding for more space */
+}
+
+.text-default {
+  margin-top: 10px; /* Add margin for text separation */
+}

@@ -87,17 +87,20 @@ class Training(models.Model):
 class GMApproval(models.Model):
     training = models.ForeignKey(Training, on_delete=models.CASCADE, related_name='gm_approval')
     approval_status = models.BooleanField(default=False)
+    remarks = models.TextField(blank=True, max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
 class ManagerApproval(models.Model):
     training = models.ForeignKey(Training, on_delete=models.CASCADE, related_name='manager_approval')
     approval_status = models.BooleanField(default=False)
+    remarks = models.TextField(blank=True, max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
 class HRDManagerApproval(models.Model):
     training = models.ForeignKey(Training, on_delete=models.CASCADE, related_name='hrd_manager_approval')
     approval_status = models.BooleanField(default=False)
+    remarks = models.TextField(blank=True, max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

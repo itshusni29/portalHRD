@@ -115,10 +115,7 @@ def manager_training_list(request):
 @login_required
 def gm_training_list(request):
     # Filter training requests where the requestor's occupation is 'general_manager' or 'deputy_director'
-    if request.user.occupation in ['general_manager', 'deputy_director']:
-        trainings = Training.objects.filter(requestor__occupation__in=['general_manager', 'deputy_director'])
-    else:
-        trainings = Training.objects.none()  # Empty queryset if the user is neither GM nor Deputy Director
+    trainings = Training.objects.filter(gm=request.user)
 
     return render(request, 'forms/permintaan_training/gm_permintaan_training.html', {
         'trainings': trainings
