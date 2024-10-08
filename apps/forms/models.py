@@ -60,6 +60,8 @@ class HRDManagerApproval(models.Model):
     remarks = models.TextField(blank=True, max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    
+    
 
 # Training model now references GMApproval, ManagerApproval, and HRDManagerApproval
 class Training(models.Model):
@@ -107,6 +109,7 @@ class Training(models.Model):
 
     gm_approval = models.ForeignKey(GMApproval, on_delete=models.CASCADE, related_name='training_gm_approval', null=True, blank=True)
     manager_approval = models.ForeignKey(ManagerApproval, on_delete=models.CASCADE, related_name='training_manager_approval', null=True, blank=True)
+    hrd_manager_approval = models.ForeignKey(HRDManagerApproval, on_delete=models.CASCADE, related_name='training_hrd_manager_approval', null=True, blank=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
 
     def __str__(self):

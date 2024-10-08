@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth import get_user_model
-from ..models import Training, GMApproval, ManagerApproval
+from ..models import Training, GMApproval, ManagerApproval, HRDManagerApproval 
 
 
 User = get_user_model()
@@ -70,6 +70,19 @@ class GMApprovalForm(forms.ModelForm):
 
     class Meta:
         model = GMApproval
+        fields = ['approval_status', 'remarks']
+        widgets = {
+            'remarks': forms.Textarea(attrs={'rows': 3, 'class': 'form-control'}),
+        }
+
+class HRDManagerApprovalForm(forms.ModelForm):  # Updated to HRDManagerApprovalForm
+    approval_status = forms.ChoiceField(
+        choices=[(True, 'Approve'), (False, 'Reject')],
+        widget=forms.RadioSelect
+    )
+
+    class Meta:
+        model = HRDManagerApproval  # Keeping the model as HRDManagerApproval
         fields = ['approval_status', 'remarks']
         widgets = {
             'remarks': forms.Textarea(attrs={'rows': 3, 'class': 'form-control'}),

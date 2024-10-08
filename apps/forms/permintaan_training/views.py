@@ -1,7 +1,7 @@
 # views.py
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import TrainingForm, GMApprovalForm, ManagerApprovalForm
-from ..models import Training, GMApproval, ManagerApproval
+from .forms import TrainingForm, GMApprovalForm, ManagerApprovalForm, HRDManagerApprovalForm
+from ..models import Training, GMApproval, ManagerApproval, HRDManagerApproval
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from django.http import HttpResponse
@@ -22,11 +22,7 @@ def request_training_list(request):
 
 
 
-def admin_request_training_list(request):
-    trainings = Training.objects.all()  # Get all training requests
-    return render(request, 'forms/permintaan_training/admin_permintaan_training.html', {
-        'trainings': trainings
-    })
+
 
 def fetch_user_details(request):
     nik = request.GET.get('nik')
@@ -106,6 +102,14 @@ def create_training(request):
     })
 
 
+def admin_request_training_list(request):
+    trainings = Training.objects.all()  # Get all training requests
+    return render(request, 'forms/permintaan_training/admin_permintaan_training.html', {
+        'trainings': trainings
+    })
+    
+    
+
 
 @login_required
 def manager_training_list(request):
@@ -127,12 +131,13 @@ def manager_training_list(request):
             # Update the training status after manager approval
             if manager_approval.approval_status:
                 training.status = 'manager_approved'
-                messages.success(request, "Training request approved.")
+                messages.success(request, "Training request approved successfully.")
             else:
                 training.status = 'manager_rejected'
                 messages.error(request, "Training request rejected.")
             training.save()
 
+            # Redirect back to the manager's training list view
             return redirect('permintaan_training:manager_request_training_list')
 
     else:
@@ -144,11 +149,11 @@ def manager_training_list(request):
     })
 
 
-
 @login_required
 def gm_training_list(request):
-    # Filter training requests assigned to the logged-in GM
-    trainings = Training.objects.filter(gm=request.user)
+    # Filter training requests assigned to the logged-in GM,
+    # and where the manager has approved the request (manager_approval.approval_status = True)
+    trainings = Training.objects.filter(gm=request.user, manager_approval__approval_status=True)
 
     if request.method == 'POST':
         # Handle form submission for GM approval
@@ -175,6 +180,43 @@ def gm_training_list(request):
         form = GMApprovalForm()
 
     return render(request, 'forms/permintaan_training/gm_permintaan_training.html', {
-        'trainings': trainings,  # Pass the training requests to the template
+        'trainings': trainings,  # Pass only manager-approved training requests
         'form': form,  # Pass the GM approval form to the template
+    })
+
+
+
+@login_required
+def hrd_training_list(request):
+    # Filter training requests where the logged-in user is HRD Manager
+    trainings = Training.objects.filter(hrd_manager=request.user)
+
+    if request.method == 'POST':
+        # Handle form submission for HRD Manager approval
+        training_id = request.POST.get('training_id')
+        training = get_object_or_404(Training, id=training_id)
+        form = HRDManagerApprovalForm(request.POST)
+
+        if form.is_valid():
+            hrd_approval = form.save(commit=False)
+            hrd_approval.training = training  # Link HRD approval to the training
+            hrd_approval.save()
+
+            # Update the training status after HRD Manager approval
+            if hrd_approval.approval_status:
+                training.status = 'hrd_approved'  # HRD approved
+                messages.success(request, "Training request approved by HRD.")
+            else:
+                training.status = 'hrd_rejected'  # HRD rejected
+                messages.error(request, "Training request rejected by HRD.")
+            training.save()
+
+            return redirect('permintaan_training:hrd_request_training_list')  # Redirect to HRD training list page
+
+    else:
+        form = HRDManagerApprovalForm()
+
+    return render(request, 'forms/permintaan_training/hrd_permintaan_training.html', {
+        'trainings': trainings,  # Pass the training requests to the template
+        'form': form,  # Pass the HRD Manager approval form to the template
     })

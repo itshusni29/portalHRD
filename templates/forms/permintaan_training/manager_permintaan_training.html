@@ -139,27 +139,32 @@
                                                     <div class="text-center text-muted mb-4">
                                                         Remarks and Approval
                                                     </div>
+                                                    
+                                                    <!-- Start of the form for submitting approval/rejection -->
                                                     <form method="POST" action="">
-                                                        {% csrf_token %}
-                                                        <input type="hidden" name="training_id" value="{{ training.id }}">
-                                                        
-                                                        <!-- Approval Status -->
-                                                        <div class="form-group">
-                                                          <label>Approval Status</label>
-                                                          {{ form.approval_status }}
-                                                        </div>
+                                                      {% csrf_token %}
+                                                      <input type="hidden" name="training_id" value="{{ training.id }}">
 
-                                                        <!-- Remarks -->
-                                                        <div class="form-group">
-                                                          <label>Remarks</label>
-                                                          {{ form.remarks }}
-                                                        </div>
+                                                      <!-- Approval Status -->
+                                                      <div class="form-group">
+                                                        <label>Approval Status</label>
+                                                        {{ form.approval_status }}
+                                                      </div>
 
-                                                        <!-- Submit Buttons -->
-                                                        <div class="text-center">
-                                                            <button type="submit" class="btn btn-success my-4"><i class="fas fa-check"></i> Submit</button>
-                                                        </div>
+                                                      <!-- Remarks -->
+                                                      <div class="form-group">
+                                                        <label>Remarks</label>
+                                                        {{ form.remarks }}
+                                                      </div>
+
+                                                      <!-- Submit Buttons -->
+                                                      <div class="text-center">
+                                                          <button type="submit" class="btn btn-success my-4">
+                                                              <i class="fas fa-check"></i> Submit
+                                                          </button>
+                                                      </div>
                                                     </form>
+
                                                 </div>
                                             </div>
                                         </div>
