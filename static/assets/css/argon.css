@@ -18438,25 +18438,28 @@ p {
 
 
 
-/* timeline for approval */
 ul.timeline {
   list-style-type: none;
   position: relative;
+  padding-left: 0; /* Remove default padding */
 }
+
 ul.timeline:before {
   content: ' ';
   background: #d4d9df;
   display: inline-block;
   position: absolute;
-  left: 29px;
+  left: 20px; /* Align the vertical line */
   width: 2px;
   height: 100%;
   z-index: 400;
 }
+
 ul.timeline > li {
   margin: 20px 0;
-  padding-left: 20px;
+  padding-left: 40px; /* Adjust to give space for the line */
 }
+
 ul.timeline > li:before {
   content: ' ';
   background: white;
@@ -18464,8 +18467,27 @@ ul.timeline > li:before {
   position: absolute;
   border-radius: 50%;
   border: 3px solid #22c0e8;
-  left: 20px;
-  width: 20px;
-  height: 20px;
+  left: 13px; /* Adjust for the timeline bullet */
+  width: 15px;
+  height: 15px;
   z-index: 400;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  ul.timeline > li {
+    padding-left: 30px;
+  }
+}
+
+.wraper {
+  word-wrap: break-word; /* Ensure long text wraps */
+  font-size: 1rem; /* Adjust font size to be responsive */
+  line-height: 1.5; /* Better readability */
+}
+
+@media (max-width: 768px) {
+  .wraper {
+    font-size: 0.9rem; /* Slightly smaller on small screens */
+  }
 }

@@ -50,14 +50,18 @@ class Training(models.Model):
     ]
 
     STATUS_CHOICES = [
-        ('pending', 'Pending'),
+        ('submit', 'Submitted'),
         ('manager_approved', 'Approved by Manager'),
+        ('manager_rejected', 'Rejected by Manager'),
         ('gm_approved', 'Approved by GM'),
+        ('gm_rejected', 'Rejected by GM'),
         ('hrd_approved', 'Approved by HRD'),
-        ('completed', 'Completed'),
+        ('hrd_rejected', 'Rejected by HRD'),
+        ('pending', 'Pending'),
+        ('canceled', 'Canceled by HRD'),
         ('evaluation', 'Evaluation'),
-        ('failed', 'Failed'),
         ('monitoring', 'Monitoring'),
+        ('completed', 'Completed'),
     ]
 
     requestor = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='requestor', on_delete=models.CASCADE)
@@ -83,6 +87,7 @@ class Training(models.Model):
 
     def __str__(self):
         return f"{self.topic} - {self.requestor.username}"
+
 
 class GMApproval(models.Model):
     training = models.ForeignKey(Training, on_delete=models.CASCADE, related_name='gm_approval')

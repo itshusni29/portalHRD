@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth import get_user_model
-from ..models import Training
+from ..models import Training, GMApproval, ManagerApproval
+
 
 User = get_user_model()
 
@@ -44,3 +45,32 @@ class TrainingForm(forms.ModelForm):
     # Optionally, hide the HRD Manager field from the form
     def clean_hrd_manager(self):
         return User.objects.get(id=3)  # Set HRD Manager ID to 3 by default
+
+
+
+class ManagerApprovalForm(forms.ModelForm):
+    approval_status = forms.ChoiceField(
+        choices=[(True, 'Approve'), (False, 'Reject')],
+        widget=forms.RadioSelect
+    )
+
+    class Meta:
+        model = ManagerApproval
+        fields = ['approval_status', 'remarks']
+        widgets = {
+            'remarks': forms.Textarea(attrs={'rows': 3, 'class': 'form-control'}),
+        }
+
+
+class GMApprovalForm(forms.ModelForm):
+    approval_status = forms.ChoiceField(
+        choices=[(True, 'Approve'), (False, 'Reject')],
+        widget=forms.RadioSelect
+    )
+
+    class Meta:
+        model = GMApproval
+        fields = ['approval_status', 'remarks']
+        widgets = {
+            'remarks': forms.Textarea(attrs={'rows': 3, 'class': 'form-control'}),
+        }

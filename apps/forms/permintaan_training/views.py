@@ -1,14 +1,18 @@
 # views.py
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import TrainingForm
-from ..models import Training
+from .forms import TrainingForm, GMApprovalForm, ManagerApprovalForm
+from ..models import Training, GMApproval, ManagerApproval
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from django.http import HttpResponse
 from apps.user.models import User
-from django.contrib.auth.decorators import login_required
 import logging
 from django.contrib import messages
+
+
+
+
+
 
 def request_training_list(request):
     trainings = Training.objects.all()  # Get all training requests
@@ -102,21 +106,75 @@ def create_training(request):
     })
 
 
+
 @login_required
 def manager_training_list(request):
     # Filter training requests where the logged-in user is the manager
     trainings = Training.objects.filter(manager=request.user)
-    
+
+    if request.method == 'POST':
+        # Handle form submission for manager approval
+        training_id = request.POST.get('training_id')
+        training = get_object_or_404(Training, id=training_id)
+        form = ManagerApprovalForm(request.POST)
+
+        if form.is_valid():
+            # Save the manager approval decision
+            manager_approval = form.save(commit=False)
+            manager_approval.training = training
+            manager_approval.save()
+
+            # Update the training status after manager approval
+            if manager_approval.approval_status:
+                training.status = 'manager_approved'
+                messages.success(request, "Training request approved.")
+            else:
+                training.status = 'manager_rejected'
+                messages.error(request, "Training request rejected.")
+            training.save()
+
+            return redirect('permintaan_training:manager_request_training_list')
+
+    else:
+        form = ManagerApprovalForm()
+
     return render(request, 'forms/permintaan_training/manager_permintaan_training.html', {
-        'trainings': trainings
+        'trainings': trainings,
+        'form': form,
     })
+
+
 
 
 @login_required
 def gm_training_list(request):
-    # Filter training requests where the requestor's occupation is 'general_manager' or 'deputy_director'
+    # Filter training requests assigned to the logged-in GM
     trainings = Training.objects.filter(gm=request.user)
 
+    if request.method == 'POST':
+        # Handle form submission for GM approval
+        training_id = request.POST.get('training_id')
+        training = get_object_or_404(Training, id=training_id)
+        form = GMApprovalForm(request.POST)
+
+        if form.is_valid():
+            gm_approval = form.save(commit=False)
+            gm_approval.training = training
+            gm_approval.save()
+
+            # Optionally, update training status after GM approval
+            if gm_approval.approval_status:
+                training.status = 'gm_approved'
+            else:
+                training.status = 'failed'
+            training.save()
+
+            return redirect('permintaan_training:gm_request_training_list')
+
+    else:
+        form = GMApprovalForm()
+
     return render(request, 'forms/permintaan_training/gm_permintaan_training.html', {
-        'trainings': trainings
+        'trainings': trainings,
+        'form': form
     })
