@@ -40,8 +40,28 @@ class Sumbangan(models.Model):
     def __str__(self):
         return f"{self.name} - {self.amount}"
 
+class GMApproval(models.Model):
+    training = models.ForeignKey('Training', on_delete=models.CASCADE, related_name='gm_approvals')  # Change the related_name
+    approval_status = models.BooleanField(default=False)
+    remarks = models.TextField(blank=True, max_length=255)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
+class ManagerApproval(models.Model):
+    training = models.ForeignKey('Training', on_delete=models.CASCADE, related_name='manager_approvals')  # Change the related_name
+    approval_status = models.BooleanField(default=False)
+    remarks = models.TextField(blank=True, max_length=255)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
+class HRDManagerApproval(models.Model):
+    training = models.ForeignKey('Training', on_delete=models.CASCADE, related_name='hrd_manager_approvals')  # Change the related_name
+    approval_status = models.BooleanField(default=False)
+    remarks = models.TextField(blank=True, max_length=255)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+# Training model now references GMApproval, ManagerApproval, and HRDManagerApproval
 class Training(models.Model):
     LEVEL_CHOICES = [
         ('1', 'Level 1'),
@@ -83,29 +103,9 @@ class Training(models.Model):
     gm = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='gm_approvals', on_delete=models.CASCADE)
     hrd_manager = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='hrd_manager_approvals', on_delete=models.CASCADE)
 
+    gm_approval = models.ForeignKey(GMApproval, on_delete=models.CASCADE, related_name='training_gm_approval', null=True, blank=True)
+    manager_approval = models.ForeignKey(ManagerApproval, on_delete=models.CASCADE, related_name='training_manager_approval', null=True, blank=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
 
     def __str__(self):
         return f"{self.topic} - {self.requestor.username}"
-
-
-class GMApproval(models.Model):
-    training = models.ForeignKey(Training, on_delete=models.CASCADE, related_name='gm_approval')
-    approval_status = models.BooleanField(default=False)
-    remarks = models.TextField(blank=True, max_length=255)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-class ManagerApproval(models.Model):
-    training = models.ForeignKey(Training, on_delete=models.CASCADE, related_name='manager_approval')
-    approval_status = models.BooleanField(default=False)
-    remarks = models.TextField(blank=True, max_length=255)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-class HRDManagerApproval(models.Model):
-    training = models.ForeignKey(Training, on_delete=models.CASCADE, related_name='hrd_manager_approval')
-    approval_status = models.BooleanField(default=False)
-    remarks = models.TextField(blank=True, max_length=255)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)

@@ -139,18 +139,18 @@
                                                     Progress of Request Training: {{ training.topic }}
                                                 </div>
                                                 <div class="col-md-12">
-                                                  <h4>Latest News</h4>
-                                                  <ul class="timeline">
+                                                    <h4>Latest News</h4>
+                                                    <ul class="timeline">
                                                       <!-- Submission Status -->
                                                       <li>
                                                           <a class="text-primary">Form Submitted by {{ training.requestor.username }}</a>
                                                           <a class="float-right text-primary">{{ training.created_at }}</a>
                                                           <p class="text-default">Form request training berhasil di-submit dan menunggu persetujuan dari Manager.</p>
                                                       </li>
-                                              
+                                                  
                                                       <!-- Manager Approval Status -->
-                                                      {% if training.manager_approvals.exists %}
-                                                          {% for manager_approval in training.manager_approvals.all %}
+                                                      {% if training.manager_approval_set.exists %}
+                                                          {% for manager_approval in training.manager_approval_set.all %}
                                                               <li>
                                                                   <a class="text-primary">
                                                                       {% if manager_approval.approval_status %}
@@ -169,10 +169,10 @@
                                                               <p class="text-default">The request is still waiting for approval from the manager.</p>
                                                           </li>
                                                       {% endif %}
-                                              
+                                                  
                                                       <!-- GM Approval Status -->
-                                                      {% if training.gm_approvals.exists %}
-                                                          {% for gm_approval in training.gm_approvals.all %}
+                                                      {% if training.gm_approval_set.exists %}
+                                                          {% for gm_approval in training.gm_approval_set.all %}
                                                               <li>
                                                                   <a class="text-primary">
                                                                       {% if gm_approval.approval_status %}
@@ -191,10 +191,10 @@
                                                               <p class="text-default">The request is still waiting for approval from the GM.</p>
                                                           </li>
                                                       {% endif %}
-                                              
+                                                  
                                                       <!-- HRD Manager Approval Status -->
-                                                      {% if training.hrd_manager_approvals.exists %}
-                                                          {% for hrd_approval in training.hrd_manager_approvals.all %}
+                                                      {% if training.hrd_manager_approval_set.exists %}
+                                                          {% for hrd_approval in training.hrd_manager_approval_set.all %}
                                                               <li>
                                                                   <a class="text-primary">
                                                                       {% if hrd_approval.approval_status %}
@@ -213,19 +213,10 @@
                                                               <p class="text-default">The request is still waiting for approval from HRD Manager.</p>
                                                           </li>
                                                       {% endif %}
-                                              
-                                                      <!-- Training Completion Status -->
-                                                      {% if training.status == 'completed' %}
-                                                          <li>
-                                                              <a class="text-primary">Training Completed</a>
-                                                              <a class="float-right text-primary">{{ training.updated_at }}</a>
-                                                              <p class="text-default">The training has been successfully completed.</p>
-                                                          </li>
-                                                      {% endif %}
                                                   </ul>
-                                              </div>
-                                              
-                                              
+                                                  
+                                                  
+                                                </div>
                                                 
                                                     <!-- Approve/Decline Form -->
                                                     <div class="text-center text-muted mb-4 mt-5">

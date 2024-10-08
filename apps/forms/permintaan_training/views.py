@@ -145,7 +145,6 @@ def manager_training_list(request):
 
 
 
-
 @login_required
 def gm_training_list(request):
     # Filter training requests assigned to the logged-in GM
@@ -159,22 +158,23 @@ def gm_training_list(request):
 
         if form.is_valid():
             gm_approval = form.save(commit=False)
-            gm_approval.training = training
+            gm_approval.training = training  # Link the GM approval to the training
             gm_approval.save()
 
-            # Optionally, update training status after GM approval
+            # Update the training status based on the GM's approval
             if gm_approval.approval_status:
-                training.status = 'gm_approved'
+                training.status = 'gm_approved'  # Approved by GM
             else:
-                training.status = 'failed'
+                training.status = 'gm_rejected'  # Rejected by GM
+            training.gm_approval = gm_approval  # Link GM approval to the training
             training.save()
 
-            return redirect('permintaan_training:gm_request_training_list')
+            return redirect('permintaan_training:gm_request_training_list')  # Redirect to the GM training list page
 
     else:
         form = GMApprovalForm()
 
     return render(request, 'forms/permintaan_training/gm_permintaan_training.html', {
-        'trainings': trainings,
-        'form': form
+        'trainings': trainings,  # Pass the training requests to the template
+        'form': form,  # Pass the GM approval form to the template
     })
