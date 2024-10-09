@@ -1,7 +1,7 @@
 # views.py
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import TrainingForm, GMApprovalForm, ManagerApprovalForm, HRDManagerApprovalForm
-from ..models import Training, GMApproval, ManagerApproval, HRDManagerApproval
+from .forms import TrainingForm, GMApprovalForm, ManagerApprovalForm, HRDManagerApprovalForm, TrainingStatusForm
+from ..models import Training, GMApproval, ManagerApproval, HRDManagerApproval, TrainingStatus
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from django.http import HttpResponse
@@ -102,15 +102,59 @@ def create_training(request):
     })
 
 
+@login_required
 def admin_request_training_list(request):
-    trainings = Training.objects.all()  # Get all training requests
+    # Fetch all training requests
+    trainings = Training.objects.all().select_related('training_status')
+
     return render(request, 'forms/permintaan_training/admin_permintaan_training.html', {
-        'trainings': trainings
+        'trainings': trainings,
     })
-    
-    
 
+@login_required
+def admin_request_training_view(request, training_id):
+    # Get the specific training request by ID
+    training = get_object_or_404(Training, id=training_id)
 
+    # Get the current status of the training request
+    training_status = training.training_status
+
+    if request.method == 'POST':
+        # Handle form submission for status update
+        form = TrainingStatusForm(request.POST, instance=training_status)
+
+        if form.is_valid():
+            # Save the updated status and remarks
+            updated_status = form.save(commit=False)
+            updated_status.training = training
+            updated_status.save()
+
+            # Display appropriate message based on the new status
+            messages.success(request, f"Training status updated to {updated_status.get_status_display()}.")
+
+            # Redirect back to the admin list
+            return redirect('permintaan_training:admin_request_training_list')
+    else:
+        # Prefill the form with the current status
+        form = TrainingStatusForm(instance=training_status)
+
+    return render(request, 'forms/permintaan_training/admin_view_permintaan_training.html', {
+        'training': training,
+        'form': form,
+    })
+
+@login_required
+def admin_delete_training(request, training_id):
+    training = get_object_or_404(Training, id=training_id)
+
+    if request.method == 'POST':
+        training.delete()
+        messages.success(request, 'Training request deleted successfully!')
+        return redirect('permintaan_training:admin_request_training_list')
+
+    return render(request, 'forms/permintaan_training/admin_delete_permintaan_training.html', {'training': training})
+
+    
 @login_required
 def manager_training_list(request):
     # Filter training requests where the logged-in user is the manager
@@ -128,14 +172,18 @@ def manager_training_list(request):
             manager_approval.training = training
             manager_approval.save()
 
-            # Update the training status after manager approval
+            # Update the training status after manager approval using TrainingStatus model
+            training_status = TrainingStatus.objects.create(
+                training=training,
+                status='manager_approved' if manager_approval.approval_status else 'manager_rejected',
+                remarks=manager_approval.remarks
+            )
+
+            # Display appropriate messages
             if manager_approval.approval_status:
-                training.status = 'manager_approved'
                 messages.success(request, "Training request approved successfully.")
             else:
-                training.status = 'manager_rejected'
                 messages.error(request, "Training request rejected.")
-            training.save()
 
             # Redirect back to the manager's training list view
             return redirect('permintaan_training:manager_request_training_list')

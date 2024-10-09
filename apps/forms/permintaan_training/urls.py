@@ -1,13 +1,15 @@
 from django.urls import path
 from .views import (
     request_training_list,
-    admin_request_training_list,
     request_training_user,
     create_training,
     fetch_user_details,
     manager_training_list,
     gm_training_list,
-    hrd_training_list,  # Updated URL for HRD approval
+    hrd_training_list,  
+    admin_request_training_list,
+    admin_request_training_view,
+    admin_delete_training,
 )
 
 app_name = 'permintaan_training'
@@ -20,5 +22,9 @@ urlpatterns = [
     path('fetch_user_details/', fetch_user_details, name='fetch_user_details'),
     path('dashboard/list_form_request_training_manager', manager_training_list, name='manager_request_training_list'),
     path('dashboard/list_form_request_training_gm', gm_training_list, name='gm_request_training_list'),
-    path('dashboard/list_form_request_training_hrd', hrd_training_list, name='hrd_request_training_list'),  # HRD approval URL
+    path('dashboard/list_form_request_training_hrd', hrd_training_list, name='hrd_request_training_list'), 
+    path('dashboard/request_training/<int:training_id>/', admin_request_training_view, name='admin_request_training_view'),
+    path('trainings/<int:training_id>/delete/', admin_delete_training, name='admin_delete_training'),
+
 ]
+

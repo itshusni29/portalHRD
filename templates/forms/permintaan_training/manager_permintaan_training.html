@@ -61,7 +61,13 @@
                             <td>{{ training.date }}</td>
                             <td>{{ training.location }}</td>
                             <td>{{ training.cost }}</td>
-                            <td>{{ training.get_status_display }}</td>
+                            <td>
+                              {% if training.training_status.exists %}
+                                  {{ training.training_status.latest.status }}  <!-- Get the latest status from TrainingStatus model -->
+                              {% else %}
+                                  Pending  <!-- Default status if no status exists yet -->
+                              {% endif %}
+                            </td>
                             <td>
                               <!-- Use a unique modal ID for each request -->
                               <button type="button" class="btn btn-block btn-primary" data-toggle="modal" data-target="#modal-form-{{ forloop.counter }}"><i class="fas fa-eye"></i> View</button>
@@ -126,10 +132,6 @@
                                                             <div class="col-sm">
                                                               <h4>Evaluation Level</h4>
                                                               <p class="text-primary">{{ training.get_evaluation_level_display }}</p>
-                                                          </div>
-                                                          <div class="col-sm">
-                                                              <h4>Monitoring Type</h4>
-                                                              <p class="text-primary">{{ training.monitoring_type }}</p>
                                                           </div>
                                                         </div>
                                                     </div>

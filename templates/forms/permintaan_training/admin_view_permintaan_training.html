@@ -1,0 +1,173 @@
+{% extends 'layouts/d_base.html' %}
+
+{% block title %} Admin Training Request View {% endblock title %}
+
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+    <!-- Header -->
+    <div class="header">
+        <div class="container-fluid">
+            <div class="header-body">
+                <div class="row align-items-center py-4">
+                    <div class="col-lg-6 col-7">
+                        <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+                            <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                                <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
+                                <li class="breadcrumb-item"><a href="#">Dashboards</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Training Requests</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Page content -->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="card">
+                    <div class="card-header border-0">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <h3 class="mb-0">Training Request Details</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <!-- Display training details -->
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-sm">
+                                    <h4>Requestor</h4>
+                                    <p class="text-primary">{{ training.requestor.get_full_name }}</p>
+                                </div>
+                                <div class="col-sm">
+                                    <h4>Topic</h4>
+                                    <p class="text-primary">{{ training.topic }}</p>
+                                </div>
+                                <div class="col-sm">
+                                    <h4>Date</h4>
+                                    <p class="text-primary">{{ training.date }}</p>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-sm">
+                                    <h4>Trainer</h4>
+                                    <p class="text-primary">{{ training.trainer }}</p>
+                                </div>
+                                <div class="col-sm">
+                                    <h4>Location</h4>
+                                    <p class="text-primary">{{ training.location }}</p>
+                                </div>
+                                <div class="col-sm">
+                                    <h4>Cost</h4>
+                                    <p class="text-primary">{{ training.cost }}</p>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-sm">
+                                    <h4>Participants</h4>
+                                    <p class="text-primary">{{ training.participants }}</p>
+                                </div>
+                                <div class="col-sm">
+                                    <h4>Background</h4>
+                                    <p class="text-primary">{{ training.background }}</p>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-sm">
+                                    <h4>Target</h4>
+                                    <p class="text-primary">{{ training.target }}</p>
+                                </div>
+                                <div class="col-sm">
+                                    <h4>Evaluation Level</h4>
+                                    <p class="text-primary">{{ training.get_evaluation_level_display }}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Progress of the training request -->
+                        <div class="card-body px-lg-5 py-lg-5">
+                            <div class="text-center text-muted mb-4">
+                                Progress of Request Training: {{ training.topic }}
+                            </div>
+                            <div class="col-md-12">
+                                <h4>Latest Updates</h4>
+                                <ul class="timeline">
+                                    <li>
+                                        <a class="text-primary">Form Submitted by {{ training.requestor.username }}</a>
+                                        <a class="float-right text-primary">{{ training.created_at }}</a>
+                                        <p class="text-default">Training request successfully submitted, awaiting approval.</p>
+                                    </li>
+                                
+                                    
+                                
+                                   
+
+                                    {% if training.status.exists %}
+                                        {% for status in training.status.all %}
+                                            <li>
+                                                <a class="text-primary">
+                                                    {% if status.status %}
+                                                        {{ status.status}}
+                                                    {% else %}
+                                                        Rejected by Manager
+                                                    {% endif %}
+                                                </a>
+                                                <a class="float-right text-primary">{{ status.created_at }}</a>
+                                                <p class="text-default">{{ status.remarks|default:"No remarks provided" }}</p>
+                                            </li>
+                                        {% endfor %}
+                                    {% else %}
+                                        <li>
+                                            <a class="text-primary">Waiting Manager Approval</a>
+                                            <p class="text-default">The request is still waiting for approval from the manager.</p>
+                                        </li>
+                                    {% endif %}
+
+
+                                    <!-- Training Status Updates -->
+                                   
+
+                                </ul>
+                                
+                                
+                            </div>
+
+                            <!-- Status Update Form -->
+                            <div class="text-center text-muted mb-4 mt-5">
+                                Update Training Status and Remarks
+                            </div>
+                            <form method="POST" action="">
+                                {% csrf_token %}
+                                <!-- Status -->
+                                <div class="form-group">
+                                    <label>Status</label>
+                                    {{ form.status }}
+                                </div>
+
+                                <!-- Remarks -->
+                                <div class="form-group">
+                                    <label>Remarks</label>
+                                    {{ form.remarks }}
+                                </div>
+
+                                <!-- Submit Button -->
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-success my-4">
+                                        <i class="fas fa-check"></i> Submit
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% include "includes/footer.html" %}
+    </div>
+{% endblock content %}

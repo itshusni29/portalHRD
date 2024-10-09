@@ -145,24 +145,7 @@
                                 <div class="invalid-feedback">{{ error }}</div>
                             {% endfor %}
                         </div>
-
-                        <!-- Monitoring Type Field -->
-                        <div class="form-group">
-                            <label for="id_monitoring_type">Tipe Monitoring:</label>
-                            <input type="text" class="form-control{% if training_form.monitoring_type.errors %} is-invalid{% endif %}" id="id_monitoring_type" name="monitoring_type" value="{{ training_form.monitoring_type.value }}">
-                            {% for error in training_form.monitoring_type.errors %}
-                                <div class="invalid-feedback">{{ error }}</div>
-                            {% endfor %}
-                        </div>
-
-                        <!-- Monitoring Date Field -->
-                        <div class="form-group">
-                            <label for="id_monitoring_date">Tanggal Monitoring:</label>
-                            <input type="date" class="form-control{% if training_form.monitoring_date.errors %} is-invalid{% endif %}" id="id_monitoring_date" name="monitoring_date" value="{{ training_form.monitoring_date.value }}">
-                            {% for error in training_form.monitoring_date.errors %}
-                                <div class="invalid-feedback">{{ error }}</div>
-                            {% endfor %}
-                        </div>
+                        
 
                         <!-- Manager Field -->
                         <div class="form-group">

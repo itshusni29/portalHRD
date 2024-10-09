@@ -61,16 +61,7 @@ class HRDManagerApproval(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     
-    
-
-# Training model now references GMApproval, ManagerApproval, and HRDManagerApproval
-class Training(models.Model):
-    LEVEL_CHOICES = [
-        ('1', 'Level 1'),
-        ('2', 'Level 2'),
-        ('3', 'Level 3'),
-    ]
-
+class TrainingStatus(models.Model):
     STATUS_CHOICES = [
         ('submit', 'Submitted'),
         ('manager_approved', 'Approved by Manager'),
@@ -87,6 +78,22 @@ class Training(models.Model):
         ('monitoring', 'Monitoring'),
         ('completed', 'Completed'),
     ]
+    training = models.ForeignKey('Training', on_delete=models.CASCADE, related_name='status')
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending', null=True)
+    remarks = models.TextField(blank=True, max_length=255)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    
+
+# Training model now references GMApproval, ManagerApproval, and HRDManagerApproval
+class Training(models.Model):
+    LEVEL_CHOICES = [
+        ('1', 'Level 1'),
+        ('2', 'Level 2'),
+        ('3', 'Level 3'),
+    ]
+
 
     requestor = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='requestor', on_delete=models.CASCADE)
     topic = models.CharField(max_length=200)
@@ -100,8 +107,7 @@ class Training(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     evaluation_level = models.CharField(max_length=2, choices=LEVEL_CHOICES)
-    monitoring_type = models.CharField(max_length=100)
-    monitoring_date = models.DateField()
+   
 
     manager = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='manager_approvals', on_delete=models.CASCADE)
     gm = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='gm_approvals', on_delete=models.CASCADE)
@@ -110,7 +116,7 @@ class Training(models.Model):
     gm_approval = models.ForeignKey(GMApproval, on_delete=models.CASCADE, related_name='training_gm_approval', null=True, blank=True)
     manager_approval = models.ForeignKey(ManagerApproval, on_delete=models.CASCADE, related_name='training_manager_approval', null=True, blank=True)
     hrd_manager_approval = models.ForeignKey(HRDManagerApproval, on_delete=models.CASCADE, related_name='training_hrd_manager_approval', null=True, blank=True)
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
-
+    training_status = models.ForeignKey(TrainingStatus, on_delete=models.CASCADE, related_name='trainings', null=True, blank=True)
+    
     def __str__(self):
         return f"{self.topic} - {self.requestor.username}"

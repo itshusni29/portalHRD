@@ -1,7 +1,6 @@
 from django import forms
 from django.contrib.auth import get_user_model
-from ..models import Training, GMApproval, ManagerApproval, HRDManagerApproval 
-
+from ..models import Training, GMApproval, ManagerApproval, HRDManagerApproval, TrainingStatus
 
 User = get_user_model()
 
@@ -13,7 +12,7 @@ class TrainingForm(forms.ModelForm):
         fields = [
             'requestor_nik', 'topic', 'background', 'target', 'participants', 
             'trainer', 'date', 'location', 'cost', 'evaluation_level', 
-            'monitoring_type', 'monitoring_date', 'manager', 'gm', 'hrd_manager'
+            'manager', 'gm', 'hrd_manager'
         ]
         widgets = {
             'topic': forms.TextInput(attrs={'class': 'form-control'}),
@@ -25,8 +24,6 @@ class TrainingForm(forms.ModelForm):
             'location': forms.TextInput(attrs={'class': 'form-control'}),
             'cost': forms.NumberInput(attrs={'class': 'form-control'}),
             'evaluation_level': forms.Select(attrs={'class': 'form-control'}),
-            'monitoring_type': forms.TextInput(attrs={'class': 'form-control'}),
-            'monitoring_date': forms.DateInput(attrs={'class': 'form-control'}),
             'manager': forms.Select(attrs={'class': 'form-control'}),
             'gm': forms.Select(attrs={'class': 'form-control'}),
         }
@@ -46,6 +43,15 @@ class TrainingForm(forms.ModelForm):
     def clean_hrd_manager(self):
         return User.objects.get(id=3)  # Set HRD Manager ID to 3 by default
 
+
+
+class TrainingStatusForm(forms.ModelForm):
+    class Meta:
+        model = TrainingStatus
+        fields = ['status', 'remarks']
+        widgets = {
+            'remarks': forms.Textarea(attrs={'rows': 3}),
+        }
 
 
 class ManagerApprovalForm(forms.ModelForm):
