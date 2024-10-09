@@ -23,8 +23,8 @@ urlpatterns = [
     path('dashboard/list_form_request_training_manager', manager_training_list, name='manager_request_training_list'), # This is the URL for the manager list view and approval
     path('dashboard/list_form_request_training_gm', gm_training_list, name='gm_request_training_list'), # This is the URL for the GM list view and approval
     path('dashboard/list_form_request_training_hrd', hrd_training_list, name='hrd_request_training_list'),  # This is the URL for the HRD Manager list view and approval
-    path('dashboard/request_training/<int:training_id>/', admin_request_training_view, name='admin_request_training_view'),
-    path('trainings/<int:training_id>/delete/', admin_delete_training, name='admin_delete_training'),
+    path('dashboard/request_training/<int:training_id>/', admin_request_training_view, name='admin_request_training_view'), # This is the URL for the admin view
+    path('trainings/<int:training_id>/delete/', admin_delete_training, name='admin_delete_training'), # This is the URL for the admin delete view
 
 ]
 
