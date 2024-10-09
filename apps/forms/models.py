@@ -60,7 +60,7 @@ class HRDManagerApproval(models.Model):
     remarks = models.TextField(blank=True, max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    
+
 class TrainingStatus(models.Model):
     STATUS_CHOICES = [
         ('submit', 'Submitted'),

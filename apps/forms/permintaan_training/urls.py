@@ -15,7 +15,7 @@ from .views import (
 app_name = 'permintaan_training'
 
 urlpatterns = [
-    path('request_training/', request_training_list, name='request_training_list'),
+    path('request_training/', request_training_list, name='request_training_list'), # This is the URL for the public list view
     path('dashboard/request_training/', admin_request_training_list, name='admin_request_training_list'),
     path('request_training_user/', request_training_user, name='request_training_user'),
     path('dashboard/create_training/', create_training, name='create_training'),
