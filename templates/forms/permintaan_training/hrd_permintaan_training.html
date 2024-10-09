@@ -1,217 +1,219 @@
 {% extends 'layouts/d_base.html' %}
 
-{% block title %} HRD Manager Training Requests {% endblock title %}
+{% block title %}General Manager Training Requests{% endblock title %}
 
 {% block stylesheets %}{% endblock stylesheets %}
 
 {% block content %}
-
     <!-- Header -->
     <div class="header">
-      <div class="container-fluid">
-        <div class="header-body">
-          <div class="row align-items-center py-4">
-            <div class="col-lg-6 col-7">
-              <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
-                <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
-                  <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
-                  <li class="breadcrumb-item"><a href="#">Dashboards</a></li>
-                  <li class="breadcrumb-item active" aria-current="page">Training Requests</li>
-                </ol>
-              </nav>
+        <div class="container-fluid">
+            <div class="header-body">
+                <div class="row align-items-center py-4">
+                    <div class="col-lg-6 col-7">
+                        <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+                            <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                                <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
+                                <li class="breadcrumb-item"><a href="#">Dashboards</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Training Requests</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
     </div>
 
     <!-- Page content -->
     <div class="container-fluid">
-      <div class="row">
-        <div class="col-xl-12">
-          <div class="card">
-            <div class="card-header border-0">
-              <div class="row align-items-center">
-                <div class="col">
-                  <h3 class="mb-0">Training Requests</h3>
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="card">
+                    <div class="card-header border-0">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <h3 class="mb-0">Training Requests</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead class="table-head-bg">
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Topic</th>
+                                        <th>Requestor</th>
+                                        <th>Date</th>
+                                        <th>Location</th>
+                                        <th>Cost</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for training in trainings %}
+                                        <tr>
+                                            <td>{{ forloop.counter }}</td>
+                                            <td>{{ training.topic }}</td>
+                                            <td>{{ training.requestor.get_full_name }}</td>
+                                            <td>{{ training.date|date:"d F Y" }}</td> <!-- Formatting date to dd-mm-yyyy -->
+                                            <td>{{ training.location }}</td>
+                                            <td>{{ training.cost }}</td>
+                                            <td>
+                                                {% if training.status.exists %}
+                                                    {{ training.status.get_status_display }} <!-- Display the latest status -->
+                                                {% else %}
+                                                    <span>No status available</span>
+                                                {% endif %}
+                                            </td>
+
+                                            <td>
+                                                <!-- View button to open modal -->
+                                                <button type="button" class="btn btn-block btn-primary" data-toggle="modal" data-target="#modal-form-{{ forloop.counter }}"><i class="fas fa-eye"></i> View</button>
+
+                                                <!-- Modal for Training Details -->
+                                                <div class="modal fade" id="modal-form-{{ forloop.counter }}" tabindex="-1" role="dialog" aria-labelledby="modal-form-label-{{ forloop.counter }}" aria-hidden="true">
+                                                    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="modal-form-label-{{ forloop.counter }}">Training Request Details</h5>
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body p-0">
+                                                                <div class="card bg-secondary shadow border-0">
+                                                                    <div class="card-header bg-transparent">
+                                                                        <div class="container">
+                                                                            <div class="row">
+                                                                                <div class="col-sm">
+                                                                                    <h4>Requestor</h4>
+                                                                                    <p class="text-primary">{{ training.requestor.get_full_name }}</p>
+                                                                                </div>
+                                                                                <div class="col-sm">
+                                                                                    <h4>Topic</h4>
+                                                                                    <p class="text-primary">{{ training.topic }}</p>
+                                                                                </div>
+                                                                                <div class="col-sm">
+                                                                                    <h4>Date</h4>
+                                                                                    <p class="text-primary">{{ training.date }}</p>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row mt-3">
+                                                                                <div class="col-sm">
+                                                                                    <h4>Trainer</h4>
+                                                                                    <p class="text-primary">{{ training.trainer }}</p>
+                                                                                </div>
+                                                                                <div class="col-sm">
+                                                                                    <h4>Location</h4>
+                                                                                    <p class="text-primary">{{ training.location }}</p>
+                                                                                </div>
+                                                                                <div class="col-sm">
+                                                                                    <h4>Cost</h4>
+                                                                                    <p class="text-primary">{{ training.cost }}</p>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row mt-3">
+                                                                                <div class="col-sm">
+                                                                                    <h4>Participants</h4>
+                                                                                    <p class="text-primary">{{ training.participants }}</p>
+                                                                                </div>
+                                                                                <div class="col-sm">
+                                                                                    <h4>Background</h4>
+                                                                                    <p class="text-primary">{{ training.background }}</p>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row mt-3">
+                                                                                <div class="col-sm">
+                                                                                    <h4>Target</h4>
+                                                                                    <p class="text-primary">{{ training.target }}</p>
+                                                                                </div>
+                                                                                <div class="col-sm">
+                                                                                    <h4>Evaluation Level</h4>
+                                                                                    <p class="text-primary">{{ training.get_evaluation_level_display }}</p>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="card-body px-lg-5 py-lg-5">
+                                                                        <div class="text-center text-muted mb-4">
+                                                                            Progress of Request Training: {{ training.topic }}
+                                                                        </div>
+                                                                        <div class="col-md-12">
+                                                                            <h4>Latest News</h4>
+                                                                            <ul class="timeline">
+                                                                                <!-- Submission Status -->
+                                                                                <li>
+                                                                                    <a class="text-primary">Form Submitted by {{ training.requestor.username }}</a>
+                                                                                    <a class="float-right text-primary">{{ training.created_at|date:"d F Y H:i:s"  }}</a>
+                                                                                    <p class="text-default">Training request successfully submitted, awaiting approval.</p>
+                                                                                </li>
+                                                                                {% if training.status.exists %}
+                                                                                {% for status in training.status.all %}
+                                                                                    <li>
+                                                                                        <a class="text-primary">
+                                                                                            {{ status.get_status_display }} <!-- This displays the human-readable name of the status -->
+                                                                                        </a>
+                                                                                        <a class="float-right text-primary">{{ status.created_at|date:"d F Y H:i:s" }}</a>
+                                                                                        <p class="text-default">{{ status.remarks|default:"No remarks provided" }}</p>
+                                                                                    </li>
+                                                                                {% endfor %}
+                                                                                {% else %}
+                                                                                    <li>
+                                                                                        <a class="text-primary">No statuses available</a>
+                                                                                        <p class="text-default">This request does not have any status updates yet.</p>
+                                                                                    </li>
+                                                                                {% endif %}
+                                                                            </ul>
+                                                                        </div>
+
+                                                                        <!-- Approve/Decline Form -->
+                                                                        <div class="text-center text-muted mb-4 mt-5">
+                                                                            Add Remarks and Approval
+                                                                        </div>
+                                                                        <form method="POST" action="">
+                                                                            {% csrf_token %}
+                                                                            <input type="hidden" name="training_id" value="{{ training.id }}">
+
+                                                                            <!-- Approval Status -->
+                                                                            <div class="form-group">
+                                                                                <label>Approval Status</label>
+                                                                                {{ form.approval_status }}
+                                                                            </div>
+
+                                                                            <!-- Remarks -->
+                                                                            <div class="form-group">
+                                                                                <label>Remarks</label>
+                                                                                {{ form.remarks }}
+                                                                            </div>
+
+                                                                            <!-- Submit Buttons -->
+                                                                            <div class="text-center">
+                                                                                <button type="submit" class="btn btn-success my-4"><i class="fas fa-check"></i> Submit</button>
+                                                                            </div>
+                                                                        </form>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    {% empty %}
+                                        <tr>
+                                            <td colspan="8">No training requests available.</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
-              </div>
             </div>
-            <div class="card-body">
-              <div class="table-responsive">
-                <table class="table">
-                  <thead class="table-head-bg">
-                    <tr>
-                      <th>No</th>
-                      <th>Topic</th>
-                      <th>Requestor</th>
-                      <th>Date</th>
-                      <th>Location</th>
-                      <th>Cost</th>
-                      <th>Status</th>
-                      <th>Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {% for training in trainings %}
-                        <tr>
-                            <td>{{ forloop.counter }}</td>
-                            <td>{{ training.topic }}</td>
-                            <td>{{ training.requestor.get_full_name }}</td>
-                            <td>{{ training.date }}</td>
-                            <td>{{ training.location }}</td>
-                            <td>{{ training.cost }}</td>
-                            <td>{{ training.get_status_display }}</td>
-                            <td>
-                              <!-- Use a unique modal ID for each request -->
-                              <button type="button" class="btn btn-block btn-primary" data-toggle="modal" data-target="#modal-form-{{ forloop.counter }}"><i class="fas fa-eye"></i> View</button>
-                              
-                              <!-- Modal for Training Details -->
-                              <div class="modal fade" id="modal-form-{{ forloop.counter }}" tabindex="-1" role="dialog" aria-labelledby="modal-form-label-{{ forloop.counter }}" aria-hidden="true">
-                                <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="modal-form-label-{{ forloop.counter }}">Training Request Details</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                              <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body p-0">
-                                            <div class="card bg-secondary shadow border-0">
-                                                <div class="card-header bg-transparent">
-                                                    <div class="container">
-                                                        <div class="row">
-                                                            <div class="col-sm">
-                                                                <h4>Requestor</h4>
-                                                                <p class="text-primary">{{ training.requestor.get_full_name }}</p>
-                                                            </div>
-                                                            <div class="col-sm">
-                                                                <h4>Topic</h4>
-                                                                <p class="text-primary">{{ training.topic }}</p>
-                                                            </div>
-                                                            <div class="col-sm">
-                                                                <h4>Date</h4>
-                                                                <p class="text-primary">{{ training.date }}</p>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row mt-3">
-                                                            <div class="col-sm">
-                                                                <h4>Trainer</h4>
-                                                                <p class="text-primary">{{ training.trainer }}</p>
-                                                            </div>
-                                                            <div class="col-sm">
-                                                                <h4>Location</h4>
-                                                                <p class="text-primary">{{ training.location }}</p>
-                                                            </div>
-                                                            <div class="col-sm">
-                                                                <h4>Cost</h4>
-                                                                <p class="text-primary">{{ training.cost }}</p>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row mt-3">
-                                                          <div class="col-sm">
-                                                              <h4>Participants</h4>
-                                                              <p class="text-primary">{{ training.participants }}</p>
-                                                          </div>
-                                                          <div class="col-sm">
-                                                            <h4>Background</h4>
-                                                            <p class="text-primary">{{ training.background }}</p>
-                                                          </div>
-                                                        </div>
-                                                        <div class="row mt-3">
-                                                            <div class="col-sm">
-                                                                <h4>Target</h4>
-                                                                <p class="text-primary">{{ training.target }}</p>
-                                                            </div>
-                                                            <div class="col-sm">
-                                                              <h4>Evaluation Level</h4>
-                                                              <p class="text-primary">{{ training.get_evaluation_level_display }}</p>
-                                                          </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="card-body px-lg-5 py-lg-5">
-                                                  <div class="text-center text-muted mb-4">
-                                                    Progress of Request Training: {{ training.topic }}
-                                                </div>
-                                                <div class="col-md-12">
-                                                  <h4>Latest News</h4>
-                                                  <ul class="timeline">
-                                                    <li>
-                                                      <a class="text-primary">Form Submitted by {{ training.requestor.username }}</a>
-                                                      <a class="float-right text-primary">{{ training.created_at|date:"d F Y H:i:s"  }}</a>
-                                                      <p class="text-default">Training request successfully submitted, awaiting approval.</p>
-                                                  </li>
-                                                  {% if training.status.exists %}
-                                                  {% for status in training.status.all %}
-                                                      <li>
-                                                          <a class="text-primary">
-                                                              {{ status.get_status_display }} <!-- This displays the human-readable name of the status -->
-                                                          </a>
-                                                          <a class="float-right text-primary">{{ status.created_at|date:"d F Y H:i:s" }}</a>
-                                                          <p class="text-default">{{ status.remarks|default:"No remarks provided" }}</p>
-                                                      </li>
-                                                  {% endfor %}
-                                                  {% else %}
-                                                      <li>
-                                                          <a class="text-primary">No statuses available</a>
-                                                          <p class="text-default">This request does not have any status updates yet.</p>
-                                                      </li>
-                                                  {% endif %}
-                                                  </ul>
-                                              </div>
-                                              
-                                              
-                                                
-                                                    <!-- Approve/Decline Form -->
-                                                    <div class="text-center text-muted mb-4 mt-5">
-                                                        Remarks and Approval
-                                                    </div>
-                                                    <form method="POST" action="">
-                                                        {% csrf_token %}
-                                                        <input type="hidden" name="training_id" value="{{ training.id }}">
-                                                        
-                                                        <!-- Approval Status -->
-                                                        <div class="form-group">
-                                                          <label>Approval Status</label>
-                                                          {{ form.approval_status }}
-                                                        </div>
-
-                                                        <!-- Remarks -->
-                                                        <div class="form-group">
-                                                          <label>Remarks</label>
-                                                          {{ form.remarks }}
-                                                        </div>
-
-                                                        <!-- Submit Buttons -->
-                                                        <div class="text-center">
-                                                            <button type="submit" class="btn btn-success my-4"><i class="fas fa-check"></i> Submit</button>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                              </div>
-
-                            </td>
-                        </tr>
-                    {% empty %}
-                        <tr>
-                            <td colspan="8">No training requests available.</td>
-                        </tr>
-                    {% endfor %}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
         </div>
-      </div>
 
-      {% include "includes/footer.html" %}
-
+        {% include "includes/footer.html" %}
     </div>
-
 {% endblock content %}

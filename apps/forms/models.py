@@ -83,9 +83,7 @@ class TrainingStatus(models.Model):
     remarks = models.TextField(blank=True, max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    
-    
-
+ 
 # Training model now references GMApproval, ManagerApproval, and HRDManagerApproval
 class Training(models.Model):
     LEVEL_CHOICES = [

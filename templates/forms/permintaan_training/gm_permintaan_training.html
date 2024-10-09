@@ -57,10 +57,17 @@
                                             <td>{{ forloop.counter }}</td>
                                             <td>{{ training.topic }}</td>
                                             <td>{{ training.requestor.get_full_name }}</td>
-                                            <td>{{ training.date }}</td>
+                                            <td>{{ training.date|date:"d F Y" }}</td> <!-- Formatting date to dd-mm-yyyy -->
                                             <td>{{ training.location }}</td>
                                             <td>{{ training.cost }}</td>
-                                            <td>{{ training.get_status_display }}</td>
+                                            <td>
+                                                {% if training.status.exists %}
+                                                    {{ training.status.get_status_display }} <!-- Display the latest status -->
+                                                {% else %}
+                                                    <span>No status available</span>
+                                                {% endif %}
+                                            </td>
+
                                             <td>
                                                 <!-- View button to open modal -->
                                                 <button type="button" class="btn btn-block btn-primary" data-toggle="modal" data-target="#modal-form-{{ forloop.counter }}"><i class="fas fa-eye"></i> View</button>

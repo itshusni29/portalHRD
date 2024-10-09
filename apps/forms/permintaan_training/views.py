@@ -204,6 +204,7 @@ def gm_training_list(request):
         gm=request.user, 
         status__status='manager_approved'  # Filter by related status model
     )
+    
 
     if request.method == 'POST':
         # Handle form submission for GM approval
@@ -235,12 +236,15 @@ def gm_training_list(request):
         'form': form,  # Pass the GM approval form to the template
     })
 
-
 @login_required
 def hrd_training_list(request):
     # Filter training requests where the logged-in user is HRD Manager
-    trainings = Training.objects.filter(hrd_manager=request.user)
-
+    # and where the most recent status is 'gm_approved' (assuming HRD can only approve requests that GM has approved)
+    trainings = Training.objects.filter(
+        hrd_manager=request.user, 
+        status__status='gm_approved'  # Filter by GM-approved status
+    )
+    
     if request.method == 'POST':
         # Handle form submission for HRD Manager approval
         training_id = request.POST.get('training_id')
@@ -254,12 +258,13 @@ def hrd_training_list(request):
 
             # Update the training status after HRD Manager approval
             if hrd_approval.approval_status:
-                training.status = 'hrd_approved'  # HRD approved
+                # Create a new TrainingStatus entry for HRD approval
+                TrainingStatus.objects.create(training=training, status='hrd_approved')  # HRD approved
                 messages.success(request, "Training request approved by HRD.")
             else:
-                training.status = 'hrd_rejected'  # HRD rejected
+                # Create a new TrainingStatus entry for HRD rejection
+                TrainingStatus.objects.create(training=training, status='hrd_rejected')  # HRD rejected
                 messages.error(request, "Training request rejected by HRD.")
-            training.save()
 
             return redirect('permintaan_training:hrd_request_training_list')  # Redirect to HRD training list page
 
@@ -267,6 +272,6 @@ def hrd_training_list(request):
         form = HRDManagerApprovalForm()
 
     return render(request, 'forms/permintaan_training/hrd_permintaan_training.html', {
-        'trainings': trainings,  # Pass the training requests to the template
+        'trainings': trainings,  # Pass the HRD-approved training requests to the template
         'form': form,  # Pass the HRD Manager approval form to the template
     })
