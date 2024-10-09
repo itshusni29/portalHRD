@@ -196,12 +196,14 @@ def manager_training_list(request):
         'form': form,
     })
 
-
 @login_required
 def gm_training_list(request):
     # Filter training requests assigned to the logged-in GM,
-    # and where the manager has approved the request (manager_approval.approval_status = True)
-    trainings = Training.objects.filter(gm=request.user, manager_approval__approval_status=True)
+    # and where the most recent status is 'manager_approved'
+    trainings = Training.objects.filter(
+        gm=request.user, 
+        status__status='manager_approved'  # Filter by related status model
+    )
 
     if request.method == 'POST':
         # Handle form submission for GM approval
@@ -216,9 +218,10 @@ def gm_training_list(request):
 
             # Update the training status based on the GM's approval
             if gm_approval.approval_status:
-                training.status = 'gm_approved'  # Approved by GM
+                TrainingStatus.objects.create(training=training, status='gm_approved')  # Approved by GM
             else:
-                training.status = 'gm_rejected'  # Rejected by GM
+                TrainingStatus.objects.create(training=training, status='gm_rejected')  # Rejected by GM
+
             training.gm_approval = gm_approval  # Link GM approval to the training
             training.save()
 
@@ -231,7 +234,6 @@ def gm_training_list(request):
         'trainings': trainings,  # Pass only manager-approved training requests
         'form': form,  # Pass the GM approval form to the template
     })
-
 
 
 @login_required

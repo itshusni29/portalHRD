@@ -29,16 +29,13 @@
         <div class="row">
             <div class="col-xl-12">
                 <div class="card">
-                    <div class="card-header border-0">
-                        <div class="row align-items-center">
-                            <div class="col">
-                                <h3 class="mb-0">Training Request Details</h3>
-                            </div>
-                        </div>
-                    </div>
+                  
                     <div class="card-body">
                         <!-- Display training details -->
                         <div class="container">
+                            <div class="text-center text-muted mb-4">
+                                Training Request Details: {{ training.topic }}
+                            </div>
                             <div class="row">
                                 <div class="col-sm">
                                     <h4>Requestor</h4>
@@ -99,42 +96,26 @@
                                 <ul class="timeline">
                                     <li>
                                         <a class="text-primary">Form Submitted by {{ training.requestor.username }}</a>
-                                        <a class="float-right text-primary">{{ training.created_at }}</a>
+                                        <a class="float-right text-primary">{{ training.created_at|date:"d F Y H:i:s"  }}</a>
                                         <p class="text-default">Training request successfully submitted, awaiting approval.</p>
                                     </li>
-                                
-                                    
-                                
-                                   
-
                                     {% if training.status.exists %}
-                                        {% for status in training.status.all %}
-                                            <li>
-                                                <a class="text-primary">
-                                                    {% if status.status %}
-                                                        {{ status.status}}
-                                                    {% else %}
-                                                        Rejected by Manager
-                                                    {% endif %}
-                                                </a>
-                                                <a class="float-right text-primary">{{ status.created_at }}</a>
-                                                <p class="text-default">{{ status.remarks|default:"No remarks provided" }}</p>
-                                            </li>
-                                        {% endfor %}
+                                    {% for status in training.status.all %}
+                                        <li>
+                                            <a class="text-primary">
+                                                {{ status.get_status_display }} <!-- This displays the human-readable name of the status -->
+                                            </a>
+                                            <a class="float-right text-primary">{{ status.created_at|date:"d F Y H:i:s" }}</a>
+                                            <p class="text-default">{{ status.remarks|default:"No remarks provided" }}</p>
+                                        </li>
+                                    {% endfor %}
                                     {% else %}
                                         <li>
-                                            <a class="text-primary">Waiting Manager Approval</a>
-                                            <p class="text-default">The request is still waiting for approval from the manager.</p>
+                                            <a class="text-primary">No statuses available</a>
+                                            <p class="text-default">This request does not have any status updates yet.</p>
                                         </li>
                                     {% endif %}
-
-
-                                    <!-- Training Status Updates -->
-                                   
-
                                 </ul>
-                                
-                                
                             </div>
 
                             <!-- Status Update Form -->
@@ -144,16 +125,33 @@
                             <form method="POST" action="">
                                 {% csrf_token %}
                                 <!-- Status -->
+                                 
                                 <div class="form-group">
-                                    <label>Status</label>
-                                    {{ form.status }}
+                                    <label for="id_status">Status</label>
+                                    <select class="form-control{% if form.status.errors %} is-invalid{% endif %}" id="id_status" name="status">
+                                        {% for choice_value, choice_label in form.status.field.choices %}
+                                            <option value="{{ choice_value }}" {% if choice_value == form.status.value %}selected{% endif %}>{{ choice_label }}</option>
+                                        {% endfor %}
+                                    </select>
+                                    {% if form.status.errors %}
+                                        <div class="invalid-feedback">
+                                            {{ form.status.errors|first }}
+                                        </div>
+                                    {% endif %}
                                 </div>
 
-                                <!-- Remarks -->
+                                <!-- Remarks Field -->
                                 <div class="form-group">
-                                    <label>Remarks</label>
-                                    {{ form.remarks }}
+                                    <label for="id_remarks">Remarks</label>
+                                    <textarea class="form-control{% if form.remarks.errors %} is-invalid{% endif %}" 
+                                            id="id_remarks" name="remarks">{{ form.remarks.value }}</textarea>
+                                    {% if form.remarks.errors %}
+                                        <div class="invalid-feedback">
+                                            {{ form.remarks.errors|first }}
+                                        </div>
+                                    {% endif %}
                                 </div>
+
 
                                 <!-- Submit Button -->
                                 <div class="text-center">
