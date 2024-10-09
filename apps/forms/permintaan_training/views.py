@@ -56,7 +56,7 @@ def request_training_user(request):
                 try:
                     training = training_form.save(commit=False)
                     training.requestor = requestor
-                    training.hrd_manager = User.objects.get(id=3)  # Assign HRD Manager
+                    training.hrd_manager = User.objects.get(id=8)  # Assign HRD Manager
                     training.save()
 
                     messages.success(request, "Training request submitted successfully!")
@@ -198,14 +198,12 @@ def manager_training_list(request):
 
 @login_required
 def gm_training_list(request):
-    # Filter training requests assigned to the logged-in GM,
-    # and where the most recent status is 'manager_approved'
+    # Filter training requests assigned to the logged-in GM, and where the most recent status is 'manager_approved'
     trainings = Training.objects.filter(
         gm=request.user, 
         status__status='manager_approved'  # Filter by related status model
     )
     
-
     if request.method == 'POST':
         # Handle form submission for GM approval
         training_id = request.POST.get('training_id')
@@ -217,16 +215,19 @@ def gm_training_list(request):
             gm_approval.training = training  # Link the GM approval to the training
             gm_approval.save()
 
-            # Update the training status based on the GM's approval
-            if gm_approval.approval_status:
-                TrainingStatus.objects.create(training=training, status='gm_approved')  # Approved by GM
-            else:
-                TrainingStatus.objects.create(training=training, status='gm_rejected')  # Rejected by GM
+            # Save training status with GM's approval decision and remarks
+            TrainingStatus.objects.create(
+                training=training,
+                status='gm_approved' if gm_approval.approval_status else 'gm_rejected',
+                remarks=gm_approval.remarks
+            )
 
-            training.gm_approval = gm_approval  # Link GM approval to the training
+            # Update the training object with the GM approval and save
+            training.gm_approval = gm_approval
             training.save()
 
-            return redirect('permintaan_training:gm_request_training_list')  # Redirect to the GM training list page
+            # Redirect to GM's training list page
+            return redirect('permintaan_training:gm_request_training_list')
 
     else:
         form = GMApprovalForm()
@@ -238,8 +239,7 @@ def gm_training_list(request):
 
 @login_required
 def hrd_training_list(request):
-    # Filter training requests where the logged-in user is HRD Manager
-    # and where the most recent status is 'gm_approved' (assuming HRD can only approve requests that GM has approved)
+    # Filter training requests where the logged-in user is HRD Manager and the most recent status is 'gm_approved'
     trainings = Training.objects.filter(
         hrd_manager=request.user, 
         status__status='gm_approved'  # Filter by GM-approved status
@@ -256,17 +256,21 @@ def hrd_training_list(request):
             hrd_approval.training = training  # Link HRD approval to the training
             hrd_approval.save()
 
-            # Update the training status after HRD Manager approval
+            # Save training status with HRD's approval decision and remarks
+            TrainingStatus.objects.create(
+                training=training,
+                status='hrd_approved' if hrd_approval.approval_status else 'hrd_rejected',
+                remarks=hrd_approval.remarks
+            )
+
+            # Display success or error messages based on the HRD decision
             if hrd_approval.approval_status:
-                # Create a new TrainingStatus entry for HRD approval
-                TrainingStatus.objects.create(training=training, status='hrd_approved')  # HRD approved
                 messages.success(request, "Training request approved by HRD.")
             else:
-                # Create a new TrainingStatus entry for HRD rejection
-                TrainingStatus.objects.create(training=training, status='hrd_rejected')  # HRD rejected
                 messages.error(request, "Training request rejected by HRD.")
 
-            return redirect('permintaan_training:hrd_request_training_list')  # Redirect to HRD training list page
+            # Redirect to HRD's training list page
+            return redirect('permintaan_training:hrd_request_training_list')
 
     else:
         form = HRDManagerApprovalForm()

@@ -41,7 +41,7 @@ class TrainingForm(forms.ModelForm):
 
     # Optionally, hide the HRD Manager field from the form
     def clean_hrd_manager(self):
-        return User.objects.get(id=3)  # Set HRD Manager ID to 3 by default
+        return User.objects.get(id=8)  # Set HRD Manager ID to 3 by default
 
 
 

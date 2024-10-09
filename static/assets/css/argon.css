@@ -18437,7 +18437,6 @@ p {
 }
 
 
-
 ul.timeline {
   list-style-type: none;
   position: relative;
@@ -18471,6 +18470,17 @@ ul.timeline > li:before {
   width: 15px;
   height: 15px;
   z-index: 400;
+}
+
+ul.timeline .date {
+  font-size: 0.85rem; /* Smaller font for the date */
+  color: #6c757d; /* Muted text color */
+  display: block;
+  margin-top: 5px; /* Add some spacing from the status/remarks */
+}
+
+ul.timeline p.text-default {
+  margin-bottom: 5px; /* Reduce margin between status text and the date */
 }
 
 /* Responsive adjustments */

@@ -15,33 +15,40 @@
         <ul class="navbar-nav">
           
           <!-- Different menu for MANAGER and GENERAL MANAGER -->
-          {% if request.user.occupation == 'manager' %}
+          {% if request.user.occupation == 'manager' and request.user.department != 'recruitment_training_development' %}
+          <!-- Regular Manager Sidebar -->
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'dashboard' %}">
-              <i class="ni ni-planet text-indigo"></i>
-              <span class="nav-link-text">Dashboard</span>
-            </a>
+              <a class="nav-link" href="{% url 'permintaan_training:manager_request_training_list' %}">
+                  <i class="ni ni-planet text-indigo"></i>
+                  <span class="nav-link-text">Request Training</span>
+              </a>
+          </li>
+
+          {% elif request.user.occupation == 'manager' and request.user.department == 'recruitment_training_development' %}
+          <!-- Manager from Recruitment, Training, and Development Sidebar -->
+          <li class="nav-item">
+              <a class="nav-link" href="{% url 'permintaan_training:hrd_request_training_list' %}">
+                  <i class="ni ni-tablet-button text-red"></i>
+                  <span class="nav-link-text">HRD Approval Training</span>
+              </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'dashboard' %}">
-              <i class="ni ni-chart-bar-32 text-orange"></i>
-              <span class="nav-link-text">Reports</span>
-            </a>
+              <a class="nav-link" href="{% url 'permintaan_training:manager_request_training_list' %}">
+                  <i class="ni ni-planet text-indigo"></i>
+                  <span class="nav-link-text">Manager Approval Training</span>
+              </a>
           </li>
 
           {% elif request.user.occupation == 'general_manager' or request.user.occupation == 'deputy_director' %}
+          <!-- General Manager or Deputy Director Sidebar -->
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'dashboard' %}">
-              <i class="ni ni-settings text-purple"></i>
-              <span class="nav-link-text">Dashboard</span>
-            </a>
+              <a class="nav-link" href="{% url 'permintaan_training:gm_request_training_list' %}">
+                  <i class="ni ni-planet text-indigo"></i>
+                  <span class="nav-link-text">Request Training</span>
+              </a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'dashboard' %}">
-              <i class="ni ni-world-2 text-teal"></i>
-              <span class="nav-link-text">Company Overview</span>
-            </a>
-          </li>
+
+
 
           <!-- Default links for other occupations -->
           {% else %}
@@ -55,6 +62,12 @@
             <a class="nav-link" href="{% url 'user_list' %}">
                 <i class="ni ni-single-02 text-pink"></i>
                 <span class="nav-link-text">User</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'permintaan_training:admin_request_training_list' %}">
+                <i class="ni ni-planet text-indigo"></i>
+                <span class="nav-link-text">Request Training</span>
             </a>
           </li>
           <li class="nav-item">
