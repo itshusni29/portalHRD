@@ -1,24 +1,38 @@
-{% extends 'layouts/base.html' %}
+{% extends 'layouts/d_base.html' %}
 
-{% block title %}List Request Training{% endblock title %}
+{% block title %}General Manager Training Requests{% endblock title %}
 
 {% block stylesheets %}{% endblock stylesheets %}
 
 {% block content %}
+    <!-- Header -->
+    <div class="header">
+        <div class="container-fluid">
+            <div class="header-body">
+                <div class="row align-items-center py-4">
+                    <div class="col-lg-6 col-7">
+                        <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+                            <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                                <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
+                                <li class="breadcrumb-item"><a href="#">Dashboards</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Training Requests</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Page content -->
-    <div class="container-fluid mt-5 bg-white">
+    <div class="container-fluid">
         <div class="row">
-            <div class="col-md-10 mx-auto mb-5">
-                <div class="card card-stats">
+            <div class="col-xl-12">
+                <div class="card">
                     <div class="card-header border-0">
                         <div class="row align-items-center">
                             <div class="col">
-                                <h3 class="mb-0">List Request Training</h3>
-                            </div>
-                            <div class="col text-right">
-                                <a href="{% url 'permintaan_training:request_training_user' %}" class="btn btn-sm btn-primary">
-                                    <i class="fas fa-plus"></i> Tambah Baru
-                                </a>
+                                <h3 class="mb-0">Training Requests</h3>
                             </div>
                         </div>
                     </div>
@@ -56,12 +70,12 @@
                                             <td>
                                                 <!-- Button trigger modal -->
                                                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-form-{{ forloop.counter }}">
-                                                    View
+                                                    view
                                                 </button>
-
+                                                
                                                 <!-- Modal -->
                                                 <div class="modal fade" id="modal-form-{{ forloop.counter }}" tabindex="-1" role="dialog" aria-labelledby="modal-form-label-{{ forloop.counter }}" aria-hidden="true">
-                                                    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                                                    <div class="modal-dialog modal-dialog-centered" role="document">
                                                         <div class="modal-content">
                                                             <div class="modal-header">
                                                                 <h5 class="modal-title" id="modal-form-label-{{ forloop.counter }}">Training Request Details</h5>
@@ -72,54 +86,48 @@
                                                             <div class="modal-body">
                                                                 <div class="row">
                                                                     <div class="col-md-10 mx-auto">
-                                                                        <!-- First Row -->
+                                                                        
                                                                         <div class="row">
-                                                                            <div class="col-sm-6">
+                                                                            <div class="col-sm-4">
                                                                                 <h4>Requestor</h4>
                                                                                 <p class="text-primary">{{ training.requestor.get_full_name }}</p>
                                                                             </div>
-                                                                            <div class="col-sm-6">
+                                                                            <div class="col-sm-4">
                                                                                 <h4>Topic</h4>
                                                                                 <p class="text-primary">{{ training.topic }}</p>
                                                                             </div>
-                                                                        </div>
-                                                                
-                                                                        <div class="row mt-3">
-                                                                            <div class="col-sm-6">
+                                                                            <div class="col-sm-4">
                                                                                 <h4>Date</h4>
                                                                                 <p class="text-primary">{{ training.date|date:"d F Y" }}</p>
                                                                             </div>
-                                                                            <div class="col-sm-6">
+                                                                        </div>
+                                                                        
+                                                                        <div class="row mt-3">
+                                                                            <div class="col-sm-4">
                                                                                 <h4>Trainer</h4>
                                                                                 <p class="text-primary">{{ training.trainer }}</p>
                                                                             </div>
-                                                                        </div>
-                                                                
-                                                                        <!-- Second Row -->
-                                                                        <div class="row mt-3">
-                                                                            <div class="col-sm-6">
+                                                                            <div class="col-sm-4">
                                                                                 <h4>Location</h4>
                                                                                 <p class="text-primary">{{ training.location }}</p>
                                                                             </div>
-                                                                            <div class="col-sm-6">
+                                                                            <div class="col-sm-4">
                                                                                 <h4>Cost</h4>
                                                                                 <p class="text-primary">{{ training.cost }}</p>
                                                                             </div>
                                                                         </div>
-                                                                
-                                                                        <!-- Third Row -->
+                                                                        
                                                                         <div class="row mt-3">
-                                                                            <div class="col-sm-6">
+                                                                            <div class="col-sm-4">
                                                                                 <h4>Participants</h4>
                                                                                 <p class="text-primary">{{ training.participants }}</p>
                                                                             </div>
-                                                                            <div class="col-sm-6">
+                                                                            <div class="col-sm-8">
                                                                                 <h4>Background</h4>
                                                                                 <p class="text-primary">{{ training.background }}</p>
                                                                             </div>
                                                                         </div>
-                                                                
-                                                                        <!-- Fourth Row -->
+                                                                        
                                                                         <div class="row mt-3">
                                                                             <div class="col-sm-6">
                                                                                 <h4>Target</h4>
@@ -129,14 +137,13 @@
                                                                                 <h4>Evaluation Level</h4>
                                                                                 <p class="text-primary">{{ training.get_evaluation_level_display }}</p>
                                                                             </div>
-                                                                        </div>
+                                                                        </div>                                                                        
                                                                     </div>
                                                                 </div>
-                                                                
 
                                                                 <div class="row">
-                                                                    <div class="col-md-10 mx-auto">
-                                                                        <div class="text-center text-muted mb-4 my-4">
+                                                                    <div class="col-md-8 mx-auto">
+                                                                        <div class="text-center text-muted mb-4">
                                                                             Progress of Request Training: {{ training.topic }}
                                                                         </div>
                                                                         <div class="col-md-12">
@@ -169,6 +176,43 @@
                                                                     </div>
                                                                 </div>
 
+                                                                <div class="row">
+                                                                    <div class="col-md-8 mx-auto">
+                                                                        <div class="text-center text-muted mb-4">
+                                                                            Add Remarks and Approval
+                                                                        </div>
+                                                                
+                                                                        <form method="POST" action="">
+                                                                            {% csrf_token %}
+                                                                            <input type="hidden" name="training_id" value="{{ training.id }}">
+                                                                
+                                                                            <!-- Approval Status and Remarks Side by Side -->
+                                                                            <div class="form-row">
+                                                                                <div class="col-md-4">
+                                                                                    <div class="form-group">
+                                                                                        <label for="approval-status">Approval Status</label>
+                                                                                        {{ form.approval_status }}
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-md-8">
+                                                                                    <div class="form-group">
+                                                                                        <label for="remarks">Remarks</label>
+                                                                                        {{ form.remarks }}
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <!-- Submit and Close Buttons Side by Side -->
+                                                                            <div class="text-center">
+                                                                                <button type="submit" class="btn btn-success my-4 mr-2">
+                                                                                    <i class="fas fa-check"></i> Submit
+                                                                                </button>
+                                                                                <button type="button" class="btn btn-warning my-4" data-dismiss="modal">
+                                                                                    Close
+                                                                                </button>
+                                                                            </div>
+                                                                        </form>
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -187,7 +231,7 @@
                 </div>
             </div>
         </div>
-        <a id="scrollToTop" href="#" title="Go to top"><i class="ni ni-bold-up"></i></a>
+
+        {% include "includes/footer.html" %}
     </div>
-    {% include "includes/footer.html" %}
 {% endblock content %}
