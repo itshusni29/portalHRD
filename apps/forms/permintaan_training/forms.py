@@ -10,14 +10,13 @@ class TrainingForm(forms.ModelForm):
     class Meta:
         model = Training
         fields = [
-            'requestor_nik', 'topic', 'background', 'target', 'participants', 
+            'requestor_nik', 'topic', 'background', 'participants', 
             'trainer', 'date', 'location', 'cost', 'evaluation_level', 
             'manager', 'gm', 'hrd_manager'
         ]
         widgets = {
             'topic': forms.TextInput(attrs={'class': 'form-control'}),
             'background': forms.Textarea(attrs={'class': 'form-control'}),
-            'target': forms.TextInput(attrs={'class': 'form-control'}),
             'participants': forms.Textarea(attrs={'class': 'form-control'}),
             'trainer': forms.TextInput(attrs={'class': 'form-control'}),
             'date': forms.DateInput(attrs={'class': 'form-control'}),

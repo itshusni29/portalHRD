@@ -21,7 +21,7 @@
 
 <div class="container-fluid mt--6 bg-white">
     <div class="row">
-        <div class="col-md-10 mx-auto" style="margin-bottom: 150px;">
+        <div class="col-md-10 mx-auto">
             <div class="card card-stats">
                 <div class="card-body">
                     <form method="post" enctype="multipart/form-data">
@@ -75,6 +75,25 @@
                                 {% for error in training_form.trainer.errors %}
                                     <div class="invalid-feedback">{{ error }}</div>
                                 {% endfor %}
+                                
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="id_background">Latar Belakang:</label>
+                                <textarea class="form-control{% if training_form.background.errors %} is-invalid{% endif %}" id="id_background" name="background">{{ training_form.background.value }}</textarea>
+                                {% for error in training_form.background.errors %}
+                                    <div class="invalid-feedback">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="id_participants">Peserta:</label>
+                                <textarea class="form-control{% if training_form.participants.errors %} is-invalid{% endif %}" 
+                                        id="id_participants" name="participants">{{ training_form.participants.value }}</textarea>
+                                {% for error in training_form.participants.errors %}
+                                    <div class="invalid-feedback">{{ error }}</div>
+                                {% endfor %}
                             </div>
                         </div>
 
@@ -106,9 +125,13 @@
                             </div>
 
                             <div class="form-group col-md-6">
-                                <label for="id_target">Target:</label>
-                                <input type="text" class="form-control{% if training_form.target.errors %} is-invalid{% endif %}" id="id_target" name="target" value="{{ training_form.target.value }}">
-                                {% for error in training_form.target.errors %}
+                                <label for="id_evaluation_level">Level Evaluasi:</label>
+                                <select class="form-control{% if training_form.evaluation_level.errors %} is-invalid{% endif %}" id="id_evaluation_level" name="evaluation_level">
+                                    {% for choice in training_form.evaluation_level.field.choices %}
+                                        <option value="{{ choice.0 }}" {% if choice.0 == training_form.evaluation_level.value %}selected{% endif %}>{{ choice.1 }}</option>
+                                    {% endfor %}
+                                </select>
+                                {% for error in training_form.evaluation_level.errors %}
                                     <div class="invalid-feedback">{{ error }}</div>
                                 {% endfor %}
                             </div>
@@ -117,13 +140,13 @@
                         <!-- Remarks Section -->
                         <div class="form-row">
                             <div class="form-group col-md-6">
-                                <label for="id_evaluation_level">Level Evaluasi:</label>
-                                <select class="form-control{% if training_form.evaluation_level.errors %} is-invalid{% endif %}" id="id_evaluation_level" name="evaluation_level">
-                                    {% for choice in training_form.evaluation_level.field.choices %}
-                                        <option value="{{ choice.0 }}" {% if choice.0 == training_form.evaluation_level.value %}selected{% endif %}>{{ choice.1 }}</option>
+                                <label for="id_gm">GM:</label>
+                                <select class="form-control{% if training_form.gm.errors %} is-invalid{% endif %}" id="id_gm" name="gm">
+                                    {% for choice in training_form.gm.field.choices %}
+                                        <option value="{{ choice.0 }}" {% if choice.0 == training_form.gm.value %}selected{% endif %}>{{ choice.1 }}</option>
                                     {% endfor %}
                                 </select>
-                                {% for error in training_form.evaluation_level.errors %}
+                                {% for error in training_form.gm.errors %}
                                     <div class="invalid-feedback">{{ error }}</div>
                                 {% endfor %}
                             </div>
@@ -141,20 +164,6 @@
                             </div>
                         </div>
 
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <label for="id_gm">GM:</label>
-                                <select class="form-control{% if training_form.gm.errors %} is-invalid{% endif %}" id="id_gm" name="gm">
-                                    {% for choice in training_form.gm.field.choices %}
-                                        <option value="{{ choice.0 }}" {% if choice.0 == training_form.gm.value %}selected{% endif %}>{{ choice.1 }}</option>
-                                    {% endfor %}
-                                </select>
-                                {% for error in training_form.gm.errors %}
-                                    <div class="invalid-feedback">{{ error }}</div>
-                                {% endfor %}
-                            </div>
-                        </div>
-
                         <!-- Submit Button -->
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary btn-block">Submit Request</button>
@@ -165,7 +174,7 @@
         </div>
     </div>
 </div>
-
+{% include "includes/footer.html" %}
 <script>
     function fetchUserDetails(nik) {
         if (nik.length !== 7) return;

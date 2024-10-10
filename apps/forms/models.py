@@ -96,7 +96,6 @@ class Training(models.Model):
     requestor = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='requestor', on_delete=models.CASCADE)
     topic = models.CharField(max_length=200)
     background = models.TextField()
-    target = models.CharField(max_length=200)
     participants = models.TextField(max_length=500)
     trainer = models.CharField(max_length=100)
     date = models.DateField()
