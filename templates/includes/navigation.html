@@ -31,8 +31,15 @@
       <li class="nav-item">
         <a class="nav-link text-primary" href="{% url 'aturan_list' %}">Aturan</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link text-primary" href="{% url 'formHardCopy:form_hard_copy_list' %}">Formulir</a>
+      
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle text-primary" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
+          Formulir
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <li><a class="dropdown-item" href="{% url 'formHardCopy:form_hard_copy_list' %}">Hard Copy</a></li>
+          <li><a class="dropdown-item" href="{% url 'permintaan_training:request_training_list' %}">Request Training</a></li>
+        </ul>
       </li>
       <li class="nav-item">
         <a class="nav-link text-primary" href="{% url 'list_kegiatan' %}">Kegiatan</a>
