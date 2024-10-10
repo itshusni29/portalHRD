@@ -108,7 +108,7 @@ class HRDManagerApprovalForm(forms.ModelForm):  # Updated to HRDManagerApprovalF
     )
 
     class Meta:
-        model = HRDManagerApproval  # Keeping the model as HRDManagerApproval
+        model = HRDManagerApproval  
         fields = ['approval_status', 'remarks']
         widgets = {
             'remarks': forms.Textarea(attrs={'rows': 3, 'class': 'form-control'}),

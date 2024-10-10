@@ -23,7 +23,9 @@ def request_training_list(request):
 
 
 
-
+# ======================================================================================================================
+# Views: Untuk mendapatkan detail user pada form request training
+# ====================================================================================================================== 
 def fetch_user_details(request):
     nik = request.GET.get('nik')
     print(f"Fetching user details for NIK: {nik}")  # Log the incoming NIK
@@ -41,6 +43,10 @@ def fetch_user_details(request):
     return HttpResponse("User not found")
 
 logger = logging.getLogger(__name__)
+
+# ======================================================================================================================
+# Views: Untuk pengajuan form request training baru oleh user tanpa harus logi
+# ======================================================================================================================
 def request_training_user(request):
     if request.method == 'POST':
         training_form = TrainingForm(request.POST, request.FILES)
@@ -102,6 +108,9 @@ def create_training(request):
     })
 
 
+# ======================================================================================================================
+# Views: Menampilkan list form request training pada halaman admin
+# ======================================================================================================================
 @login_required
 def admin_request_training_list(request):
     # Fetch all training requests
@@ -111,6 +120,9 @@ def admin_request_training_list(request):
         'trainings': trainings,
     })
 
+# ======================================================================================================================
+# Views: Menampilkan  detail dari form request training pada halaman  admin
+# ======================================================================================================================
 @login_required
 def admin_request_training_view(request, training_id):
     # Get the specific training request by ID

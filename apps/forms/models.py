@@ -1,13 +1,16 @@
 
-
 from django.db import models
 from django.contrib.auth.models import User
 from django.conf import settings  
 
 
-# Form model for hardcopy
+
 from django.db import models
 
+
+# ======================================================================================================================
+# Models: Manajemen Hard Copy
+# ======================================================================================================================
 class FormHardcopy(models.Model):
     CATEGORY_CHOICES = [
         ('HRA_IR', 'HRA & IR'),
@@ -29,7 +32,9 @@ class FormHardcopy(models.Model):
 
     
     
-    
+# ======================================================================================================================
+# Models: Manajemen Sumbangan
+# ====================================================================================================================== 
 class Sumbangan(models.Model):
     name = models.CharField(max_length=100)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
@@ -40,6 +45,9 @@ class Sumbangan(models.Model):
     def __str__(self):
         return f"{self.name} - {self.amount}"
 
+# ======================================================================================================================
+# Models: Manajemen Approval
+# ====================================================================================================================== 
 class GMApproval(models.Model):
     training = models.ForeignKey('Training', on_delete=models.CASCADE, related_name='gm_approvals')  # Change the related_name
     approval_status = models.BooleanField(default=False)
@@ -60,7 +68,11 @@ class HRDManagerApproval(models.Model):
     remarks = models.TextField(blank=True, max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    
 
+# ======================================================================================================================
+# Models: Manajemen Training Status
+# ====================================================================================================================== 
 class TrainingStatus(models.Model):
     STATUS_CHOICES = [
         ('submit', 'Submitted'),
@@ -84,7 +96,9 @@ class TrainingStatus(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
  
-# Training model now references GMApproval, ManagerApproval, and HRDManagerApproval
+# ======================================================================================================================
+# Models: Manajemen request Training
+# ====================================================================================================================== 
 class Training(models.Model):
     LEVEL_CHOICES = [
         ('1', 'Level 1'),
