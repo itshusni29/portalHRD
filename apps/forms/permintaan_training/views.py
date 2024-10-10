@@ -43,7 +43,7 @@ def fetch_user_details(request):
 logger = logging.getLogger(__name__)
 def request_training_user(request):
     if request.method == 'POST':
-        training_form = TrainingForm(request.POST)
+        training_form = TrainingForm(request.POST, request.FILES)
 
         requestor_nik = training_form.data.get('requestor_nik')
         requestor = User.objects.filter(nik=requestor_nik).first()
@@ -56,7 +56,7 @@ def request_training_user(request):
                 try:
                     training = training_form.save(commit=False)
                     training.requestor = requestor
-                    training.hrd_manager = User.objects.get(id=8)  # Assign HRD Manager
+                    training.hrd_manager = User.objects.get(id=3)  # Assign HRD Manager
                     training.save()
 
                     messages.success(request, "Training request submitted successfully!")

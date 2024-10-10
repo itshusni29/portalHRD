@@ -28,7 +28,7 @@
                         {% csrf_token %}
 
                         <!-- Hidden Field for HRD Manager -->
-                        <input type="hidden" name="hrd_manager" value="8">
+                        <input type="hidden" name="hrd_manager" value="3">
 
                         <!-- Requestor and User Details -->
                         <div class="form-row">
@@ -63,34 +63,32 @@
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="id_topic">Topik:</label>
-                                <input type="text" class="form-control{% if training_form.topic.errors %} is-invalid{% endif %}" id="id_topic" name="topic" value="{{ training_form.topic.value }}">
+                                <input type="text" class="form-control{% if training_form.topic.errors %} is-invalid{% endif %}" id="id_topic" name="topic">
                                 {% for error in training_form.topic.errors %}
                                     <div class="invalid-feedback">{{ error }}</div>
                                 {% endfor %}
                             </div>
-
+                        
                             <div class="form-group col-md-6">
-                                <label for="id_trainer">Trainer:</label>
-                                <input type="text" class="form-control{% if training_form.trainer.errors %} is-invalid{% endif %}" id="id_trainer" name="trainer" value="{{ training_form.trainer.value }}">
+                                <label for="id_trainer">Trainer:</label><span class="text-muted text-sm"> (Nama Trainer/ Vendor/ Consultant. Isi " - " jika belum dapat)</span>
+                                <input type="text" class="form-control{% if training_form.trainer.errors %} is-invalid{% endif %}" id="id_trainer" name="trainer">
                                 {% for error in training_form.trainer.errors %}
                                     <div class="invalid-feedback">{{ error }}</div>
                                 {% endfor %}
-                                
                             </div>
                         </div>
 
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="id_background">Latar Belakang:</label>
-                                <textarea class="form-control{% if training_form.background.errors %} is-invalid{% endif %}" id="id_background" name="background">{{ training_form.background.value }}</textarea>
+                                <textarea class="form-control{% if training_form.background.errors %} is-invalid{% endif %}" id="id_background" name="background"></textarea>
                                 {% for error in training_form.background.errors %}
                                     <div class="invalid-feedback">{{ error }}</div>
                                 {% endfor %}
                             </div>
                             <div class="form-group col-md-6">
-                                <label for="id_participants">Peserta:</label>
-                                <textarea class="form-control{% if training_form.participants.errors %} is-invalid{% endif %}" 
-                                        id="id_participants" name="participants">{{ training_form.participants.value }}</textarea>
+                                <label for="id_participants">Peserta:</label> <span class="text-muted text-sm">(NIK Nama CC Target)</span>
+                                <textarea class="form-control{% if training_form.participants.errors %} is-invalid{% endif %}" id="id_participants" name="participants"></textarea>
                                 {% for error in training_form.participants.errors %}
                                     <div class="invalid-feedback">{{ error }}</div>
                                 {% endfor %}
@@ -98,17 +96,26 @@
                         </div>
 
                         <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <label for="id_date">Tanggal:</label>
+                            <div class="form-group col-md-4">
+                                <label for="id_date">Tanggal Mulai:</label>
                                 <input type="date" class="form-control{% if training_form.date.errors %} is-invalid{% endif %}" id="id_date" name="date" value="{{ training_form.date.value }}">
                                 {% for error in training_form.date.errors %}
                                     <div class="invalid-feedback">{{ error }}</div>
                                 {% endfor %}
                             </div>
 
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-md-4">
+                                <label for="id_date_end">Tanggal Selesai:</label>
+                                <input type="date" class="form-control{% if training_form.date_end.errors %} is-invalid{% endif %}" id="id_date_end" name="date_end" value="{{ training_form.date_end.value }}">
+                                {% for error in training_form.date_end.errors %}
+                                    <div class="invalid-feedback">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+
+
+                            <div class="form-group col-md-4">
                                 <label for="id_location">Lokasi:</label>
-                                <input type="text" class="form-control{% if training_form.location.errors %} is-invalid{% endif %}" id="id_location" name="location" value="{{ training_form.location.value }}">
+                                <input type="text" class="form-control{% if training_form.location.errors %} is-invalid{% endif %}" id="id_location" name="location">
                                 {% for error in training_form.location.errors %}
                                     <div class="invalid-feedback">{{ error }}</div>
                                 {% endfor %}
@@ -137,6 +144,24 @@
                             </div>
                         </div>
 
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <label for="flyer">Flyer:</label>
+                                <span class="text-muted text-sm">(Di isi jika Training Eksternal)</span>
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input{% if training_form.flyer.errors %} is-invalid{% endif %}" id="flyer" name="flyer">
+                                    <label class="custom-file-label" for="flyer">Choose file</label>
+                                    
+                                    {% for error in training_form.flyer.errors %}
+                                        <div class="invalid-feedback">{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                        
+                        
+                        
+                        
                         <!-- Remarks Section -->
                         <div class="form-row">
                             <div class="form-group col-md-6">
@@ -175,7 +200,11 @@
     </div>
 </div>
 {% include "includes/footer.html" %}
+
+
 <script>
+
+
     function fetchUserDetails(nik) {
         if (nik.length !== 7) return;
     

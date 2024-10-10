@@ -20,7 +20,7 @@ class FormHardcopy(models.Model):
     nama_form = models.CharField(max_length=100)
     no_form = models.CharField(max_length=51)
     category_form = models.CharField(max_length=20, choices=CATEGORY_CHOICES)
-    file_upload = models.FileField(upload_to="uploads/forms/request_training")
+    file_upload = models.FileField(upload_to="uploads/forms/all")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -99,11 +99,13 @@ class Training(models.Model):
     participants = models.TextField(max_length=500)
     trainer = models.CharField(max_length=100)
     date = models.DateField()
+    date_end = models.DateField()
     location = models.CharField(max_length=200)
     cost = models.DecimalField(max_digits=10, decimal_places=2)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     evaluation_level = models.CharField(max_length=2, choices=LEVEL_CHOICES)
+    flyer = models.FileField(upload_to="uploads/forms/request_training")
    
 
     manager = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='manager_approvals', on_delete=models.CASCADE)

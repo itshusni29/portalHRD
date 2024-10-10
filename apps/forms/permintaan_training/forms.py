@@ -12,7 +12,7 @@ class TrainingForm(forms.ModelForm):
         fields = [
             'requestor_nik', 'topic', 'background', 'participants', 
             'trainer', 'date', 'location', 'cost', 'evaluation_level', 
-            'manager', 'gm', 'hrd_manager'
+            'manager', 'gm', 'hrd_manager', 'flyer', 'date_end'
         ]
         widgets = {
             'topic': forms.TextInput(attrs={'class': 'form-control'}),
@@ -20,12 +20,17 @@ class TrainingForm(forms.ModelForm):
             'participants': forms.Textarea(attrs={'class': 'form-control'}),
             'trainer': forms.TextInput(attrs={'class': 'form-control'}),
             'date': forms.DateInput(attrs={'class': 'form-control'}),
+            'date_end': forms.DateInput(attrs={'class': 'form-control'}),
             'location': forms.TextInput(attrs={'class': 'form-control'}),
             'cost': forms.NumberInput(attrs={'class': 'form-control'}),
             'evaluation_level': forms.Select(attrs={'class': 'form-control'}),
             'manager': forms.Select(attrs={'class': 'form-control'}),
             'gm': forms.Select(attrs={'class': 'form-control'}),
+            'flyer': forms.FileInput(attrs={'class': 'custom-file-input'}),
+            
         }
+
+    flyer = forms.FileField(required=False)
 
     def __init__(self, *args, **kwargs):
         super(TrainingForm, self).__init__(*args, **kwargs)
@@ -38,11 +43,27 @@ class TrainingForm(forms.ModelForm):
             raise forms.ValidationError("Requestor NIK must be exactly 7 characters long.")
         return nik
 
-    # Optionally, hide the HRD Manager field from the form
     def clean_hrd_manager(self):
-        return User.objects.get(id=8)  # Set HRD Manager ID to 3 by default
+        return User.objects.get(id=3)
+    
+    def clean_flyer(self):
+        flyer = self.cleaned_data.get('flyer')
 
+        # Allow empty flyer field
+        if flyer is None:
+            return flyer
 
+        # Validate file extension
+        valid_extensions = ['pdf']
+        ext = flyer.name.split('.')[-1].lower()
+        if ext not in valid_extensions:
+            raise forms.ValidationError('Only .pdf files are allowed.')
+
+        # Validate file size (max 2MB)
+        if flyer.size > 2 * 1024 * 1024:  # 2 MB
+            raise forms.ValidationError('The file size must not exceed 2 MB.')
+
+        return flyer
 
 class TrainingStatusForm(forms.ModelForm):
     class Meta:
