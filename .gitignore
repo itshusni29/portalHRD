@@ -26,6 +26,7 @@ pip-wheel-metadata/
 *.egg-info/
 .installed.cfg
 *.egg
+media/
 
 # Django stuff:
 *.log
