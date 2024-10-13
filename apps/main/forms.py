@@ -1,6 +1,6 @@
     
 from django import forms
-from .models import ProsedurM, AturanM, kegiatanM
+from .models import ProsedurM, AturanM, kegiatanM, Banner
 
 
 
@@ -98,3 +98,28 @@ class kegiatanF(forms.ModelForm):
         super(kegiatanF, self).__init__(*args, **kwargs)
         for visible in self.visible_fields():
             visible.field.widget.attrs['class'] = 'form-control'
+            
+            
+            
+# Form: Manajemen Banner
+# ======================================================================================================================
+class BannerForm(forms.ModelForm):
+    class Meta:
+        model = Banner
+        fields = ['image', 'judul', 'deskripsi', 'posisi']
+
+    def __init__(self, *args, **kwargs):
+        super(BannerForm, self).__init__(*args, **kwargs)
+        for visible in self.visible_fields():
+            visible.field.widget.attrs['class'] = 'form-control'
+
+    def clean_image(self):
+        image = self.cleaned_data.get('image')
+
+        if image:
+            if image.size > 2 * 1024 * 1024:  # 2 MB limit
+                raise forms.ValidationError("Gambar tidak boleh lebih dari 2 MB.")
+            if not image.name.lower().endswith(('.jpg', '.jpeg', '.png')):
+                raise forms.ValidationError("Hanya file .jpg, .jpeg, dan .png yang diperbolehkan.")
+
+        return image

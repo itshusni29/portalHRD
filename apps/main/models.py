@@ -44,15 +44,34 @@ class Visitor(models.Model):
         return f"{self.ip_address} - {self.timestamp}"
 
     
- # Model: Manajemen Kegiatan
+# Model: Manajemen Kegiatan
 # ======================================================================================================================   
 class kegiatanM(models.Model):
     judulKegiatan = models.CharField(max_length=100)
-    image = models.ImageField(upload_to='images', default='a.jpg')
-    deskripsi = models.TextField()
+    image = models.ImageField(upload_to='uploads/images/kegiatan')
+    deskripsi = models.TextField(max_length=255)
     tanggal = models.CharField(max_length=25)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.judulKegiatan
+    
+    
+# Model: Manajemen Banner halaman utama
+# ======================================================================================================================   
+class Banner(models.Model):
+    POSITION_CHOICES = [
+        ('left', 'Kiri'),
+        ('right', 'Kanan')
+    ]
+
+    judul = models.CharField(max_length=100)
+    image = models.ImageField(upload_to='uploads/images/banner')
+    deskripsi = models.TextField(max_length=255)
+    posisi = models.CharField(max_length=5, choices=POSITION_CHOICES) 
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.judul

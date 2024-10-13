@@ -1,0 +1,106 @@
+{% extends 'layouts/d_base.html' %}
+
+{% block title %} Update Banner {% endblock title %}
+
+{% block content %}
+    <!-- Header -->
+    <div class="header">
+        <div class="container-fluid">
+            <div class="header-body">
+                <div class="row align-items-center py-4">
+                    <div class="col-lg-6 col-7">
+                        <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+                            <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                                <li class="breadcrumb-item">
+                                    <a href="#"><i class="fas fa-home"></i></a>
+                                </li>
+                                <li class="breadcrumb-item"><a href="#">Dashboards</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Update Banner</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Page Content -->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="card">
+                    <div class="card-header border-0">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <h3 class="mb-0">Edit Banner</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <form method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+
+                            <!-- Display form errors -->
+                            {% if form.errors %}
+                                <div class="alert alert-danger">
+                                    <ul>
+                                        {% for field, errors in form.errors.items %}
+                                            {% for error in errors %}
+                                                <li>{{ field }}: {{ error }}</li>
+                                            {% endfor %}
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            {% endif %}
+
+                            <!-- Image Field -->
+                            <div class="form-group">
+                                <label for="{{ form.image.id_for_label }}">Banner Image</label>
+                                {% if form.instance.image %}
+                                    <div class="image-preview">
+                                        <img src="{{ form.instance.image.url }}" 
+                                             alt="Current Banner" 
+                                             style="width: 300px; height: auto; border-radius: 8px;">
+                                    </div>
+                                {% else %}
+                                    <p>No banner image available.</p>
+                                {% endif %}
+                                {{ form.image }}
+                            </div>
+
+                            <!-- Judul Field -->
+                            <div class="form-group">
+                                <label for="{{ form.judul.id_for_label }}">Title</label>
+                                {{ form.judul }}
+                            </div>
+
+                            <!-- Deskripsi Field -->
+                            <div class="form-group">
+                                <label for="{{ form.deskripsi.id_for_label }}">Description</label>
+                                {{ form.deskripsi }}
+                            </div>
+
+                            <!-- Posisi Field -->
+                            <div class="form-group">
+                                <label for="{{ form.posisi.id_for_label }}">Position</label>
+                                {{ form.posisi }}
+                            </div>
+
+                            <!-- Active Field -->
+                            <div class="form-group">
+                                <label for="{{ form.active.id_for_label }}">Active</label>
+                                {{ form.active }}
+                            </div>
+
+                            <!-- Action Buttons -->
+                            <button type="submit" class="btn btn-primary">Update Banner</button>
+                            <a href="{% url 'admin_banner' %}" class="btn btn-secondary">Cancel</a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% include "includes/footer.html" %}
+    </div>
+{% endblock content %}

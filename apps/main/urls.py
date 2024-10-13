@@ -34,6 +34,14 @@ urlpatterns = [
     path('dashboard/kegiatan/tambah/', views.Create_kegiatan, name='upload_kegiatan'),
     path('dashboard/kegiatan/<int:id>/edit/', views.Update_kegiatan, name='edit_kegiatan'),
     path('dashboard/kegiatan/<int:id>/delete/', views.Delete_kegiatan, name='delete_kegiatan'),
+    
+    # URL Patterns: Banner Management
+    # ======================================================================================================================
+    path('dashboard/list_banner/', views.admin_banner, name='admin_banner'),
+    path('dashboard/banner/tambah/', views.create_banner, name='create_banner'),
+    path('dashboard/banner/<int:id>/edit/', views.update_banner, name='update_banner'),
+    path('dashboard/banner/<int:id>/delete/', views.delete_banner, name='delete_banner'),
+
 
 ]
 

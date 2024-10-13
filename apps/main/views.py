@@ -9,8 +9,8 @@ from django.contrib.sessions.models import Session
 from django.utils import timezone
 
 from django.http import FileResponse
-from .models import AturanM, ProsedurM, Visitor, kegiatanM
-from .forms import AturanF, ProsedurF, SearchForm, kegiatanF
+from .models import AturanM, ProsedurM, Visitor, kegiatanM, Banner
+from .forms import AturanF, ProsedurF, SearchForm, kegiatanF, BannerForm
 
 
 
@@ -55,20 +55,28 @@ def get_date_range():
 
 # View: Home Page with Visitor Counter
 def index(request):
+    # Get date ranges for statistics
     today, yesterday, this_month_start, this_year_start = get_date_range()
 
+    # Visitor statistics
     today_count = Visitor.objects.filter(timestamp__date=today).count()
     yesterday_count = Visitor.objects.filter(timestamp__date=yesterday).count()
     this_month_count = Visitor.objects.filter(timestamp__date__gte=this_month_start).count()
     this_year_count = Visitor.objects.filter(timestamp__date__gte=this_year_start).count()
     total_hits_count = Visitor.objects.all().count()
 
+    # Online users based on session expiry
     online_users = Session.objects.filter(expire_date__gte=timezone.now()).count()
 
-    # Record the current visitor
+    # Record the current visitor's IP address
     current_visitor_ip = get_client_ip(request)
     Visitor.objects.create(ip_address=current_visitor_ip)
 
+    # Fetch banners based on their position
+    left_banners = Banner.objects.filter(posisi='left')
+    right_banners = Banner.objects.filter(posisi='right')
+
+    # Context for rendering the template
     context = {
         "segment": "index",
         "today_count": today_count,
@@ -77,10 +85,11 @@ def index(request):
         "this_year_count": this_year_count,
         "total_hits_count": total_hits_count,
         "online_users": online_users,
+        "left_banners": left_banners,
+        "right_banners": right_banners,
     }
 
     return render(request, "main/index.html", context)
-
 
 # Views: Search
 # ======================================================================================================================
@@ -257,16 +266,6 @@ def Create_kegiatan(request):
     
     kegiatans['form'] = form
     return render(request, 'main/Kegiatan/Create_kegiatan.html', kegiatans)
-    
-
-'''def Update_kegiatan(request, id):
-    kegiatan_rec = kegiatanM.objects.get(id=id)
-    form = kegiatanF(request.POST or None, request.FILES or None, instance=kegiatan_rec)
-    if form.is_valid():
-        form.save()
-        return redirect('admin_kegiatan')
-    kegiatans = {'form': form}
-    return render(request, 'main/Kegiatan/Update_kegiatan.html', context=kegiatans)'''
 
 
 def Update_kegiatan(request, id):
@@ -288,9 +287,37 @@ def Delete_kegiatan(request, id):
         kegiatan_rec.delete()
         return redirect('admin_kegiatan')
     return render(request, 'main/Kegiatan/Delete_kegiatan.html')
-'''
-def View_kegiatan(request, id):
-    kegiatans = {}
-    kegiatan_rec = kegiatanM.objects.get(id=id)
-    kegiatans['image'] = kegiatan_rec
-    return render(request, 'main/Kegiatan/View_kegiatan.html', kegiatans)'''
+
+
+# Views: Manajemen Banner halaman depan
+# ======================================================================================================================
+
+def admin_banner(request):
+    banners = Banner.objects.all()
+    return render(request, "main/Banner/admin_banner.html", {"banners": banners})
+
+def create_banner(request):
+    form = BannerForm(request.POST or None, request.FILES or None)
+    if form.is_valid():
+        form.save()
+        return redirect('admin_banner')
+
+    return render(request, 'main/Banner/create_banner.html', {'form': form})
+
+def update_banner(request, id):
+    banner = get_object_or_404(Banner, id=id)
+    form = BannerForm(request.POST or None, request.FILES or None, instance=banner)
+
+    if form.is_valid():
+        form.save()
+        return redirect('admin_banner')
+
+    return render(request, 'main/Banner/update_banner.html', {'form': form, 'banner': banner})
+
+def delete_banner(request, id):
+    banner = get_object_or_404(Banner, id=id)
+    if request.method == 'POST':
+        banner.delete()
+        return redirect('admin_banner')
+
+    return render(request, 'main/Banner/delete_banner.html', {'banner': banner})

@@ -1,0 +1,87 @@
+{% extends 'layouts/d_base.html' %}
+
+{% block title %} Dashboard - Banner Management {% endblock title %}
+
+
+
+{% block content %}
+
+    <!-- Header -->
+    <div class="header">
+      <div class="container-fluid">
+        <div class="header-body">
+          <div class="row align-items-center py-4">
+            <div class="col-lg-6 col-7">
+              <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+                <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                  <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
+                  <li class="breadcrumb-item"><a href="#">Dashboards</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">Banner Management</li>
+                </ol>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Page content -->
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-xl-12">
+          <div class="card">
+            <div class="card-header border-0">
+              <div class="row align-items-center">
+                <div class="col">
+                  <h3 class="mb-0">{{ form.instance.pk|yesno:"Edit Banner,Add New Banner" }}</h3>
+                </div>
+              </div>
+            </div>
+
+            <div class="card-body">
+              <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-group">
+                  <label for="{{ form.image.id_for_label }}">Image</label>
+                  {{ form.image }}
+                  {% if form.image.errors %}
+                    <div class="text-danger">{{ form.image.errors }}</div>
+                  {% endif %}
+                </div>
+
+                <div class="form-group">
+                  <label for="{{ form.judul.id_for_label }}">Judul</label>
+                  {{ form.judul }}
+                  {% if form.judul.errors %}
+                    <div class="text-danger">{{ form.judul.errors }}</div>
+                  {% endif %}
+                </div>
+
+                <div class="form-group">
+                  <label for="{{ form.deskripsi.id_for_label }}">Deskripsi</label>
+                  {{ form.deskripsi }}
+                  {% if form.deskripsi.errors %}
+                    <div class="text-danger">{{ form.deskripsi.errors }}</div>
+                  {% endif %}
+                </div>
+
+                <div class="form-group">
+                  <label for="{{ form.posisi.id_for_label }}">Posisi</label>
+                  {{ form.posisi }}
+                  {% if form.posisi.errors %}
+                    <div class="text-danger">{{ form.posisi.errors }}</div>
+                  {% endif %}
+                </div>
+
+                <button type="submit" class="btn btn-primary">Submit</button>
+                <a href="{% url 'admin_banner' %}" class="btn btn-secondary">Cancel</a>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {% include "includes/footer.html" %}
+    </div>
+
+{% endblock content %}

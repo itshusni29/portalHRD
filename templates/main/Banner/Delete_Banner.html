@@ -1,0 +1,90 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %} Delete Confirmation {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}
+  <style>
+    .delete-container {
+      padding: 50px;
+      text-align: center;
+    }
+
+    .delete-container h1 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+    }
+
+    .delete-container p {
+      font-size: 1.1rem;
+      margin-bottom: 30px;
+    }
+
+    .btn-group {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .btn-delete {
+      background-color: #e3342f;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    .btn-cancel {
+      background-color: #6c757d;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    .btn-delete:hover {
+      background-color: #cc1f1a;
+    }
+
+    .btn-cancel:hover {
+      background-color: #5a6268;
+    }
+  </style>
+{% endblock stylesheets %}
+
+{% block content %}
+  <!-- Header -->
+  <div class="header bg-white pb-6">
+    <div class="container-fluid">
+      <div class="header-body">
+        <div class="row py-4">
+          <div class="col-lg-12 text-right"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Page content -->
+  <div class="container-fluid mt--6 bg-white">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="card delete-container">
+          <h1>Delete Confirmation</h1>
+          <p>Are you sure you want to delete the form "<strong>{{ form.nama_form }}</strong>"?</p>
+
+          <div class="btn-group">
+            <form method="post" enctype="multipart/form-data" style="display: inline;">
+              {% csrf_token %}
+              <button type="submit" class="btn-delete">Delete</button>
+            </form>
+            <a href="{% url 'admin_banner' %}" class="btn-cancel">Cancel</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% include "includes/footer.html" %}
+{% endblock content %}
