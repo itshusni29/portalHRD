@@ -1,6 +1,15 @@
+<<<<<<< HEAD
 create menu sehat form
 add sub nav for training request
 create email notification for request training
 create kehadiran per div
 fix login midleware, divide for every user
 create dashboard
+=======
+fix login auth for roles
+gm & manager is auto point
+create notification for requests
+fix for form validations
+fix the training status in tbale
+fix timezone to jakarta
+>>>>>>> temp-branch

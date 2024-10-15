@@ -33,7 +33,7 @@
                         <!-- Requestor and User Details -->
                         <div class="form-row">
                             <div class="form-group col-md-6">
-                                <label for="id_requestor">Requestor (NIK):</label>
+                                <label for="id_requestor">Requestor (NIK):</label><span class="text-muted text-sm"> (PIC yang mengajukan adalah GF/Spv atau Admin)</span>
                                 <input type="text" class="form-control{% if training_form.requestor_nik.errors %} is-invalid{% endif %}" id="id_requestor" name="requestor_nik" oninput="fetchUserDetails(this.value)">
                                 <div id="user-details" class="user-details"></div>
                                 {% for error in training_form.requestor_nik.errors %}
