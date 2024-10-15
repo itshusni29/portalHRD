@@ -1,0 +1,6 @@
+fix login auth for roles
+gm & manager is auto point
+create notification for requests
+fix for form validations
+fix the training status in tbale
+fix timezone to jakarta
