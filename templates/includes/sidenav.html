@@ -1,6 +1,6 @@
 {% load static %}
 
-<nav class="sidenav navbar navbar-vertical  fixed-left  navbar-expand-xs navbar-light bg-white" id="sidenav-main">
+<nav class="sidenav navbar navbar-vertical fixed-left navbar-expand-xs navbar-light bg-white" id="sidenav-main">
   <div class="scrollbar-inner">
     <!-- Brand -->
     <div class="sidenav-header align-items-center">
@@ -11,117 +11,112 @@
     <div class="navbar-inner">
       <!-- Collapse -->
       <div class="collapse navbar-collapse" id="sidenav-collapse-main">
-        <!-- Nav items -->
         <ul class="navbar-nav">
-          
-          <!-- Different menu for MANAGER and GENERAL MANAGER -->
+
           {% if request.user.occupation == 'manager' and request.user.department != 'recruitment_training_development' %}
-          <!-- Regular Manager Sidebar -->
           <li class="nav-item">
               <a class="nav-link" href="{% url 'permintaan_training:manager_request_training_list' %}">
-                  <i class="ni ni-planet text-indigo"></i>
+                  <i class="ni ni-single-copy-04 text-indigo"></i>
                   <span class="nav-link-text">Request Training</span>
               </a>
           </li>
 
           {% elif request.user.occupation == 'manager' and request.user.department == 'recruitment_training_development' %}
-          <!-- Manager from Recruitment, Training, and Development Sidebar -->
           <li class="nav-item">
               <a class="nav-link" href="{% url 'permintaan_training:hrd_request_training_list' %}">
-                  <i class="ni ni-tablet-button text-red"></i>
+                  <i class="ni ni-check-bold text-red"></i>
                   <span class="nav-link-text">HRD Approval Training</span>
               </a>
           </li>
           <li class="nav-item">
               <a class="nav-link" href="{% url 'permintaan_training:manager_request_training_list' %}">
-                  <i class="ni ni-planet text-indigo"></i>
+                  <i class="ni ni-archive-2 text-indigo"></i>
                   <span class="nav-link-text">Manager Approval Training</span>
               </a>
           </li>
 
           {% elif request.user.occupation == 'general_manager' or request.user.occupation == 'deputy_director' %}
-          <!-- General Manager or Deputy Director Sidebar -->
           <li class="nav-item">
               <a class="nav-link" href="{% url 'permintaan_training:gm_request_training_list' %}">
-                  <i class="ni ni-planet text-indigo"></i>
+                  <i class="ni ni-calendar-grid-58 text-blue"></i>
                   <span class="nav-link-text">Request Training</span>
               </a>
           </li>
 
-
-
-          <!-- Default links for other occupations -->
           {% else %}
           <li class="nav-item">
             <a class="nav-link" href="{% url 'dashboard' %}">
-              <i class="ni ni-tablet-button text-red"></i>
+              <i class="ni ni-tv-2 text-red"></i>
               <span class="nav-link-text">Dashboard</span>
             </a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="{% url 'user_list' %}">
-                <i class="ni ni-single-02 text-pink"></i>
+                <i class="ni ni-circle-08 text-pink"></i>
                 <span class="nav-link-text">User</span>
             </a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="{% url 'permintaan_training:admin_request_training_list' %}">
-                <i class="ni ni-planet text-indigo"></i>
+                <i class="ni ni-paper-diploma text-indigo"></i>
                 <span class="nav-link-text">Request Training</span>
             </a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="{% url 'formHardCopy:form_hard_copy_admin_list' %}">
-                <i class="ni ni-planet text-indigo"></i>
+                <i class="ni ni-single-copy-04 text-blue"></i>
                 <span class="nav-link-text">Forms Hard Copy</span>
             </a>
           </li>
-        
           <li class="nav-item">
-            <a class="nav-link " href="{% url 'admin_kegiatan' %}">
-              <i class="ni ni-pin-3 text-purple"></i>
+            <a class="nav-link" href="{% url 'admin_kegiatan' %}">
+              <i class="ni ni-calendar-grid-58 text-purple"></i>
               <span class="nav-link-text">Kegiatan</span>
             </a>
           </li>
-          
           <li class="nav-item">
             <a class="nav-link" href="{% url 'admin_prosedur' %}">
-              <i class="ni ni-book-bookmark text-orange"></i>
+              <i class="ni ni-settings text-orange"></i>
               <span class="nav-link-text">Prosedur</span>
             </a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="{% url 'admin_aturan' %}">
-              <i class="ni ni-books text-yellow"></i>
+              <i class="ni ni-bullet-list-67 text-yellow"></i>
               <span class="nav-link-text">Aturan</span>
             </a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="{% url 'information:admin_menukantin' %}">
-              <i class="ni ni-bag-17 text-green"></i>
+              <i class="ni ni-shop text-green"></i>
               <span class="nav-link-text">Menu Kantin</span>
             </a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="{% url 'information:admin_pengumuman' %}">
-              <i class="ni ni-notification-70 text-teal"></i>
+              <i class="ni ni-bell-55 text-teal"></i>
               <span class="nav-link-text">Pengumuman</span>
             </a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="{% url 'information:grafik_list' %}">
-              <i class="ni ni-watch-time text-cyan"></i>
+              <i class="ni ni-chart-bar-32 text-cyan"></i>
               <span class="nav-link-text">Kehadiran</span>
             </a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="{% url 'information:admin_jadwalbus' %}">
-              <i class="ni ni-bus-front-12 text-red"></i>
+              <i class="ni ni-delivery-fast text-red"></i>
               <span class="nav-link-text">Jadwal Bus</span>
             </a>
           </li>
+	  <li class="nav-item">
+            <a class="nav-link" href="{% url 'admin_banner' %}">
+              <i class="ni ni-image text-red"></i>
+              <span class="nav-link-text">Banner Home</span>
+            </a>
+          </li>
           {% endif %}
-          
         </ul>
       </div>
     </div>
