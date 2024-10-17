@@ -139,28 +139,28 @@
                                                                         <div class="col-md-12">
                                                                             <h4>Latest News</h4>
                                                                             <ul class="timeline">
-                                    <li>
-                                        <a class="text-primary">Form Submitted by {{ training.requestor.first_name }} {{ training.requestor.last_name }}</a>
-                                        <p class="text-default">Training request successfully submitted, awaiting approval.</p>
-                                        <a class="date text-muted">{{ training.created_at|date:"d F Y H:i:s" }}</a> <!-- Moved the date below the status -->
-                                    </li>
-                                    {% if training.status.exists %}
-                                    {% for status in training.status.all %}
-                                        <li>
-                                            <a class="text-primary">
-                                                {{ status.get_status_display }} 
-                                            </a>
-                                            <p class="text-default">{{ status.remarks|default:"No remarks provided" }}</p>
-                                            <a class="date text-muted">{{ status.created_at|date:"d F Y H:i:s" }}</a>
-                                        </li>
-                                    {% endfor %}
-                                    {% else %}
-                                        <li>
-                                            <a class="text-primary">No statuses available</a>
-                                            <p class="text-default">This request does not have any status updates yet.</p>
-                                        </li>
-                                    {% endif %}
-                                </ul>   
+                                                                                <li>
+                                                                                    <a class="text-primary">Form Submitted by {{ training.requestor.first_name }} {{ training.requestor.last_name }}</a>
+                                                                                    <p class="text-default">Training request successfully submitted, awaiting approval.</p>
+                                                                                    <a class="date text-muted">{{ training.created_at|date:"d F Y H:i:s" }}</a> <!-- Moved the date below the status -->
+                                                                                </li>
+                                                                                {% if training.status.exists %}
+                                                                                {% for status in training.status.all %}
+                                                                                    <li>
+                                                                                        <a class="text-primary">
+                                                                                            {{ status.get_status_display }} 
+                                                                                        </a>
+                                                                                        <p class="text-default">{{ status.remarks|default:"No remarks provided" }}</p>
+                                                                                        <a class="date text-muted">{{ status.created_at|date:"d F Y H:i:s" }}</a>
+                                                                                    </li>
+                                                                                {% endfor %}
+                                                                                {% else %}
+                                                                                    <li>
+                                                                                        <a class="text-primary">No statuses available</a>
+                                                                                        <p class="text-default">This request does not have any status updates yet.</p>
+                                                                                    </li>
+                                                                                {% endif %}
+                                                                            </ul>   
                                                                         </div>
                                                                     </div>
                                                                 </div>
