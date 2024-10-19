@@ -4,6 +4,18 @@ from . import views
 urlpatterns = [
     path('', views.index, name='index'),
     path('dashboard/', views.dashboard, name='dashboard'), 
+    
+    path('page403/', views.custom_403, name='page403'), 
+    path('page404/', views.custom_404, name='page404'), 
+    path('page500/', views.custom_500, name='page500'), 
+    
+    
+    
+    
+    
+    
+    
+    
     path('tim_kami/', views.timKami, name='tim_kami'),
     path('kontak/', views.kontak, name='kontak'),
     path('search/', views.search, name='search_results'),

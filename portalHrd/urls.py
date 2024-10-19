@@ -22,6 +22,8 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from apps.main import views
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -30,3 +32,7 @@ urlpatterns = [
     path('forms/', include('apps.forms.urls')),  # URL for the forms application
     path('information/', include('apps.information.urls')),  # URL for the information application
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+handler404 = views.custom_404
+handler500 = views.custom_500
+handler403 = views.custom_403

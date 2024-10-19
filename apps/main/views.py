@@ -16,6 +16,14 @@ from .forms import AturanF, ProsedurF, SearchForm, kegiatanF, BannerForm
 
 
 
+def custom_403(request, exception):
+    return render(request, 'main/page-403.html', status=403)
+
+def custom_404(request, exception):
+    return render(request, 'main/page-404.html', status=404)
+
+def custom_500(request):
+    return render(request, 'main/page-500.html', status=500)
 
 
 # Views: Tim Kami
