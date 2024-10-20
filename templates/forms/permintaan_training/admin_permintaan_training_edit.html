@@ -226,6 +226,35 @@
                                     {% endfor %}
                                 </div>
                             </div>
+                            <!-- Remarks Section -->
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="id_gm">GM:</label>
+                                    <select class="form-control{% if training_form.gm.errors %} is-invalid{% endif %}" id="id_gm" name="gm">
+                                        <option value="">Select GM</option> <!-- Optional placeholder -->
+                                        {% for choice in training_form.gm.field.choices %}
+                                            <option value="{{ choice.0 }}" {% if choice.0 == training_form.gm.value %}selected{% endif %}>{{ choice.1 }}</option>
+                                        {% endfor %}
+                                    </select>
+                                    {% for error in training_form.gm.errors %}
+                                        <div class="invalid-feedback">{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <label for="id_manager">Manager:</label>
+                                    <select class="form-control{% if training_form.manager.errors %} is-invalid{% endif %}" id="id_manager" name="manager">
+                                        <option value="">Select Manager</option> <!-- Optional placeholder -->
+                                        {% for choice in training_form.manager.field.choices %}
+                                            <option value="{{ choice.0 }}" {% if choice.0 == training_form.manager.value %}selected{% endif %}>{{ choice.1 }}</option>
+                                        {% endfor %}
+                                    </select>
+                                    {% for error in training_form.manager.errors %}
+                                        <div class="invalid-feedback">{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+
 
                             <div class="form-row">
                                 <div class="form-group col-md-12">

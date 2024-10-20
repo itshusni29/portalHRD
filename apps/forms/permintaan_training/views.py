@@ -315,7 +315,7 @@ def edit_training_request(request, training_id):
                 training_form.save()
                 messages.success(request, "Training request updated successfully!")
                 logger.info(f"Training request {training_id} updated by {request.user.username}.")
-                return redirect('permintaan_training:request_training_list')
+                return redirect('permintaan_training:admin_request_training_list')
 
             except Exception as e:
                 logger.error(f"Error updating training request {training_id}: {e}", exc_info=True)
