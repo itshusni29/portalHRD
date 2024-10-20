@@ -1,7 +1,7 @@
-fix login auth for roles
+
 gm & manager is auto point
 create notification for requests
-fix for form validations
+
 fix the training status in tbale
 fix timezone to jakarta
   
@@ -21,3 +21,5 @@ cost dan Location di takeout
 fix xtbale heada design in banner and  kegiatan
 tambah fitur edit form request untuk hrd
 fitur print pada detail form
+fix for form validations
+fix login auth for roles
