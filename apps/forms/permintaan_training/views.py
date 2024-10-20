@@ -2,14 +2,20 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import TrainingForm, GMApprovalForm, ManagerApprovalForm, HRDManagerApprovalForm, TrainingStatusForm
 from ..models import Training, GMApproval, ManagerApproval, HRDManagerApproval, TrainingStatus
-from django.contrib.auth.decorators import login_required, user_passes_test
 from django.conf import settings
 from django.http import HttpResponse
 from apps.user.models import User
 import logging
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required, user_passes_test
 
 
+
+
+
+
+def is_training_and_development(user):
+    return user.section == 'training_development'
 
 
 def request_training_list(request):
@@ -17,9 +23,6 @@ def request_training_list(request):
     return render(request, 'forms/permintaan_training/permintaan_training.html', {
         'trainings': trainings
     })
-
-
-
 
 # ======================================================================================================================
 # Views: Untuk mendapatkan detail user pada form request training
@@ -111,6 +114,7 @@ def create_training(request):
 # Views: Menampilkan list form request training pada halaman admin
 # ======================================================================================================================
 @login_required
+@user_passes_test(is_training_and_development, login_url='login')
 def admin_request_training_list(request):
     # Fetch all training requests
     trainings = Training.objects.all().select_related('training_status')
@@ -123,6 +127,7 @@ def admin_request_training_list(request):
 # Views: Menampilkan  detail dari form request training pada halaman  admin
 # ======================================================================================================================
 @login_required
+@user_passes_test(is_training_and_development, login_url='login')
 def admin_request_training_view(request, training_id):
     # Get the specific training request by ID
     training = get_object_or_404(Training, id=training_id)
@@ -249,6 +254,7 @@ def gm_training_list(request):
     })
 
 @login_required
+@user_passes_test(is_training_and_development, login_url='login')
 def hrd_training_list(request):
     # Filter training requests where the logged-in user is HRD Manager and the most recent status is 'gm_approved'
     trainings = Training.objects.filter(
@@ -296,11 +302,6 @@ def hrd_training_list(request):
 
 logger = logging.getLogger(__name__)
 
-# Utility function to check if the user belongs to Training & Development section
-def is_training_and_development(user):
-    return user.section == 'training_development'
-
-# Edit training request (only accessible by users in Training & Development)
 @login_required
 @user_passes_test(is_training_and_development, login_url='login')
 def edit_training_request(request, training_id):

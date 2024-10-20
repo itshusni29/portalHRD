@@ -6,7 +6,7 @@ from django.conf import settings
 
 
 from django import template
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.sessions.models import Session
 from django.db.models import Q
 from django.http import HttpResponse, HttpResponseRedirect, FileResponse, Http404
@@ -20,6 +20,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.urls import reverse
 import json
+
 
 
 
@@ -40,6 +41,9 @@ from .forms import (
     
 )
 
+# Utility function to check if the user belongs to Training & Development section
+def is_training_and_development(user):
+    return user.section == 'training_development'
 
 
 # ======================================================================================================================
@@ -59,6 +63,8 @@ def komite(request):
 # ======================================================================================================================
 # Views: Manajemen Jadwal Bus
 # ======================================================================================================================
+@login_required
+@user_passes_test(is_training_and_development, login_url='login')
 def admin_jadwalbus(request):
     # View untuk menampilkan daftar semua jadwal bus.
     jadwal_bus_list = JadwalBusM.objects.all()
@@ -72,7 +78,8 @@ def jadwal_bus(request):
         "jadwal_bus_list": jadwal_bus_list,
     })
 
-
+@login_required
+@user_passes_test(is_training_and_development, login_url='login')
 def jadwal_bus_create(request):
     # View untuk membuat jadwal bus baru.
     if request.method == "POST":
@@ -84,7 +91,8 @@ def jadwal_bus_create(request):
         form = JadwalBusF()
     return render(request, "information/Jadwal_bus/Create_jadwal.html", {"form": form})
 
-
+@login_required
+@user_passes_test(is_training_and_development, login_url='login')
 def jadwal_bus_update(request, pk):
     # View untuk memperbarui jadwal bus yang ada.
     jadwal = get_object_or_404(JadwalBusM, pk=pk)
@@ -97,7 +105,8 @@ def jadwal_bus_update(request, pk):
         form = JadwalBusF(instance=jadwal)
     return render(request, "information/Jadwal_bus/Update_jadwal.html", {"form": form})
 
-
+@login_required
+@user_passes_test(is_training_and_development, login_url='login')
 def jadwal_bus_delete(request, pk):
     # View untuk menghapus jadwal bus.
     jadwal = get_object_or_404(JadwalBusM, pk=pk)
@@ -110,6 +119,8 @@ def jadwal_bus_delete(request, pk):
 # ======================================================================================================================
 # Views: Manajemen Pengumuman
 # ======================================================================================================================
+@login_required
+@user_passes_test(is_training_and_development, login_url='login')
 def admin_pengumuman(request):
     pengumuman = PengumumanM.objects.all()
     return render(request, 'information/Pengumuman/admin_pengumuman.html', {'pengumuman': pengumuman})
@@ -130,7 +141,8 @@ def pengumuman_list(request):
 
         }
     )
-
+@login_required
+@user_passes_test(is_training_and_development, login_url='login')
 def pengumuman_create(request):
     # View untuk membuat pengumuman baru.
     if request.method == "POST":
@@ -141,7 +153,8 @@ def pengumuman_create(request):
     else:
         form = PengumumanF()
     return render(request, "information/Pengumuman/Create_pengumuman.html", {"form": form})
-
+@login_required
+@user_passes_test(is_training_and_development, login_url='login')
 def pengumuman_update(request, pk):
     # View untuk memperbarui pengumuman yang ada.
     pengumuman = get_object_or_404(PengumumanM, pk=pk)
@@ -153,7 +166,8 @@ def pengumuman_update(request, pk):
     else:
         form = PengumumanF(instance=pengumuman)
     return render(request, "information/Pengumuman/Update_pengumuman.html", {"form": form})
-
+@login_required
+@user_passes_test(is_training_and_development, login_url='login')
 def pengumuman_delete(request, pk):
     # View untuk menghapus pengumuman.
     pengumuman = get_object_or_404(PengumumanM, pk=pk)
@@ -178,12 +192,15 @@ def file_pengumuman_download(request, pengumuman_id):
 # ======================================================================================================================
 # Views: Manajemen Menu Kantin
 # ======================================================================================================================
+@login_required
+@user_passes_test(is_training_and_development, login_url='login')
 def admin_menukantin(request):
     # View untuk menampilkan daftar semua menu kantin.
     menukantin = MenuKantinM.objects.all()
     return render(request, 'information/Menu_kantin/admin_menukantin.html', {'menukantin': menukantin})
 
-
+@login_required
+@user_passes_test(is_training_and_development, login_url='login')
 def upload_csv(request):
     if request.method == "POST":
         form = MenuKantinF(request.POST, request.FILES)
@@ -195,6 +212,9 @@ def upload_csv(request):
         form = MenuKantinF()
     return render(request, "information/Menu_kantin/create_menukantin.html", {"form": form})
 
+
+@login_required
+@user_passes_test(is_training_and_development, login_url='login')
 def delete_csv(request, file_id):
     # Retrieve the MenuKantinM instance
     file_instance = MenuKantinM.objects.get(pk=file_id)
@@ -292,12 +312,14 @@ def kehadiran(request):
     return render(request, "information/Kehadiran/indexsKehadiran.html", {'grafik_data': json.dumps(grafik_data), 'grafik': grafik.first()})
 
 
-
+@login_required
+@user_passes_test(is_training_and_development, login_url='login')
 def grafik_list(request):
     grafik = Grafik.objects.all()
     return render(request, 'information/Kehadiran/List_kehadiran.html', {'grafik': grafik})
 
-
+@login_required
+@user_passes_test(is_training_and_development, login_url='login')
 def grafik_create(request):
     if request.method == 'POST':
         form = GrafikForm(request.POST)
@@ -308,6 +330,8 @@ def grafik_create(request):
         form = GrafikForm()
     return render(request, 'information/Kehadiran/Create_kehadiran.html', {'form': form})
 
+@login_required
+@user_passes_test(is_training_and_development, login_url='login')
 def grafik_update(request, pk):
     grafik = get_object_or_404(Grafik, pk=pk)
     if request.method == 'POST':
@@ -319,6 +343,8 @@ def grafik_update(request, pk):
         form = GrafikForm(instance=grafik)
     return render(request, 'information/Kehadiran/Update_kehadiran.html', {'form': form})
 
+@login_required
+@user_passes_test(is_training_and_development, login_url='login')
 def grafik_delete(request, pk):
     grafik = get_object_or_404(Grafik, pk=pk)
     if request.method == 'POST':

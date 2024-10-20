@@ -2,6 +2,17 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from ..models import FormHardcopy
 from .forms import FormHardcopyForm
+from django.contrib.auth.decorators import login_required, user_passes_test
+
+
+
+
+# Utility function to check if the user belongs to Training & Development section
+def is_training_and_development(user):
+    return user.section == 'training_development'
+
+
+
 
 # List all forms for regular users
 def form_list(request):
@@ -9,11 +20,15 @@ def form_list(request):
     return render(request, "forms/formHardCopy/formHardCopy.html", {"forms": forms})
 
 # Admin view to list all forms
+@login_required
+@user_passes_test(is_training_and_development, login_url='login')
 def form_list_admin(request):
     forms = FormHardcopy.objects.all()
     return render(request, "forms/formHardCopy/admin_formHardCopy.html", {"forms": forms})
 
 # Create a new form hard copy
+@login_required
+@user_passes_test(is_training_and_development, login_url='login')
 def form_create(request):
     if request.method == 'POST':
         form = FormHardcopyForm(request.POST, request.FILES)
@@ -25,6 +40,8 @@ def form_create(request):
     return render(request, "forms/formHardCopy/Create_formHardCopy.html", {'form': form})
 
 # Update an existing form hard copy
+@login_required
+@user_passes_test(is_training_and_development, login_url='login')
 def form_update(request, pk):
     form_instance = get_object_or_404(FormHardcopy, pk=pk)
     if request.method == 'POST':
@@ -37,6 +54,8 @@ def form_update(request, pk):
     return render(request, "forms/formHardCopy/Update_formHardCopy.html", {'form': form})
 
 # Delete a form hard copy
+@login_required
+@user_passes_test(is_training_and_development, login_url='login')
 def form_delete(request, pk):
     form_instance = get_object_or_404(FormHardcopy, pk=pk)
     if request.method == 'POST':

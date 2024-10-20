@@ -1,9 +1,7 @@
 
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
-from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.decorators import login_required
 from datetime import datetime, timedelta
 from django.contrib.sessions.models import Session
 from django.utils import timezone
@@ -12,6 +10,18 @@ from django.http import FileResponse
 from .models import AturanM, ProsedurM, Visitor, kegiatanM, Banner
 from .forms import AturanF, ProsedurF, SearchForm, kegiatanF, BannerForm
 
+
+from django.contrib.auth.decorators import login_required, user_passes_test
+
+
+
+
+
+
+
+# Utility function to check if the user belongs to Training & Development section
+def is_training_and_development(user):
+    return user.section == 'training_development'
 
 
 
@@ -27,6 +37,8 @@ def custom_500(request):
 
 
 # Views: Tim Kami
+@login_required
+@user_passes_test(is_training_and_development, login_url='login')
 # ======================================================================================================================
 def dashboard(request):
     return render(request, "main/dashboard.html")
@@ -140,6 +152,8 @@ def search(request):
 
 # Views: Manajemen Prosedur
 # ======================================================================================================================
+@login_required
+@user_passes_test(is_training_and_development, login_url='login')
 
 def admin_prosedur(request):
     daftar_prosedur = ProsedurM.objects.all()
@@ -166,6 +180,9 @@ def unduh_file_prosedur(request, pk):
     prosedur = get_object_or_404(ProsedurM, pk=pk)
     return FileResponse(prosedur.file_upload, as_attachment=True)
 
+
+@login_required
+@user_passes_test(is_training_and_development, login_url='login')
 def buat_prosedur(request):
     # View to handle both GET (display the form) and POST (save the form data).
     if request.method == "POST":
@@ -179,6 +196,9 @@ def buat_prosedur(request):
     return render(request, "main/prosedur/create_prosedur.html", {"form": form})
 
 
+
+@login_required
+@user_passes_test(is_training_and_development, login_url='login')
 def ubah_prosedur(request, prosedur_id):
     # View untuk memperbarui prosedur yang ada.
     prosedur = get_object_or_404(ProsedurM, id=prosedur_id)
@@ -191,6 +211,9 @@ def ubah_prosedur(request, prosedur_id):
         form = ProsedurF(instance=prosedur)
     return render(request, "main/prosedur/update_prosedur.html", {"form": form})
 
+
+@login_required
+@user_passes_test(is_training_and_development, login_url='login')
 def hapus_prosedur(request, prosedur_id):
     # View untuk menghapus prosedur
     prosedur = get_object_or_404(ProsedurM, id=prosedur_id)
@@ -202,6 +225,8 @@ def hapus_prosedur(request, prosedur_id):
 
 # Views: Manajemen Aturan
 # ======================================================================================================================
+@login_required
+@user_passes_test(is_training_and_development, login_url='login')
 def admin_aturan(request):
     aturans = AturanM.objects.all()
     return render(request, "main/aturan/admin_aturan.html", {"aturans": aturans})
@@ -216,6 +241,9 @@ def unduh_file_aturan(request, pk):
     aturan = get_object_or_404(AturanM, pk=pk)
     return FileResponse(aturan.file_pdf, as_attachment=True)
 
+
+@login_required
+@user_passes_test(is_training_and_development, login_url='login')
 def buat_aturan(request):
     # View untuk membuat aturan baru.
     if request.method == "POST":
@@ -230,6 +258,8 @@ def buat_aturan(request):
     return render(request, "main/aturan/Create_aturan.html", {"form": form, "title": "Buat Aturan"})
 
 
+@login_required
+@user_passes_test(is_training_and_development, login_url='login')
 def ubah_aturan(request, pk):
     aturan = get_object_or_404(AturanM, pk=pk)  # Ambil data AturanM berdasarkan primary key (pk)
     
@@ -244,6 +274,8 @@ def ubah_aturan(request, pk):
     return render(request, "main/aturan/Update_aturan.html", {"form": form, "title": "Ubah Aturan", "aturan": aturan})
 
 
+@login_required
+@user_passes_test(is_training_and_development, login_url='login')
 def hapus_aturan(request, pk):
     # View untuk menghapus aturan.
     aturan = get_object_or_404(AturanM, pk=pk)
@@ -256,6 +288,8 @@ def hapus_aturan(request, pk):
 
 # Views: Manajemen Aturan
 # ======================================================================================================================
+@login_required
+@user_passes_test(is_training_and_development, login_url='login')
 def admin_kegiatan(request):
     kegiatans = kegiatanM.objects.all()
     return render(request, "main/Kegiatan/admin_kegiatan.html", {"kegiatans": kegiatans})
@@ -265,6 +299,9 @@ def list_kegiatan(request):
     kegiatandict = {'kegiatans': kegiatans}
     return render(request, 'main/Kegiatan/Kegiatan.html', context=kegiatandict)
 
+
+@login_required
+@user_passes_test(is_training_and_development, login_url='login')
 def Create_kegiatan(request):
     kegiatans = {}
     form = kegiatanF(request.POST or None, request.FILES or None)
@@ -276,6 +313,8 @@ def Create_kegiatan(request):
     return render(request, 'main/Kegiatan/Create_kegiatan.html', kegiatans)
 
 
+@login_required
+@user_passes_test(is_training_and_development, login_url='login')
 def Update_kegiatan(request, id):
     kegiatan_rec = get_object_or_404(kegiatanM, id=id)  # Use get_object_or_404 for better error handling
     form = kegiatanF(request.POST or None, request.FILES or None, instance=kegiatan_rec)
@@ -289,6 +328,8 @@ def Update_kegiatan(request, id):
     return render(request, 'main/Kegiatan/Update_kegiatan.html', context)
 
 
+@login_required
+@user_passes_test(is_training_and_development, login_url='login')
 def Delete_kegiatan(request, id):
     kegiatan_rec = kegiatanM.objects.get(id=id)
     if request.method == 'POST':
@@ -299,11 +340,15 @@ def Delete_kegiatan(request, id):
 
 # Views: Manajemen Banner halaman depan
 # ======================================================================================================================
-
+@login_required
+@user_passes_test(is_training_and_development, login_url='login')
 def admin_banner(request):
     banners = Banner.objects.all()
     return render(request, "main/Banner/admin_banner.html", {"banners": banners})
 
+
+@login_required
+@user_passes_test(is_training_and_development, login_url='login')
 def create_banner(request):
     form = BannerForm(request.POST or None, request.FILES or None)
     if form.is_valid():
@@ -312,6 +357,9 @@ def create_banner(request):
 
     return render(request, 'main/Banner/create_banner.html', {'form': form})
 
+
+@login_required
+@user_passes_test(is_training_and_development, login_url='login')
 def update_banner(request, id):
     banner = get_object_or_404(Banner, id=id)
     form = BannerForm(request.POST or None, request.FILES or None, instance=banner)
@@ -322,6 +370,9 @@ def update_banner(request, id):
 
     return render(request, 'main/Banner/update_banner.html', {'form': form, 'banner': banner})
 
+
+@login_required
+@user_passes_test(is_training_and_development, login_url='login')
 def delete_banner(request, id):
     banner = get_object_or_404(Banner, id=id)
     if request.method == 'POST':

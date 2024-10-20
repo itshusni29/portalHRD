@@ -9,8 +9,7 @@ fix timezone to jakarta
 
 
 beri filter di tbale
-tambah fitur edit form request untuk hrd
-fitur print pada detail form
+
 
 
 
@@ -21,3 +20,4 @@ rubah action menjadi detail
 cost dan Location di takeout
 fix xtbale heada design in banner and  kegiatan
 tambah fitur edit form request untuk hrd
+fitur print pada detail form
