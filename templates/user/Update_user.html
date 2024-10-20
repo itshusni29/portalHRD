@@ -144,15 +144,16 @@
                                     <div class="invalid-feedback">{{ error }}</div>
                                 {% endfor %}
                             </div>
-
-                            <!-- NIK Field -->
-                            <div class="form-group">
-                                <label for="id_nik">NIK:</label>
-                                <input type="text" class="form-control{% if form.nik.errors %} is-invalid{% endif %}" id="id_nik" name="nik" value="{{ user.nik }}">
-                                {% for error in form.nik.errors %}
+                            
+                            <!-- Last Name Field -->
+                            <div class="form-group col-md-6">
+                                <label for="id_cc">CC:</label>
+                                <input type="text" class="form-control{% if form.cc.errors %} is-invalid{% endif %}" id="id_cc" name="cc" value="{{ form.cc.value|default_if_none:'' }}">
+                                {% for error in form.cc.errors %}
                                     <div class="invalid-feedback">{{ error }}</div>
                                 {% endfor %}
                             </div>
+                            
 
                             <!-- Submit Button -->
                             <button type="submit" class="btn btn-primary">Update</button>

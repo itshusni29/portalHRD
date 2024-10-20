@@ -149,7 +149,6 @@ class User(AbstractUser):
     occupation = models.CharField(max_length=55, choices=Occupation.choices, default=Occupation.STAFF)
     department = models.CharField(max_length=55, choices=Department.choices, default=Department.OTHER)
     section = models.CharField(max_length=55, choices=Section.choices, default=Section.OTHER)
-    nik = models.CharField(max_length=50, unique=True, blank=False, null=False)
     cc = models.CharField(max_length=5, blank=True, null=True)
 
     def save(self, *args, **kwargs):

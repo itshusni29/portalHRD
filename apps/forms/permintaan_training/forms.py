@@ -5,12 +5,12 @@ from ..models import Training, GMApproval, ManagerApproval, HRDManagerApproval, 
 User = get_user_model()
 
 class TrainingForm(forms.ModelForm):
-    requestor_nik = forms.CharField(max_length=50, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    requestor_username = forms.CharField(max_length=50, widget=forms.TextInput(attrs={'class': 'form-control'}))
 
     class Meta:
         model = Training
         fields = [
-            'requestor_nik', 'topic', 'background', 'participants', 
+            'requestor_username', 'topic', 'background', 'participants', 
             'trainer', 'date', 'location', 'cost', 'evaluation_level', 
             'manager', 'gm', 'hrd_manager', 'flyer', 'date_end'
         ]
@@ -37,11 +37,11 @@ class TrainingForm(forms.ModelForm):
         self.fields['manager'].queryset = User.objects.filter(occupation='manager', is_active=True)
         self.fields['gm'].queryset = User.objects.filter(occupation='general_manager', is_active=True)
 
-    def clean_requestor_nik(self):
-        nik = self.cleaned_data.get('requestor_nik')
-        if len(nik) != 7:
-            raise forms.ValidationError("Requestor NIK must be exactly 7 characters long.")
-        return nik
+    def clean_requestor_username(self):
+        username = self.cleaned_data.get('requestor_username')
+        if len(username) != 7:
+            raise forms.ValidationError("Requestor username must be exactly 7 characters long.")
+        return username
 
     def clean_hrd_manager(self):
         return User.objects.get(id=3)
@@ -64,6 +64,7 @@ class TrainingForm(forms.ModelForm):
             raise forms.ValidationError('The file size must not exceed 2 MB.')
 
         return flyer
+
 
 class TrainingStatusForm(forms.ModelForm):
     class Meta:

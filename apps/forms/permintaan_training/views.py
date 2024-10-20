@@ -2,14 +2,12 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import TrainingForm, GMApprovalForm, ManagerApprovalForm, HRDManagerApprovalForm, TrainingStatusForm
 from ..models import Training, GMApproval, ManagerApproval, HRDManagerApproval, TrainingStatus
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.conf import settings
 from django.http import HttpResponse
 from apps.user.models import User
 import logging
 from django.contrib import messages
-
-
 
 
 
@@ -27,10 +25,10 @@ def request_training_list(request):
 # Views: Untuk mendapatkan detail user pada form request training
 # ====================================================================================================================== 
 def fetch_user_details(request):
-    nik = request.GET.get('nik')
-    print(f"Fetching user details for NIK: {nik}")  # Log the incoming NIK
+    username = request.GET.get('username')
+    print(f"Fetching user details for username: {username}")  # Log the incoming username
 
-    user = User.objects.filter(nik=nik).first()
+    user = User.objects.filter(username=username).first()
     
     if user:
         full_name = f"{user.first_name} {user.last_name}"
@@ -51,12 +49,12 @@ def request_training_user(request):
     if request.method == 'POST':
         training_form = TrainingForm(request.POST, request.FILES)
 
-        requestor_nik = training_form.data.get('requestor_nik')
-        requestor = User.objects.filter(nik=requestor_nik).first()
+        requestor_username = training_form.data.get('requestor_username')
+        requestor = User.objects.filter(username=requestor_username).first()
 
         if not requestor:
-            training_form.add_error('requestor_nik', "No user found with this NIK.")
-            logger.error(f"No user found with NIK: {requestor_nik}")
+            training_form.add_error('requestor_username', "No user found with this username.")
+            logger.error(f"No user found with username: {requestor_username}")
         else:
             if training_form.is_valid():
                 try:
@@ -66,7 +64,7 @@ def request_training_user(request):
                     training.save()
 
                     messages.success(request, "Training request submitted successfully!")
-                    logger.info(f"Training request created successfully by {requestor_nik}.")
+                    logger.info(f"Training request created successfully by {requestor_username}.")
                     return redirect('permintaan_training:request_training_list')
 
                 except Exception as e:
@@ -82,6 +80,7 @@ def request_training_user(request):
     return render(request, 'forms/permintaan_training/user_create_permintaan_training.html', {
         'training_form': training_form,
     })
+
 
 
 def create_training(request):
@@ -288,6 +287,48 @@ def hrd_training_list(request):
         form = HRDManagerApprovalForm()
 
     return render(request, 'forms/permintaan_training/hrd_permintaan_training.html', {
-        'trainings': trainings,  # Pass the HRD-approved training requests to the template
-        'form': form,  # Pass the HRD Manager approval form to the template
+        'trainings': trainings,  
+        'form': form,  
+    })
+
+
+
+
+logger = logging.getLogger(__name__)
+
+# Utility function to check if the user belongs to Training & Development section
+def is_training_and_development(user):
+    return user.section == 'training_development'
+
+# Edit training request (only accessible by users in Training & Development)
+@login_required
+@user_passes_test(is_training_and_development, login_url='login')
+def edit_training_request(request, training_id):
+    training = get_object_or_404(Training, id=training_id)
+
+    if request.method == 'POST':
+        training_form = TrainingForm(request.POST, request.FILES, instance=training)
+
+        if training_form.is_valid():
+            try:
+                # Save the updated training request
+                training_form.save()
+                messages.success(request, "Training request updated successfully!")
+                logger.info(f"Training request {training_id} updated by {request.user.username}.")
+                return redirect('permintaan_training:request_training_list')
+
+            except Exception as e:
+                logger.error(f"Error updating training request {training_id}: {e}", exc_info=True)
+                messages.error(request, "An error occurred while updating the training request.")
+        else:
+            logger.warning(f"Form errors while updating: {training_form.errors}")
+            messages.error(request, "Please correct the errors below.")
+
+    else:
+        # Pre-fill the form with the existing training data
+        training_form = TrainingForm(instance=training)
+
+    return render(request, 'forms/permintaan_training/admin_permintaan_training_edit.html', {
+        'training_form': training_form,
+        'training': training,
     })

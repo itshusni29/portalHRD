@@ -74,8 +74,8 @@
                                     {% for form in participant_formset %}
                                         <div class="participant-form">
                                             <h5>Peserta {{ forloop.counter }}</h5>
-                                            {{ form.nik.label }} {{ form.nik }}
-                                            {% if form.nik.errors %}<div class="invalid-feedback">{{ form.nik.errors }}</div>{% endif %}
+                                            {{ form.username.label }} {{ form.username }}
+                                            {% if form.username.errors %}<div class="invalid-feedback">{{ form.username.errors }}</div>{% endif %}
                                             {{ form.name.label }} {{ form.name }}
                                             {% if form.name.errors %}<div class="invalid-feedback">{{ form.name.errors }}</div>{% endif %}
                                             {{ form.section.label }} {{ form.section }}

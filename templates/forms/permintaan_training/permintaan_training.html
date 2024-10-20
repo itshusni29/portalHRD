@@ -1,8 +1,11 @@
 {% extends 'layouts/base.html' %}
+{% load static %}
 
 {% block title %}List Request Training{% endblock title %}
 
-{% block stylesheets %}{% endblock stylesheets %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{% static 'assets/js/DataTables/DataTables-1.13.8/css/dataTables.bootstrap4.min.css' %}">
+{% endblock stylesheets %}
 
 {% block content %}
     <!-- Page content -->
@@ -24,17 +27,15 @@
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table">
+                            <table id="trainingTable" class="table table-striped table-bordered">
                                 <thead class="table-head-bg">
                                     <tr>
                                         <th>No</th>
                                         <th>Topic</th>
                                         <th>Requestor</th>
                                         <th>Date</th>
-                                        <th>Location</th>
-                                        <th>Cost</th>
                                         <th>Status</th>
-                                        <th>Actions</th>
+                                        <th>Detail</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -44,8 +45,6 @@
                                             <td>{{ training.topic }}</td>
                                             <td>{{ training.requestor.get_full_name }}</td>
                                             <td>{{ training.date|date:"d F Y" }}</td>
-                                            <td>{{ training.location }}</td>
-                                            <td>{{ training.cost }}</td>
                                             <td>
                                                 {% if training.status.exists %}
                                                     {{ training.status.get_status_display }}
@@ -113,7 +112,6 @@
                                                                                 <h4>Participants</h4>
                                                                                 <p class="text-primary">{{ training.participants }}</p>
                                                                             </div>
-                                                                           
                                                                         </div>
                                                                 
                                                                         <!-- Fourth Row -->
@@ -130,7 +128,6 @@
                                                                     </div>
                                                                 </div>
                                                                 
-
                                                                 <div class="row">
                                                                     <div class="col-md-10 mx-auto">
                                                                         <div class="text-center text-muted mb-4 my-4">
@@ -142,7 +139,7 @@
                                                                                 <li>
                                                                                     <a class="text-primary">Form Submitted by {{ training.requestor.first_name }} {{ training.requestor.last_name }}</a>
                                                                                     <p class="text-default">Training request successfully submitted, awaiting approval.</p>
-                                                                                    <a class="date text-muted">{{ training.created_at|date:"d F Y H:i:s" }}</a> <!-- Moved the date below the status -->
+                                                                                    <a class="date text-muted">{{ training.created_at|date:"d F Y H:i:s" }}</a>
                                                                                 </li>
                                                                                 {% if training.status.exists %}
                                                                                 {% for status in training.status.all %}
@@ -173,7 +170,7 @@
                                         </tr>
                                     {% empty %}
                                         <tr>
-                                            <td colspan="8" class="text-center">No training requests available.</td>
+                                            <td colspan="6" class="text-center">No training requests available.</td>
                                         </tr>
                                     {% endfor %}
                                 </tbody>
@@ -186,4 +183,16 @@
         <a id="scrollToTop" href="#" title="Go to top"><i class="ni ni-bold-up"></i></a>
     </div>
     {% include "includes/footer.html" %}
+
+    {% block scripts %}
+        <!-- DataTables JS -->
+        <script src="{% static 'assets/js/DataTables/DataTables-1.13.8/js/jquery.dataTables.min.js' %}"></script>
+        <script src="{% static 'assets/js/DataTables/DataTables-1.13.8/js/dataTables.bootstrap4.min.js' %}"></script>
+
+        <script>
+            $(document).ready(function() {
+                $('#trainingTable').DataTable(); // Initialize DataTable
+            });
+        </script>
+    {% endblock scripts %}
 {% endblock content %}

@@ -1,0 +1,262 @@
+{% extends 'layouts/d_base.html' %}
+
+{% block title %}Training Requests Edit{% endblock title %}
+
+{% block content %}
+    <!-- Header -->
+    <div class="header">
+        <div class="container-fluid">
+            <div class="header-body">
+                <div class="row align-items-center py-4">
+                    <div class="col-lg-6 col-7">
+                        <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+                            <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                                <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
+                                <li class="breadcrumb-item"><a href="#">Dashboards</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Training Requests Edit</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Page Content -->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="card">
+                    <div class="card-header border-0">
+                        <h3 class="mb-0">Edit Training Request</h3>
+                    </div>
+                    <div class="card-body">
+                        <form method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            
+                            <!-- Hidden Field for HRD Manager -->
+                            <input type="hidden" name="hrd_manager" value="3">
+
+                            <!-- Requestor and User Details -->
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="id_requestor">Requestor (NIK):</label>
+                                    <input 
+                                        type="text" 
+                                        class="form-control{% if training_form.requestor_username.errors %} is-invalid{% endif %}" 
+                                        id="id_requestor" 
+                                        name="requestor_username" 
+                                        value="{{ training_form.requestor_username.value|default:training.requestor.username }}" 
+                                        oninput="fetchUserDetails(this.value)"
+                                    >
+                                    {% for error in training_form.requestor_username.errors %}
+                                        <div class="invalid-feedback">{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <label for="id_full_name">Full Name:</label>
+                                    <input 
+                                        type="text" 
+                                        class="form-control" 
+                                        id="id_full_name" 
+                                        name="full_name" 
+                                        value="{{ training.requestor.get_full_name }}" 
+                                        readonly
+                                    >
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="id_department">Department:</label>
+                                    <input 
+                                        type="text" 
+                                        class="form-control" 
+                                        id="id_department" 
+                                        name="department" 
+                                        value="{{ training.requestor.department }}" 
+                                        readonly
+                                    >
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <label for="id_cc">CC:</label>
+                                    <input 
+                                        type="text" 
+                                        class="form-control" 
+                                        id="id_cc" 
+                                        name="cc" 
+                                        value="{{ training.cc }}" 
+                                        readonly
+                                    >
+                                </div>
+                            </div>
+
+                            <!-- Training Details -->
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="id_topic">Topik:</label>
+                                    <input 
+                                        type="text" 
+                                        class="form-control{% if training_form.topic.errors %} is-invalid{% endif %}" 
+                                        id="id_topic" 
+                                        name="topic" 
+                                        value="{{ training_form.topic.value|default:training.topic }}"
+                                    >
+                                    {% for error in training_form.topic.errors %}
+                                        <div class="invalid-feedback">{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <label for="id_trainer">Trainer:</label>
+                                    <input 
+                                        type="text" 
+                                        class="form-control{% if training_form.trainer.errors %} is-invalid{% endif %}" 
+                                        id="id_trainer" 
+                                        name="trainer" 
+                                        value="{{ training_form.trainer.value|default:training.trainer }}"
+                                    >
+                                    {% for error in training_form.trainer.errors %}
+                                        <div class="invalid-feedback">{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="id_background">Latar Belakang:</label>
+                                    <textarea 
+                                        class="form-control{% if training_form.background.errors %} is-invalid{% endif %}" 
+                                        id="id_background" 
+                                        name="background"
+                                    >{{ training_form.background.value|default:training.background }}</textarea>
+                                    {% for error in training_form.background.errors %}
+                                        <div class="invalid-feedback">{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <label for="id_participants">Peserta:</label>
+                                    <textarea 
+                                        class="form-control{% if training_form.participants.errors %} is-invalid{% endif %}" 
+                                        id="id_participants" 
+                                        name="participants"
+                                    >{{ training_form.participants.value|default:training.participants }}</textarea>
+                                    {% for error in training_form.participants.errors %}
+                                        <div class="invalid-feedback">{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group col-md-4">
+                                    <label for="id_date">Tanggal Mulai:</label>
+                                    <input 
+                                        type="date" 
+                                        class="form-control{% if training_form.date.errors %} is-invalid{% endif %}" 
+                                        id="id_date" 
+                                        name="date" 
+                                        value="{{ training_form.date.value|default:training.date|date:'Y-m-d' }}"
+                                    >
+                                    {% for error in training_form.date.errors %}
+                                        <div class="invalid-feedback">{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            
+                                <div class="form-group col-md-4">
+                                    <label for="id_date_end">Tanggal Selesai:</label>
+                                    <input 
+                                        type="date" 
+                                        class="form-control{% if training_form.date_end.errors %} is-invalid{% endif %}" 
+                                        id="id_date_end" 
+                                        name="date_end" 
+                                        value="{{ training_form.date_end.value|default:training.date_end|date:'Y-m-d' }}"
+                                    >
+                                    {% for error in training_form.date_end.errors %}
+                                        <div class="invalid-feedback">{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+
+                                <div class="form-group col-md-4">
+                                    <label for="id_location">Lokasi:</label>
+                                    <input 
+                                        type="text" 
+                                        class="form-control{% if training_form.location.errors %} is-invalid{% endif %}" 
+                                        id="id_location" 
+                                        name="location" 
+                                        value="{{ training_form.location.value|default:training.location }}"
+                                    >
+                                    {% for error in training_form.location.errors %}
+                                        <div class="invalid-feedback">{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="id_cost">Biaya:</label>
+                                    <input 
+                                        type="number" 
+                                        step="0.01" 
+                                        class="form-control{% if training_form.cost.errors %} is-invalid{% endif %}" 
+                                        id="id_cost" 
+                                        name="cost" 
+                                        value="{{ training_form.cost.value|default:training.cost }}"
+                                    >
+                                    {% for error in training_form.cost.errors %}
+                                        <div class="invalid-feedback">{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <label for="id_evaluation_level">Level Evaluasi:</label>
+                                    <select 
+                                        class="form-control{% if training_form.evaluation_level.errors %} is-invalid{% endif %}" 
+                                        id="id_evaluation_level" 
+                                        name="evaluation_level"
+                                    >
+                                        {% for choice in training_form.evaluation_level.field.choices %}
+                                            <option value="{{ choice.0 }}" {% if choice.0 == training_form.evaluation_level.value %}selected{% endif %}>{{ choice.1 }}</option>
+                                        {% endfor %}
+                                    </select>
+                                    {% for error in training_form.evaluation_level.errors %}
+                                        <div class="invalid-feedback">{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group col-md-12">
+                                    <label for="flyer">Flyer:</label>
+                                    <span class="text-muted text-sm">(Di isi jika Training Eksternal)</span>
+                                    <div class="custom-file">
+                                        <input 
+                                            type="file" 
+                                            class="custom-file-input{% if training_form.flyer.errors %} is-invalid{% endif %}" 
+                                            id="flyer" 
+                                            name="flyer"
+                                        >
+                                        <label class="custom-file-label" for="flyer">Choose file</label>
+                                        
+                                        {% for error in training_form.flyer.errors %}
+                                            <div class="invalid-feedback">{{ error }}</div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Submit Button -->
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary btn-block">Update Request</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% include "includes/footer.html" %}
+    </div>
+{% endblock content %}

@@ -58,7 +58,6 @@
                           <th>Occupation</th>
                           <th>Department</th>
                           <th>Section</th>
-                          <th>NIK</th>
                           <th>Action</th>
                       </tr>
                   </thead>
@@ -74,7 +73,6 @@
                               <td>{{ user.get_occupation_display }}</td>
                               <td>{{ user.get_department_display }}</td>
                               <td>{{ user.get_section_display }}</td>
-                              <td>{{ user.nik }}</td>
                               <td>
                                   <div class="d-flex">
                                       <a href="{% url 'edit_user' user.id %}" class="btn btn-info mb-1">

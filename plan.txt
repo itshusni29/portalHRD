@@ -4,5 +4,19 @@ create notification for requests
 fix for form validations
 fix the training status in tbale
 fix timezone to jakarta
+  
+
+
+
+beri filter di tbale
+tambah fitur edit form request untuk hrd
+fitur print pada detail form
+
+
+
+done
+
 fix login and register page
+rubah action menjadi detail
+cost dan Location di takeout
 fix xtbale heada design in banner and  kegiatan

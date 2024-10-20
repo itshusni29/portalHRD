@@ -33,31 +33,35 @@
                         <!-- Requestor and User Details -->
                         <div class="form-row">
                             <div class="form-group col-md-6">
-                                <label for="id_requestor">Requestor (NIK):</label><span class="text-muted text-sm"> (PIC yang mengajukan adalah GF/Spv atau Admin)</span>
-                                <input type="text" class="form-control{% if training_form.requestor_nik.errors %} is-invalid{% endif %}" id="id_requestor" name="requestor_nik" oninput="fetchUserDetails(this.value)">
+                                <label for="id_requestor">Requestor (NIK):</label>
+                                <span class="text-muted text-sm"> (PIC yang mengajukan adalah GF/Spv atau Admin)</span>
+                                <input type="text" class="form-control{% if training_form.requestor_username.errors %} is-invalid{% endif %}" 
+                                       id="id_requestor" name="requestor_username" oninput="fetchUserDetails(this.value)">
                                 <div id="user-details" class="user-details"></div>
-                                {% for error in training_form.requestor_nik.errors %}
+                                {% for error in training_form.requestor_username.errors %}
                                     <div class="invalid-feedback">{{ error }}</div>
                                 {% endfor %}
                             </div>
-
+                        
                             <div class="form-group col-md-6">
                                 <label for="id_full_name">Full Name:</label>
                                 <input type="text" class="form-control" id="id_full_name" name="full_name" readonly>
                             </div>
                         </div>
-
+                        
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="id_department">Department:</label>
                                 <input type="text" class="form-control" id="id_department" name="department" readonly>
                             </div>
-
+                        
                             <div class="form-group col-md-6">
                                 <label for="id_cc">CC:</label>
                                 <input type="text" class="form-control" id="id_cc" name="cc" readonly>
                             </div>
                         </div>
+                        
+                        
 
                         <!-- Training Details -->
                         <div class="form-row">
@@ -205,10 +209,10 @@
 <script>
 
 
-    function fetchUserDetails(nik) {
-        if (nik.length !== 7) return;
+    function fetchUserDetails(username) {
+        if (username.length !== 7) return;
     
-        fetch(`/forms/permintaan_training/fetch_user_details/?nik=${nik}`)
+        fetch(`/forms/permintaan_training/fetch_user_details/?username=${username}`)
             .then(response => response.text())
             .then(data => {
                 const userDetailsDiv = document.getElementById('user-details');

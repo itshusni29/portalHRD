@@ -28,9 +28,9 @@ class UserRegisterForm(UserCreationForm):
 class CustomUserCreationForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
         model = User
-        fields = ['username', 'first_name', 'last_name', 'email', 'role', 'occupation', 'department', 'section', 'nik']
+        fields = ['username', 'first_name', 'last_name', 'email', 'role', 'occupation', 'department', 'section', 'cc']
 
 class CustomUserChangeForm(UserChangeForm):
     class Meta(UserChangeForm.Meta):
         model = User
-        fields = ['username', 'first_name', 'last_name', 'email', 'role', 'occupation', 'department', 'section', 'nik']
+        fields = ['username', 'first_name', 'last_name', 'email', 'role', 'occupation', 'department', 'section', 'cc']
