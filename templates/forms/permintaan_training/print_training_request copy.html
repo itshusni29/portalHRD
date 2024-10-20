@@ -1,0 +1,154 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>
+    HRD Portal - Training Request Details
+  </title>
+
+  <style>
+    /* CSS Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      background-color: white;
+      font-family: Arial, sans-serif;
+    }
+
+    /* A4 Layout */
+    .a4 {
+      width: 210mm;
+      min-height: 297mm;
+      margin: auto;
+      padding: 0.5cm;
+      background: white;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    @page {
+      size: A4;
+      margin: 0.5cm;
+    }
+
+    @media print {
+      .a4 {
+        box-shadow: none;
+      }
+      .page-break {
+        page-break-before: always;
+      }
+    }
+
+    .text-primary {
+      color: #007bff;
+    }
+
+    .text-muted {
+      color: #6c757d;
+    }
+
+    .text-default {
+      color: #343a40;
+    }
+
+    h4 {
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+
+    p {
+      margin-bottom: 10px;
+    }
+  </style>
+
+</head>
+
+<body>
+
+  <div class="main-content a4" id="panel">
+    <!-- Training Details -->
+    <div class="col-md-12">
+      <div class="text-center text-muted my-5">
+        Training Request Details: {{ training.topic }}
+      </div>
+
+      <div class="row">
+        <div class="col-sm-6">
+          <h4>Requestor</h4>
+          <p class="text-primary">{{ training.requestor.get_full_name }}</p>
+        </div>
+        <div class="col-sm-6">
+          <h4>Topic</h4>
+          <p class="text-primary">{{ training.topic }}</p>
+        </div>
+      </div>
+
+      <div class="row mt-3">
+        <div class="col-sm-6">
+          <h4>Date</h4>
+          <p class="text-primary">{{ training.date|date:"d F Y" }}</p>
+        </div>
+        <div class="col-sm-6">
+          <h4>Trainer</h4>
+          <p class="text-primary">{{ training.trainer }}</p>
+        </div>
+      </div>
+
+      <div class="row mt-3">
+        <div class="col-sm-6">
+          <h4>Location</h4>
+          <p class="text-primary">{{ training.location }}</p>
+        </div>
+        <div class="col-sm-6">
+          <h4>Cost</h4>
+          <p class="text-primary">{{ training.cost }}</p>
+        </div>
+      </div>
+
+      <div class="row mt-3">
+        <div class="col-sm-6">
+          <h4>Participants</h4>
+          <p class="text-primary">{{ training.participants }}</p>
+        </div>
+        <div class="col-sm-6">
+          <h4>Background</h4>
+          <p class="text-primary">{{ training.background }}</p>
+        </div>
+      </div>
+
+      <div class="row mt-3">
+        <div class="col-sm-6">
+          <h4>Target</h4>
+          <p class="text-primary">{{ training.target }}</p>
+        </div>
+        <div class="col-sm-6">
+          <h4>Evaluation Level</h4>
+          <p class="text-primary">{{ training.get_evaluation_level_display }}</p>
+        </div>
+      </div>
+
+      <div class="text-center text-muted my-5">
+        Progress of Request Training: {{ training.topic }}
+      </div>
+
+    
+    </div>
+  </div>
+
+</body>
+
+</html>

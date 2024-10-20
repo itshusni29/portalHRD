@@ -1,184 +1,229 @@
-{% extends 'layouts/d_base.html' %}
+{% load static %}
 
-{% block title %} Admin Training Request View {% endblock title %}
+<!DOCTYPE html>
+<html lang="en">
 
-{% block stylesheets %}{% endblock stylesheets %}
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-{% block content %}
-    <!-- Header -->
-    <div class="header">
-        <div class="container-fluid">
-            <div class="header-body">
-                <div class="row align-items-center py-4">
-                    <div class="col-lg-6 col-7">
-                        <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
-                            <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
-                                <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
-                                <li class="breadcrumb-item"><a href="#">Dashboards</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">Training Requests</li>
-                            </ol>
-                        </nav>
-                    </div>
-                </div>
-            </div>
-        </div>
+  <title>Print Page</title>
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="{% static 'assets/css/bootstrap/bootstrap.min.css' %}" type="text/css">
+
+  <style>
+    /* A4 layout */
+    .a4 {
+      width: 210mm;
+      min-height: 297mm;
+      margin: auto;
+      padding: 1cm;
+      background-color: white;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+
+    @media print {
+      @page {
+        size: A4;
+        margin: 0.5cm;
+      }
+
+      .a4 {
+        box-shadow: none;
+        margin: 0;
+        padding: 0.5cm;
+      }
+
+      .page-break {
+        page-break-before: always;
+      }
+    }
+
+    h4 {
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+
+    .text-primary {
+      color: #007bff !important;
+    }
+
+    .text-muted {
+      color: #6c757d !important;
+    }
+
+    .text-default {
+      color: #343a40 !important;
+    }
+
+    .row {
+      margin-bottom: 1rem;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container a4">
+    <div class="text-center text-muted my-4">
+      <h2>Training Request Details: {{ training.topic }}</h2>
     </div>
 
-    <!-- Page content -->
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-xl-12">
-                <div class="card">
-                  
-                    <div class="card-body px-lg-5 py-lg-5">
-                        <!-- Display training details -->
-                        <div class="col-md-12 ">
-                            <div class="text-center text-muted my-5">
-                                Training Request Details: {{ training.topic }}
-                            </div>
-                            <div class="row">
-                                <!-- First Column -->
-                                <div class="col-sm-6">
-                                    <h4>Requestor</h4>
-                                    <p class="text-primary">{{ training.requestor.get_full_name }}</p>
-                                </div>
-                                <div class="col-sm-6">
-                                    <h4>Topic</h4>
-                                    <p class="text-primary">{{ training.topic }}</p>
-                                </div>
-                            </div>
-                            <div class="row mt-3">
-                                <div class="col-sm-6">
-                                    <h4>Date</h4>
-                                    <p class="text-primary">{{ training.date|date:"d F Y" }}</p>
-                                </div>
-                                <div class="col-sm-6">
-                                    <h4>Trainer</h4>
-                                    <p class="text-primary">{{ training.trainer }}</p>
-                                </div>
-                            </div>
-                            <div class="row mt-3">
-                                <div class="col-sm-6">
-                                    <h4>Location</h4>
-                                    <p class="text-primary">{{ training.location }}</p>
-                                </div>
-                                <div class="col-sm-6">
-                                    <h4>Cost</h4>
-                                    <p class="text-primary">{{ training.cost }}</p>
-                                </div>
-                            </div>
-                            <div class="row mt-3">
-                                <div class="col-sm-6">
-                                    <h4>Participants</h4>
-                                    <p class="text-primary">{{ training.participants }}</p>
-                                </div>
-                                <div class="col-sm-6">
-                                    <h4>Background</h4>
-                                    <p class="text-primary">{{ training.background }}</p>
-                                </div>
-                            </div>
-                            <div class="row mt-3">
-                                <div class="col-sm-6">
-                                    <h4>Target</h4>
-                                    <p class="text-primary">{{ training.target }}</p>
-                                </div>
-                                <div class="col-sm-6">
-                                    <h4>Evaluation Level</h4>
-                                    <p class="text-primary">{{ training.get_evaluation_level_display }}</p>
-                                </div>
-                            </div>
-
-                            <div class="text-center text-muted my-5">
-                                Progress of Request Training: {{ training.topic }}
-                            </div>
-                            <div class="col-md-12">
-                                <h4>Latest Updates</h4>
-                                <ul class="timeline">
-                                    <li>
-                                        <a class="text-primary">Form Submitted by {{ training.requestor.first_name }} {{ training.requestor.last_name }}</a>
-                                        <p class="text-default">Training request successfully submitted, awaiting approval.</p>
-                                        <a class="date text-muted">{{ training.created_at|date:"d F Y H:i:s" }}</a> <!-- Moved the date below the status -->
-                                    </li>
-                                    {% if training.status.exists %}
-                                    {% for status in training.status.all %}
-                                        <li>
-                                            <a class="text-primary">
-                                                {{ status.get_status_display }} 
-                                            </a>
-                                            <p class="text-default">{{ status.remarks|default:"No remarks provided" }}</p>
-                                            <a class="date text-muted">{{ status.created_at|date:"d F Y H:i:s" }}</a>
-                                        </li>
-                                    {% endfor %}
-                                    {% else %}
-                                        <li>
-                                            <a class="text-primary">No statuses available</a>
-                                            <p class="text-default">This request does not have any status updates yet.</p>
-                                        </li>
-                                    {% endif %}
-                                </ul>                                  
-                            </div>
-
-                            <!-- Status Update Form -->
-                            <div class="text-center text-muted mb-4 my-5">
-                                Update Training Status and Remarks
-                            </div>
-                            
-                            <form method="POST" action="">
-                                {% csrf_token %}
-                                <div class="container">
-                                    <div class="row">
-                                        <!-- Status Field -->
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="id_status">Status</label>
-                                                <select class="form-control{% if form.status.errors %} is-invalid{% endif %}" id="id_status" name="status">
-                                                    {% for choice_value, choice_label in form.status.field.choices %}
-                                                        <option value="{{ choice_value }}" {% if choice_value == form.status.value %}selected{% endif %}>{{ choice_label }}</option>
-                                                    {% endfor %}
-                                                </select>
-                                                {% if form.status.errors %}
-                                                    <div class="invalid-feedback">
-                                                        {{ form.status.errors|first }}
-                                                    </div>
-                                                {% endif %}
-                                            </div>
-                                        </div>
-                                    
-                                        <!-- Remarks Field -->
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="id_remarks">Remarks</label>
-                                                <textarea class="form-control{% if form.remarks.errors %} is-invalid{% endif %}" 
-                                                    id="id_remarks" name="remarks">{{ form.remarks.value }}</textarea>
-                                                {% if form.remarks.errors %}
-                                                    <div class="invalid-feedback">
-                                                        {{ form.remarks.errors|first }}
-                                                    </div>
-                                                {% endif %}
-                                            </div>
-                                        </div>
-                                    </div>
-                                
-                                    <!-- Submit Button -->
-                                    <div class="row">
-                                        <div class="col-md-12 text-center">
-                                            <button type="submit" class="btn btn-success my-4">
-                                                <i class="fas fa-check"></i> Submit
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                            
-                        </div>
-
-                        <!-- Progress of the training request -->   
-                        <div class="card-body "></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        {% include "includes/footer.html" %}
+    <!-- Two-Column Layout for Each Row -->
+    <div class="row">
+      <div class="col-md-6">
+        <h4>Requestor</h4>
+        <p class="text-primary">{{ training.requestor.get_full_name }}</p>
+      </div>
+      <div class="col-md-6">
+        <h4>Topic</h4>
+        <p class="text-primary">{{ training.topic }}</p>
+      </div>
     </div>
-{% endblock content %}
+
+    <div class="row">
+      <div class="col-md-6">
+        <h4>Date</h4>
+        <p class="text-primary">{{ training.date|date:"d F Y" }}</p>
+      </div>
+      <div class="col-md-6">
+        <h4>Trainer</h4>
+        <p class="text-primary">{{ training.trainer }}</p>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <h4>Location</h4>
+        <p class="text-primary">{{ training.location }}</p>
+      </div>
+      <div class="col-md-6">
+        <h4>Cost</h4>
+        <p class="text-primary">{{ training.cost }}</p>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <h4>Background</h4>
+        <p class="text-primary">{{ training.background }}</p>
+      </div>
+      <div class="col-md-6">
+        <h4>Target</h4>
+        <p class="text-primary">{{ training.target }}</p>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <h4>Evaluation Level</h4>
+        <p class="text-primary">{{ training.get_evaluation_level_display }}</p>
+      </div>
+    </div>
+
+    <!-- Full-Width Participants Section -->
+    <div class="row">
+      <div class="col-12">
+        <h4>Participants</h4>
+        <p class="text-primary">{{ training.participants }}</p>
+      </div>
+    </div>
+
+    <div class="text-center text-muted my-4">
+        <h3>Progress of Request Training: {{ training.topic }}</h3>
+      </div>
+      
+      <!-- Table for Approval Status -->
+      <table class="table table-bordered text-center">
+        <thead class="thead-light">
+          <tr>
+            <th>Submitted</th>
+            <th>Manager Approval</th>
+            <th>General Manager Approval</th>
+            <th>HRD Manager Approval</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <!-- Images for Each Status -->
+            <td class="align-middle">
+              <img src="{% static 'path/to/submitted.png' %}" 
+                   alt="Submitted" class="img-fluid" 
+                   style="max-width: 50px; max-height: 50px;">
+            </td>
+            <td class="align-middle">
+              {% if manager_status == 'approved' %}
+                <img src="{% static 'path/to/approved.png' %}" 
+                     alt="Manager Approved" class="img-fluid" 
+                     style="max-width: 50px; max-height: 50px;">
+              {% else %}
+              <h3>Pending</h3>
+              {% endif %}
+            </td>
+            <td class="align-middle">
+              {% if gm_status == 'approved' %}
+                <img src="{% static 'path/to/approved.png' %}" 
+                     alt="GM Approved" class="img-fluid" 
+                     style="max-width: 50px; max-height: 50px;">
+              {% else %}
+              <h3>Pending</h3>
+              {% endif %}
+            </td>
+            <td class="align-middle">
+              {% if hrd_status == 'approved' %}
+                <img src="{% static 'path/to/approved.png' %}" 
+                     alt="HRD Approved" class="img-fluid" 
+                     style="max-width: 50px; max-height: 50px;">
+              {% else %}
+              <h3>Pending</h3>
+              {% endif %}
+            </td>
+          </tr>
+      
+          <tr>
+            <!-- Timestamps for Each Status -->
+            <td class="align-middle">
+              <span class="text-muted">
+                {{ training.created_at|date:"d F Y H:i:s" }}
+              </span>
+            </td>
+            <td class="align-middle">
+              <span class="text-muted">
+                {% if manager_timestamp %}
+                  {{ manager_timestamp|date:"d F Y H:i:s" }}
+                {% else %}
+                  Not Available
+                {% endif %}
+              </span>
+            </td>
+            <td class="align-middle">
+              <span class="text-muted">
+                {% if gm_timestamp %}
+                  {{ gm_timestamp|date:"d F Y H:i:s" }}
+                {% else %}
+                  Not Available
+                {% endif %}
+              </span>
+            </td>
+            <td class="align-middle">
+              <span class="text-muted">
+                {% if hrd_timestamp %}
+                  {{ hrd_timestamp|date:"d F Y H:i:s" }}
+                {% else %}
+                  Not Available
+                {% endif %}
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      
+  </div>
+
+</body>
+
+</html>
+
+
