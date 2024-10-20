@@ -53,6 +53,10 @@
                                                 {% endif %}
                                             </td>
                                             <td>
+                                                    <!-- Print Button -->
+                                                <a href="{% url 'permintaan_training:print_training_request' training.id %}" class="btn btn-success" target="_blank">
+                                                    <i class="fas fa-print"></i> Print
+                                                </a>
                                                 <!-- Button trigger modal -->
                                                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-form-{{ forloop.counter }}">
                                                     <i class="fas fa-eye"></i> View

@@ -20,3 +20,4 @@ fix login and register page
 rubah action menjadi detail
 cost dan Location di takeout
 fix xtbale heada design in banner and  kegiatan
+tambah fitur edit form request untuk hrd

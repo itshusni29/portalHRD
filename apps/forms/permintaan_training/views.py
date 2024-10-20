@@ -332,3 +332,8 @@ def edit_training_request(request, training_id):
         'training_form': training_form,
         'training': training,
     })
+
+
+def print_training_request(request, training_id):
+    training = get_object_or_404(Training, id=training_id)
+    return render(request, 'forms/permintaan_training/print_training_request.html', {'training': training})

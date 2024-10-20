@@ -10,7 +10,8 @@ from .views import (
     admin_request_training_list,
     admin_request_training_view,
     admin_delete_training,
-    edit_training_request
+    edit_training_request,
+    print_training_request
 )
 
 app_name = 'permintaan_training'
@@ -27,6 +28,8 @@ urlpatterns = [
     path('admin/request_training/<int:training_id>/', admin_request_training_view, name='admin_request_training_view'), # This is the URL for the admin view
     path('trainings/<int:training_id>/delete/', admin_delete_training, name='admin_delete_training'), # This is the URL for the admin delete view
     path('trainings/<int:training_id>/edit/', edit_training_request, name='edit_training_request'),
+    path('training/print/<int:training_id>/', print_training_request, name='print_training_request'),
+
 
 
 
