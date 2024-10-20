@@ -1,12 +1,7 @@
 
 gm & manager is auto point
 create notification for requests
-
 fix the training status in tbale
-fix timezone to jakarta
-  
-
-
 
 beri filter di tbale
 
@@ -23,3 +18,4 @@ tambah fitur edit form request untuk hrd
 fitur print pada detail form
 fix for form validations
 fix login auth for roles
+fix timezone to jakarta
