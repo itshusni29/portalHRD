@@ -1,8 +1,6 @@
-
 gm & manager is auto point
 create notification for requests
 fix the training status in tbale
-
 beri filter di tbale
 
 
