@@ -36,9 +36,7 @@ def custom_500(request):
     return render(request, 'main/page-500.html', status=500)
 
 
-# Views: Tim Kami
-@login_required
-@user_passes_test(is_training_and_development, login_url='login')
+
 # ======================================================================================================================
 def dashboard(request):
     return render(request, "main/dashboard.html")

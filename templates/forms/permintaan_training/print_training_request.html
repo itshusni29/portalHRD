@@ -1,4 +1,5 @@
 {% load static %}
+{% load status_filters %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -133,92 +134,126 @@
 
     <div class="text-center text-muted my-4">
         <h3>Progress of Request Training: {{ training.topic }}</h3>
-      </div>
+    </div>
       
-      <!-- Table for Approval Status -->
-      <table class="table table-bordered text-center">
-        <thead class="thead-light">
+    <table class="table table-bordered text-center">
+      <thead>
           <tr>
-            <th>Submitted</th>
-            <th>Manager Approval</th>
-            <th>General Manager Approval</th>
-            <th>HRD Manager Approval</th>
+              <th>Submitted</th>
+              <th>Manager Approval</th>
+              <th>GM Approval</th>
+              <th>HRD Approval</th>
           </tr>
-        </thead>
-        <tbody>
+      </thead>
+      <tbody>
           <tr>
-            <!-- Images for Each Status -->
-            <td class="align-middle">
-              <img src="{% static 'path/to/submitted.png' %}" 
-                   alt="Submitted" class="img-fluid" 
-                   style="max-width: 50px; max-height: 50px;">
-            </td>
-            <td class="align-middle">
-              {% if manager_status == 'approved' %}
-                <img src="{% static 'assets/img/theme/Approved-Stamp.png' %}" 
-                     alt="Manager Approved" class="img-fluid" 
-                     style="max-width: 50px; max-height: 50px;">
-              {% else %}
-              <h3>Pending</h3>
-              {% endif %}
-            </td>
-            <td class="align-middle">
-              {% if gm_status == 'approved' %}
-                <img src="{% static 'assets/img/theme/Approved-Stamp.png' %}" 
-                     alt="GM Approved" class="img-fluid" 
-                     style="max-width: 50px; max-height: 50px;">
-              {% else %}
-              <h3>Pending</h3>
-              {% endif %}
-            </td>
-            <td class="align-middle">
-              {% if hrd_status == 'approved' %}
-                <img src="{% static 'assets/img/theme/Approved-Stamp.png' %}" 
-                     alt="HRD Approved" class="img-fluid" 
-                     style="max-width: 50px; max-height: 50px;">
-              {% else %}
-              <h3>Pending</h3>
-              {% endif %}
-            </td>
+              <!-- Images for Each Status -->
+              <td class="align-middle">
+                  <img src="{% static 'path/to/submitted.png' %}" 
+                       alt="Submitted" class="img-fluid" 
+                       style="max-width: 50px; max-height: 50px;">
+              </td>
+  
+              <td class="align-middle">
+                  {% with training.status.all|get_manager_status as manager_status %}
+                      {% if manager_status %}
+                          <img src="{% static 'assets/img/theme/Approved-Stamp.png' %}" 
+                               alt="Manager Approved" class="img-fluid" 
+                               style="max-width: 50px; max-height: 50px;">
+                      {% else %}
+                          <h3>Pending</h3>
+                      {% endif %}
+                  {% endwith %}
+              </td>
+  
+              <td class="align-middle">
+                  {% with training.status.all|get_gm_status as gm_status %}
+                      {% if gm_status %}
+                          <img src="{% static 'assets/img/theme/Approved-Stamp.png' %}" 
+                               alt="GM Approved" class="img-fluid" 
+                               style="max-width: 50px; max-height: 50px;">
+                      {% else %}
+                          <h3>Pending</h3>
+                      {% endif %}
+                  {% endwith %}
+              </td>
+  
+              <td class="align-middle">
+                  {% with training.status.all|get_hrd_status as hrd_status %}
+                      {% if hrd_status %}
+                          <img src="{% static 'assets/img/theme/Approved-Stamp.png' %}" 
+                               alt="HRD Approved" class="img-fluid" 
+                               style="max-width: 50px; max-height: 50px;">
+                      {% else %}
+                          <h3>Pending</h3>
+                      {% endif %}
+                  {% endwith %}
+              </td>
           </tr>
-      
+  
           <tr>
             <!-- Timestamps for Each Status -->
             <td class="align-middle">
-              <span class="text-muted">
-                {{ training.created_at|date:"d F Y H:i:s" }}
-              </span>
+                <span class="text-muted">
+                    {{ training.created_at|date:"d F Y H:i:s" }}
+                </span>
             </td>
+        
             <td class="align-middle">
-              <span class="text-muted">
-                {% if manager_timestamp %}
-                  {{ manager_timestamp|date:"d F Y H:i:s" }}
-                {% else %}
-                  Not Available
-                {% endif %}
-              </span>
+                {% with manager_timestamp=None %}
+                    {% for status in training.status.all %}
+                        {% if status.status == 'manager_approved' %}
+                            <span class="text-muted">
+                                {{ status.created_at|date:"d F Y H:i:s" }}
+                            </span>
+                            {% with manager_timestamp=status.created_at %}{% endwith %}
+                        {% endif %}
+                    {% endfor %}
+                    {% if not manager_timestamp %}
+                        <span class="text-muted" style="display: none;">Not Available</span>
+                    {% endif %}
+                {% endwith %}
             </td>
+        
             <td class="align-middle">
-              <span class="text-muted">
-                {% if gm_timestamp %}
-                  {{ gm_timestamp|date:"d F Y H:i:s" }}
-                {% else %}
-                  Not Available
-                {% endif %}
-              </span>
+                {% with gm_timestamp=None %}
+                    {% for status in training.status.all %}
+                        {% if status.status == 'gm_approved' %}
+                            <span class="text-muted">
+                                {{ status.created_at|date:"d F Y H:i:s" }}
+                            </span>
+                            {% with gm_timestamp=status.created_at %}{% endwith %}
+                        {% endif %}
+                    {% endfor %}
+                    {% if not gm_timestamp %}
+                        <span class="text-muted" style="display: none;">Not Available</span>
+                    {% endif %}
+                {% endwith %}
             </td>
+        
             <td class="align-middle">
-              <span class="text-muted">
-                {% if hrd_timestamp %}
-                  {{ hrd_timestamp|date:"d F Y H:i:s" }}
-                {% else %}
-                  Not Available
-                {% endif %}
-              </span>
+                {% with hrd_timestamp=None %}
+                    {% for status in training.status.all %}
+                        {% if status.status == 'hrd_approved' %}
+                            <span class="text-muted">
+                                {{ status.created_at|date:"d F Y H:i:s" }}
+                            </span>
+                            {% with hrd_timestamp=status.created_at %}{% endwith %}
+                        {% endif %}
+                    {% endfor %}
+                    {% if not hrd_timestamp %}
+                        <span class="text-muted" style="display: none;">Not Available</span>
+                    {% endif %}
+                {% endwith %}
             </td>
-          </tr>
-        </tbody>
-      </table>
+        </tr>
+        
+        
+        
+        
+      </tbody>
+  </table>
+  
       
   </div>
 
