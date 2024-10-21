@@ -4,7 +4,7 @@ fix the training status in tbale
 beri filter di tbale
 
 
-Sebelum ke HRD manager ke PIC training dahulu
+
 
 
 
@@ -22,3 +22,4 @@ fix timezone to jakarta
 puspa -> internal training
 Boby  -> eksternal training
 auto choices hrd aproval with NIK pa Faisal
+Sebelum ke HRD manager ke PIC training dahulu

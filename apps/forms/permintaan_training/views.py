@@ -9,7 +9,7 @@ import logging
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, user_passes_test
 
-
+from django.db.models import Count, Q
 
 
 
@@ -262,12 +262,16 @@ def gm_training_list(request):
     })
 
 @login_required
-@user_passes_test(is_training_and_development, login_url='login')
 def hrd_training_list(request):
-    # Filter training requests where the logged-in user is HRD Manager and the most recent status is 'gm_approved'
+    # Filter training requests where the logged-in user is HRD Manager 
+    # and has both statuses: 'gm_approved' and 'ok_analisa'
+    
     trainings = Training.objects.filter(
-        hrd_manager=request.user, 
-        status__status='gm_approved'  # Filter by GM-approved status
+        hrd_manager=request.user
+    ).annotate(
+        status_count=Count('status__status', filter=Q(status__status__in=['gm_approved', 'ok_analisa']))
+    ).filter(
+        status_count=2  # Ensure both statuses are present
     )
     
     if request.method == 'POST':
@@ -278,7 +282,7 @@ def hrd_training_list(request):
 
         if form.is_valid():
             hrd_approval = form.save(commit=False)
-            hrd_approval.training = training  # Link HRD approval to the training
+            hrd_approval.training = training 
             hrd_approval.save()
 
             # Save training status with HRD's approval decision and remarks

@@ -89,6 +89,8 @@ class TrainingStatus(models.Model):
         ('evaluation', 'Evaluation'),
         ('monitoring', 'Monitoring'),
         ('completed', 'Completed'),
+        ('pic_training_analisa', 'Analysis by PIC Training'),
+        ('ok_analisa', 'Analysis Training result OK'),
     ]
     training = models.ForeignKey('Training', on_delete=models.CASCADE, related_name='status')
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending', null=True)
@@ -105,6 +107,9 @@ class Training(models.Model):
         ('2', 'Level 2'),
         ('3', 'Level 3'),
     ]
+    
+    
+
     
     JENIS_CHOICES = [
         ('1', 'Internal'),
