@@ -4,6 +4,9 @@ fix the training status in tbale
 beri filter di tbale
 
 
+Sebelum ke HRD manager ke PIC training dahulu
+puspa -> internal training
+Boby  -> eksternal training
 
 
 done

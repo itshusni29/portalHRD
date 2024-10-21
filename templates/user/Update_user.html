@@ -43,7 +43,7 @@
                             <!-- Username Field -->
                             <div class="form-group">
                                 <label for="id_username">Username:</label>
-                                <input type="text" class="form-control{% if form.username.errors %} is-invalid{% endif %}" id="id_username" name="username" value="{{ user.username }}" readonly>
+                                <input type="text" class="form-control{% if form.username.errors %} is-invalid{% endif %}" id="id_username" name="username" value="{{ user.username }}" >
                                 {% for error in form.username.errors %}
                                     <div class="invalid-feedback">{{ error }}</div>
                                 {% endfor %}

@@ -64,6 +64,7 @@ def request_training_user(request):
                     training = training_form.save(commit=False)
                     training.requestor = requestor
                     training.hrd_manager = User.objects.get(id=3)  # Assign HRD Manager
+                    training.pic_trainings = training_form.cleaned_data['pic_trainings']  # Auto-set PIC
                     training.save()
 
                     messages.success(request, "Training request submitted successfully!")
@@ -83,6 +84,7 @@ def request_training_user(request):
     return render(request, 'forms/permintaan_training/user_create_permintaan_training.html', {
         'training_form': training_form,
     })
+
 
 
 
@@ -338,3 +340,18 @@ def edit_training_request(request, training_id):
 def print_training_request(request, training_id):
     training = get_object_or_404(Training, id=training_id)
     return render(request, 'forms/permintaan_training/print_training_request.html', {'training': training})
+
+
+def internal_training_requests(request):
+    trainings = Training.objects.filter(jenis='1')  # '1' for Internal training
+
+    return render(request, 'forms/permintaan_training/admin_permintaan_training_internal.html', {
+        'trainings': trainings,
+    })
+    
+def eksternal_training_requests(request):
+    trainings = Training.objects.filter(jenis='2')  # '1' for eksternal training
+
+    return render(request, 'forms/permintaan_training/admin_permintaan_training_eksternal.html', {
+        'trainings': trainings,
+    })

@@ -45,7 +45,7 @@
                                         <th>Topic</th>
                                         <th>Requestor</th>
                                         <th>Date</th>
-                                        <th>Location</th>
+                                        <th>jenis</th>
                                         <th>Cost</th>
                                         <th>Status</th>
                                         <th>Actions</th>
@@ -58,7 +58,7 @@
                                             <td>{{ training.topic }}</td>
                                             <td>{{ training.requestor.get_full_name }}</td>
                                             <td>{{ training.date|date:"d F Y" }}</td>
-                                            <td>{{ training.location }}</td>
+                                            <td>{{ training.jenis }}</td>
                                             <td>{{ training.cost }}</td>
                                             <td>
                                                 {% if training.status.exists %}
@@ -108,8 +108,8 @@
                                                                                 <p class="text-primary">{{ training.trainer }}</p>
                                                                             </div>
                                                                             <div class="col-sm-4">
-                                                                                <h4>Location</h4>
-                                                                                <p class="text-primary">{{ training.location }}</p>
+                                                                                <h4>jenis</h4>
+                                                                                <p class="text-primary">{{ training.jenis }}</p>
                                                                             </div>
                                                                             <div class="col-sm-4">
                                                                                 <h4>Cost</h4>

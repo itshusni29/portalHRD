@@ -105,6 +105,11 @@ class Training(models.Model):
         ('2', 'Level 2'),
         ('3', 'Level 3'),
     ]
+    
+    JENIS_CHOICES = [
+        ('1', 'Internal'),
+        ('2', 'Eksternal')
+    ]
 
 
     requestor = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='requestor', on_delete=models.CASCADE)
@@ -114,11 +119,12 @@ class Training(models.Model):
     trainer = models.CharField(max_length=100)
     date = models.DateField()
     date_end = models.DateField()
-    location = models.CharField(max_length=200)
+    jenis = models.CharField(max_length=2, choices=JENIS_CHOICES)
     cost = models.DecimalField(max_digits=10, decimal_places=2)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     evaluation_level = models.CharField(max_length=2, choices=LEVEL_CHOICES)
+    pic_trainings = models.CharField(max_length=8)
     flyer = models.FileField(upload_to="uploads/forms/request_training")
    
 

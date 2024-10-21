@@ -10,9 +10,9 @@ class TrainingForm(forms.ModelForm):
     class Meta:
         model = Training
         fields = [
-            'requestor_username', 'topic', 'background', 'participants', 
-            'trainer', 'date', 'location', 'cost', 'evaluation_level', 
-            'manager', 'gm', 'hrd_manager', 'flyer', 'date_end'
+            'requestor_username', 'topic', 'background', 'participants',
+            'trainer', 'date', 'date_end', 'jenis', 'cost', 'evaluation_level',
+            'manager', 'gm', 'hrd_manager', 'flyer', 'pic_trainings'
         ]
         widgets = {
             'topic': forms.TextInput(attrs={'class': 'form-control'}),
@@ -21,13 +21,13 @@ class TrainingForm(forms.ModelForm):
             'trainer': forms.TextInput(attrs={'class': 'form-control'}),
             'date': forms.DateInput(attrs={'class': 'form-control'}),
             'date_end': forms.DateInput(attrs={'class': 'form-control'}),
-            'location': forms.TextInput(attrs={'class': 'form-control'}),
+            'jenis': forms.Select(attrs={'class': 'form-control'}),
             'cost': forms.NumberInput(attrs={'class': 'form-control'}),
             'evaluation_level': forms.Select(attrs={'class': 'form-control'}),
             'manager': forms.Select(attrs={'class': 'form-control'}),
             'gm': forms.Select(attrs={'class': 'form-control'}),
             'flyer': forms.FileInput(attrs={'class': 'custom-file-input'}),
-            
+            'pic_trainings': forms.TextInput(attrs={'class': 'form-control'}),
         }
 
     flyer = forms.FileField(required=False)
@@ -43,27 +43,32 @@ class TrainingForm(forms.ModelForm):
             raise forms.ValidationError("Requestor username must be exactly 7 characters long.")
         return username
 
+    def clean_pic_trainings(self):
+        jenis = self.cleaned_data.get('jenis')
+        if jenis == '1':  # Internal
+            return 'RL20155'
+        elif jenis == '2':  # External
+            return 'XN09542'
+        raise forms.ValidationError("Invalid 'jenis' value.")
+
     def clean_hrd_manager(self):
         return User.objects.get(id=3)
-    
+
     def clean_flyer(self):
         flyer = self.cleaned_data.get('flyer')
-
-        # Allow empty flyer field
         if flyer is None:
-            return flyer
+            return flyer  # Optional field
 
-        # Validate file extension
         valid_extensions = ['pdf']
         ext = flyer.name.split('.')[-1].lower()
         if ext not in valid_extensions:
             raise forms.ValidationError('Only .pdf files are allowed.')
 
-        # Validate file size (max 2MB)
-        if flyer.size > 2 * 1024 * 1024:  # 2 MB
+        if flyer.size > 2 * 1024 * 1024:  # 2MB
             raise forms.ValidationError('The file size must not exceed 2 MB.')
 
         return flyer
+
 
 
 class TrainingStatusForm(forms.ModelForm):

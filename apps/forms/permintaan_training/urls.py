@@ -11,7 +11,9 @@ from .views import (
     admin_request_training_view,
     admin_delete_training,
     edit_training_request,
-    print_training_request
+    print_training_request,
+    internal_training_requests,
+    eksternal_training_requests
 )
 
 app_name = 'permintaan_training'
@@ -29,6 +31,9 @@ urlpatterns = [
     path('trainings/<int:training_id>/delete/', admin_delete_training, name='admin_delete_training'), # This is the URL for the admin delete view
     path('trainings/<int:training_id>/edit/', edit_training_request, name='edit_training_request'),
     path('training/print/<int:training_id>/', print_training_request, name='print_training_request'),
+    path('internal/', internal_training_requests, name='internal_training_requests'),
+    path('eksternal/', eksternal_training_requests, name='eksternal_training_requests'),
+
 
 
 

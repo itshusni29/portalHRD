@@ -116,11 +116,14 @@
                                 {% endfor %}
                             </div>
 
-
                             <div class="form-group col-md-4">
-                                <label for="id_location">Lokasi:</label>
-                                <input type="text" class="form-control{% if training_form.location.errors %} is-invalid{% endif %}" id="id_location" name="location">
-                                {% for error in training_form.location.errors %}
+                                <label for="id_jenis">Jenis:</label>
+                                <select class="form-control{% if training_form.jenis.errors %} is-invalid{% endif %}" id="id_jenis" name="jenis">
+                                    {% for choice in training_form.jenis.field.choices %}
+                                        <option value="{{ choice.0 }}" {% if choice.0 == training_form.jenis.value %}selected{% endif %}>{{ choice.1 }}</option>
+                                    {% endfor %}
+                                </select>
+                                {% for error in training_form.jenis.errors %}
                                     <div class="invalid-feedback">{{ error }}</div>
                                 {% endfor %}
                             </div>
@@ -162,6 +165,8 @@
                                 </div>
                             </div>
                         </div>
+                        <input type="hidden" id="id_pic_trainings" name="pic_trainings">
+
                         
                         
                         
@@ -235,6 +240,18 @@
                 document.getElementById('user-details').innerHTML = '<p>Error fetching user details</p>';
             });
     }
+
+    document.getElementById('id_jenis').addEventListener('change', function () {
+        const jenisValue = this.value;
+        const picTrainingsInput = document.getElementById('id_pic_trainings');
+    
+        if (jenisValue === '1') {
+            picTrainingsInput.value = 'RL20155';  // Internal
+        } else if (jenisValue === '2') {
+            picTrainingsInput.value = 'XN09542';  // External
+        }
+    });
+    
 </script>
 
 {% endblock content %}
