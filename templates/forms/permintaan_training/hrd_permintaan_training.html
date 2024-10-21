@@ -120,28 +120,20 @@
                                                                                 <p class="text-primary">{{ training.cost }}</p>
                                                                             </div>
                                                                         </div>
-                                                                
-                                                                        <!-- Third Row -->
+
+                                                                        <!-- Thrid Row -->
                                                                         <div class="row mt-3">
-                                                                            <div class="col-sm-6">
-                                                                                <h4>Participants</h4>
-                                                                                <p class="text-primary">{{ training.participants }}</p>
-                                                                            </div>
                                                                             <div class="col-sm-6">
                                                                                 <h4>Background</h4>
                                                                                 <p class="text-primary">{{ training.background }}</p>
                                                                             </div>
                                                                         </div>
                                                                 
-                                                                        <!-- Fourth Row -->
+                                                                        <!-- Four Row -->
                                                                         <div class="row mt-3">
                                                                             <div class="col-sm-6">
-                                                                                <h4>Target</h4>
-                                                                                <p class="text-primary">{{ training.target }}</p>
-                                                                            </div>
-                                                                            <div class="col-sm-6">
-                                                                                <h4>Evaluation Level</h4>
-                                                                                <p class="text-primary">{{ training.get_evaluation_level_display }}</p>
+                                                                                <h4>Participants</h4>
+                                                                                <p class="text-primary">{{ training.participants }}</p>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -156,20 +148,19 @@
                                                                         <div class="col-md-12">
                                                                             <h4>Latest News</h4>
                                                                             <ul class="timeline">
-                                                                                <!-- Submission Status -->
                                                                                 <li>
-                                                                                    <a class="text-primary">Form Submitted by {{ training.requestor.username }}</a>
-                                                                                    <a class="float-right text-primary">{{ training.created_at|date:"d F Y H:i:s"  }}</a>
+                                                                                    <a class="text-primary">Form Submitted by {{ training.requestor.first_name }} {{ training.requestor.last_name }}</a>
                                                                                     <p class="text-default">Training request successfully submitted, awaiting approval.</p>
+                                                                                    <a class="date text-muted">{{ training.created_at|date:"d F Y H:i:s" }}</a> <!-- Moved the date below the status -->
                                                                                 </li>
                                                                                 {% if training.status.exists %}
                                                                                 {% for status in training.status.all %}
                                                                                     <li>
                                                                                         <a class="text-primary">
-                                                                                            {{ status.get_status_display }} <!-- This displays the human-readable name of the status -->
+                                                                                            {{ status.get_status_display }} 
                                                                                         </a>
-                                                                                        <a class="float-right text-primary">{{ status.created_at|date:"d F Y H:i:s" }}</a>
                                                                                         <p class="text-default">{{ status.remarks|default:"No remarks provided" }}</p>
+                                                                                        <a class="date text-muted">{{ status.created_at|date:"d F Y H:i:s" }}</a>
                                                                                     </li>
                                                                                 {% endfor %}
                                                                                 {% else %}
@@ -178,10 +169,10 @@
                                                                                         <p class="text-default">This request does not have any status updates yet.</p>
                                                                                     </li>
                                                                                 {% endif %}
-                                                                            </ul>
+                                                                            </ul>  
                                                                         </div>
                                                                     </div>
-                                                                </div>
+                                                                </div>  
 
                                                                 <div class="row">
                                                                     <div class="col-md-8 mx-auto">

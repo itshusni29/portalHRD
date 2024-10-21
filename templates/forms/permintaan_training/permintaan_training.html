@@ -143,7 +143,7 @@
                                                                                 <li>
                                                                                     <a class="text-primary">Form Submitted by {{ training.requestor.first_name }} {{ training.requestor.last_name }}</a>
                                                                                     <p class="text-default">Training request successfully submitted, awaiting approval.</p>
-                                                                                    <a class="date text-muted">{{ training.created_at|date:"d F Y H:i:s" }}</a>
+                                                                                    <a class="date text-muted">{{ training.created_at|date:"d F Y H:i:s" }}</a> <!-- Moved the date below the status -->
                                                                                 </li>
                                                                                 {% if training.status.exists %}
                                                                                 {% for status in training.status.all %}
@@ -161,7 +161,7 @@
                                                                                         <p class="text-default">This request does not have any status updates yet.</p>
                                                                                     </li>
                                                                                 {% endif %}
-                                                                            </ul>   
+                                                                            </ul>  
                                                                         </div>
                                                                     </div>
                                                                 </div>
