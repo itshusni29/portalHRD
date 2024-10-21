@@ -1,6 +1,12 @@
-{% extends 'layouts/d_base.html' %}
 
-{% block title %}Training Requests - Eksternal{% endblock title %}
+{% extends 'layouts/d_base.html' %}
+{% load static %}
+{% block title %} Training Requests - Eksternal {% endblock title %}
+{% block stylesheets %}
+<link rel="stylesheet" href="{% static 'assets/css/datatables.min.css' %}">
+{% endblock stylesheets %}
+
+
 
 {% block content %}
 <!-- Header -->
@@ -38,7 +44,7 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table">
+                        <table id="requestTrainingEksternalTable" class="table" style="width: 100%;">
                             <thead class="table-head-bg">
                                 <tr>
                                     <th>No</th>
@@ -106,3 +112,47 @@
     {% include "includes/footer.html" %}
 </div>
 {% endblock content %}
+{% block javascripts %}
+
+<script src="{% static 'assets/js/datatables.min.js' %}"></script>
+<script>
+  $(document).ready(function () {
+    $('#requestTrainingEksternalTable').DataTable({
+      "language": {
+          "lengthMenu": "Tampilkan _MENU_ entri",
+          "zeroRecords": "Tidak ditemukan data yang cocok",
+          "info": "Menampilkan halaman _PAGE_ dari _PAGES_",
+          "infoEmpty": "Tidak ada entri tersedia",
+          "infoFiltered": "(difilter dari _MAX_ total entri)",
+          "search": "Cari:",
+          "paginate": {
+              "first": "Pertama",
+              "last": "Terakhir",
+              "next": "Selanjutnya",
+              "previous": "Sebelumnya"
+          }
+      },
+      "ordering": true,
+      "paging": true,
+      "info": true,
+      "searching": true,
+      "responsive": true,
+      "autoWidth": false
+    });
+  });
+</script>
+
+{% endblock javascripts %}
+
+
+
+
+
+
+
+
+
+
+
+
+

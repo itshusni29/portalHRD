@@ -1,9 +1,10 @@
 {% extends 'layouts/d_base.html' %}
-
+{% load static %}
 {% block title %} User Management {% endblock title %}
+{% block stylesheets %}
+<link rel="stylesheet" href="{% static 'assets/css/datatables.min.css' %}">
+{% endblock stylesheets %}
 
-<!-- Specific CSS goes HERE -->
-{% block stylesheets %}{% endblock stylesheets %}
 
 {% block content %}
 
@@ -46,13 +47,12 @@
             <div class="card-body">
 
               <div class="table-responsive">
-                <table class="table">
+                <table id="userTable" class="table" style="width: 100%;">
                   <thead class="table-head-bg">
                       <tr>
-                          <th>NO</th>
+                          <th>No</th>
                           <th>Username</th>
-                          <th>First Name</th>  <!-- Add First Name -->
-                          <th>Last Name</th>   <!-- Add Last Name -->
+                          <th>Name</th>
                           <th>Email</th>
                           <th>Role</th>
                           <th>Occupation</th>
@@ -66,8 +66,7 @@
                           <tr>
                               <td>{{ forloop.counter }}</td>
                               <td>{{ user.username }}</td>
-                              <td>{{ user.first_name }}</td>  <!-- Display First Name -->
-                              <td>{{ user.last_name }}</td>    <!-- Display Last Name -->
+                              <td>{{ user.first_name }} {{ user.last_name }}</td>
                               <td>{{ user.email }}</td>
                               <td>{{ user.get_role_display }}</td>
                               <td>{{ user.get_occupation_display }}</td>
@@ -89,7 +88,7 @@
                           </tr>
                       {% empty %}
                           <tr>
-                              <td colspan="11">Tidak ada pengguna tersedia.</td>
+                              <td colspan="10">Tidak ada pengguna tersedia.</td>
                           </tr>
                       {% endfor %}
                   </tbody>
@@ -97,12 +96,44 @@
               
               </div>
             </div>
-          </div>
+          </div>  
         </div>
       </div>
 
       {% include "includes/footer.html" %}
 
     </div>
-
+    
 {% endblock content %}
+
+{% block javascripts %}
+
+<script src="{% static 'assets/js/datatables.min.js' %}"></script>
+<script>
+  $(document).ready(function () {
+    $('#userTable').DataTable({
+      "language": {
+          "lengthMenu": "Tampilkan _MENU_ entri",
+          "zeroRecords": "Tidak ditemukan data yang cocok",
+          "info": "Menampilkan halaman _PAGE_ dari _PAGES_",
+          "infoEmpty": "Tidak ada entri tersedia",
+          "infoFiltered": "(difilter dari _MAX_ total entri)",
+          "search": "Cari:",
+          "paginate": {
+              "first": "Pertama",
+              "last": "Terakhir",
+              "next": "Selanjutnya",
+              "previous": "Sebelumnya"
+          }
+      },
+      "ordering": true,
+      "paging": true,
+      "info": true,
+      "searching": true,
+      "responsive": true,
+      "autoWidth": false
+    });
+  });
+</script>
+
+{% endblock javascripts %}
