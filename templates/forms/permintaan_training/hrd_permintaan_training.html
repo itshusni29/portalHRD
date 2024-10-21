@@ -58,15 +58,18 @@
                                             <td>{{ training.topic }}</td>
                                             <td>{{ training.requestor.get_full_name }}</td>
                                             <td>{{ training.date|date:"d F Y" }}</td>
-                                            <td>{{ training.jenis }}</td>
+                                            <td>{{ training.get_jenis_display }}</td>
                                             <td>{{ training.cost }}</td>
                                             <td>
                                                 {% if training.status.exists %}
-                                                    {{ training.status.get_status_display }}
+                                                    {% with last_status=training.status.last %}
+                                                            {{ last_status.get_status_display }}
+                                                    {% endwith %}
                                                 {% else %}
-                                                    <span>No status available</span>
+                                                No statuses available
                                                 {% endif %}
                                             </td>
+                                            
                                             <td>
                                                 <!-- Button trigger modal -->
                                                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-form-{{ forloop.counter }}">
@@ -112,9 +115,9 @@
                                                                         <!-- Second Row -->
                                                                         <div class="row mt-3">
                                                                             <div class="col-sm-6">
-                                                                                <h4>jenis</h4>
-                                                                                <p class="text-primary">{{ training.jenis }}</p>
-                                                                            </div>
+                                                                                <h4>Jenis</h4>
+                                                                                <p class="text-primary">{{ training.get_jenis_display }}</p>
+                                                                            </div>                                                                            
                                                                             <div class="col-sm-6">
                                                                                 <h4>Cost</h4>
                                                                                 <p class="text-primary">{{ training.cost }}</p>

@@ -58,9 +58,17 @@
                                         <td>{{ training.topic }}</td>
                                         <td>{{ training.requestor.get_full_name }}</td>
                                         <td>{{ training.date }}</td>
-                                        <td>{{ training.jenis }}</td>
+                                        <td>{{ training.get_jenis_display }}</td>
                                         <td>{{ training.cost }}</td>
-                                        <td>{{ training.get_status_display }}</td>
+                                        <td>
+                                                {% if training.status.exists %}
+                                                    {% with last_status=training.status.last %}
+                                                            {{ last_status.get_status_display }}
+                                                    {% endwith %}
+                                                {% else %}
+                                                No statuses available
+                                                {% endif %}
+                                            </td>
                                         <td>
                                             <a href="{% url 'permintaan_training:edit_training_request' training.id %}" 
                                                class="btn btn-warning btn-sm">
