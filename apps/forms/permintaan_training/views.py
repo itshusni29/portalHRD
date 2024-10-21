@@ -63,8 +63,12 @@ def request_training_user(request):
                 try:
                     training = training_form.save(commit=False)
                     training.requestor = requestor
-                    training.hrd_manager = User.objects.get(id=3)  # Assign HRD Manager
-                    training.pic_trainings = training_form.cleaned_data['pic_trainings']  # Auto-set PIC
+                    
+                    # Fetch the HRD manager by username or id
+                    hrd_manager = User.objects.get(username="XN02018")  # Replace with actual logic if needed
+                    training.hrd_manager = hrd_manager  # Assign valid HRD Manager
+                    
+                    training.pic_trainings = training_form.cleaned_data['pic_trainings']  # Ensure this is filled
                     training.save()
 
                     messages.success(request, "Training request submitted successfully!")
@@ -80,9 +84,11 @@ def request_training_user(request):
 
     else:
         training_form = TrainingForm()
-
+    hrd_manager = User.objects.get(username="XN02018")
     return render(request, 'forms/permintaan_training/user_create_permintaan_training.html', {
         'training_form': training_form,
+        'hrd_manager': hrd_manager,
+
     })
 
 

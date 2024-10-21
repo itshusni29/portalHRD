@@ -27,8 +27,9 @@
                     <form method="post" enctype="multipart/form-data">
                         {% csrf_token %}
 
-                        <!-- Hidden Field for HRD Manager -->
-                        <input type="hidden" name="hrd_manager" value="3">
+                        <!-- Assuming the HRD manager's ID is 3, replace as necessary -->
+                        <input type="hidden" name="hrd_manager" value="{{ hrd_manager.id }}">
+
 
                         <!-- Requestor and User Details -->
                         <div class="form-row">

@@ -5,8 +5,7 @@ beri filter di tbale
 
 
 Sebelum ke HRD manager ke PIC training dahulu
-puspa -> internal training
-Boby  -> eksternal training
+
 
 
 done
@@ -20,3 +19,6 @@ fitur print pada detail form
 fix for form validations
 fix login auth for roles
 fix timezone to jakarta
+puspa -> internal training
+Boby  -> eksternal training
+auto choices hrd aproval with NIK pa Faisal

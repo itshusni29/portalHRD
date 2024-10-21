@@ -52,12 +52,16 @@ class TrainingForm(forms.ModelForm):
         raise forms.ValidationError("Invalid 'jenis' value.")
 
     def clean_hrd_manager(self):
-        return User.objects.get(id=3)
+        try:
+            hrd_manager = User.objects.get(username="XN02018") #NIK pa Faisal untuk Manager HRD
+        except User.DoesNotExist:
+            raise forms.ValidationError("HRD Manager not found.")
+        return hrd_manager
 
     def clean_flyer(self):
         flyer = self.cleaned_data.get('flyer')
         if flyer is None:
-            return flyer  # Optional field
+            return flyer  
 
         valid_extensions = ['pdf']
         ext = flyer.name.split('.')[-1].lower()
