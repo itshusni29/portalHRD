@@ -97,7 +97,7 @@
 
     <div class="row">
       <div class="col-md-6">
-        <h4>jenis</h4>
+        <h4>Jenis</h4>
         <p class="text-primary">{{ training.get_jenis_display }}</p>
       </div>
       <div class="col-md-6">
@@ -128,7 +128,7 @@
     <div class="row">
       <div class="col-12">
         <h4>Participants</h4>
-        <p class="text-primary">{{ training.participants }}</p>
+        <p class="text-primary">{{ training.participants|linebreaksbr }}</p>
       </div>
     </div>
 
@@ -149,7 +149,7 @@
           <tr>
               <!-- Images for Each Status -->
               <td class="align-middle">
-                  <img src="{% static 'path/to/submitted.png' %}" 
+                  <img src="{% static 'assets/img/theme/SUBMIT.png' %}"  
                        alt="Submitted" class="img-fluid" 
                        style="max-width: 50px; max-height: 50px;">
               </td>

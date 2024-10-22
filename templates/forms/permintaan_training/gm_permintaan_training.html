@@ -1,8 +1,14 @@
 {% extends 'layouts/d_base.html' %}
 
+{% load static %}
+
 {% block title %}GM Approval{% endblock title %}
 
-{% block stylesheets %}{% endblock stylesheets %}
+{% block stylesheets %}
+<link rel="stylesheet" href="{% static 'assets/css/datatables.min.css' %}">
+{% endblock stylesheets %}
+
+{% load currency_filters %}
 
 {% block content %}
     <!-- Header -->
@@ -45,7 +51,7 @@
                                         <th>Topic</th>
                                         <th>Requestor</th>
                                         <th>Date</th>
-                                        <th>jenis</th>
+                                        <th>Jenis</th>
                                         <th>Cost</th>
                                         <th>Status</th>
                                         <th>Actions</th>
@@ -59,7 +65,7 @@
                                             <td>{{ training.requestor.get_full_name }}</td>
                                             <td>{{ training.date|date:"d F Y" }}</td>
                                             <td>{{ training.get_jenis_display }}</td>
-                                            <td>{{ training.cost }}</td>
+                                            <td>{{ training.cost|rupiah_format }}</td>
                                             <td>
                                                 {% if training.status.exists %}
                                                     {% with last_status=training.status.last %}
@@ -114,7 +120,7 @@
                                                                         <!-- Second Row -->
                                                                         <div class="row mt-3">
                                                                             <div class="col-sm-6">
-                                                                                <h4>jenis</h4>
+                                                                                <h4>Jenis</h4>
                                                                                 <p class="text-primary">{{ training.get_jenis_display }}</p>
                                                                             </div>
                                                                             <div class="col-sm-6">
@@ -127,7 +133,7 @@
                                                                         <div class="row mt-3">
                                                                             <div class="col-sm-6">
                                                                                 <h4>Participants</h4>
-                                                                                <p class="text-primary">{{ training.participants }}</p>
+                                                                                <p class="text-primary">{{ training.participants|linebreaksbr }}</p>
                                                                             </div>
                                                                             <div class="col-sm-6">
                                                                                 <h4>Background</h4>

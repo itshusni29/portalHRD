@@ -1,8 +1,14 @@
 {% extends 'layouts/d_base.html' %}
 
+{% load static %}
+
 {% block title %}HRD Approval{% endblock title %}
 
-{% block stylesheets %}{% endblock stylesheets %}
+{% block stylesheets %}
+<link rel="stylesheet" href="{% static 'assets/css/datatables.min.css' %}">
+{% endblock stylesheets %}
+
+{% load currency_filters %}
 
 {% block content %}
     <!-- Header -->
@@ -38,14 +44,14 @@
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table">
+                            <table id="trainingRequestHRD" class="table">
                                 <thead class="table-head-bg">
                                     <tr>
                                         <th>No</th>
                                         <th>Topic</th>
                                         <th>Requestor</th>
                                         <th>Date</th>
-                                        <th>jenis</th>
+                                        <th>Jenis</th>
                                         <th>Cost</th>
                                         <th>Status</th>
                                         <th>Actions</th>
@@ -59,7 +65,7 @@
                                             <td>{{ training.requestor.get_full_name }}</td>
                                             <td>{{ training.date|date:"d F Y" }}</td>
                                             <td>{{ training.get_jenis_display }}</td>
-                                            <td>{{ training.cost }}</td>
+                                            <td>{{ training.cost|rupiah_format }}</td>
                                             <td>
                                                 {% if training.status.exists %}
                                                     {% with last_status=training.status.last %}
@@ -136,7 +142,7 @@
                                                                         <div class="row mt-3">
                                                                             <div class="col-sm-6">
                                                                                 <h4>Participants</h4>
-                                                                                <p class="text-primary">{{ training.participants }}</p>
+                                                                                <p class="text-primary">{{ training.participants|linebreaksbr }}</p>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -237,3 +243,33 @@
         {% include "includes/footer.html" %}
     </div>
 {% endblock content %}
+
+{% block javascripts %}
+<script src="{% static 'assets/js/datatables.min.js' %}"></script>
+<script>
+    $(document).ready(function () {
+        $('#trainingRequestHRD').DataTable({
+            language: {
+                lengthMenu: "Tampilkan _MENU_ entri",
+                zeroRecords: "Tidak ditemukan data yang cocok",
+                info: "Menampilkan halaman _PAGE_ dari _PAGES_",
+                infoEmpty: "Tidak ada entri tersedia",
+                infoFiltered: "(difilter dari _MAX_ total entri)",
+                search: "Cari:",
+                paginate: {
+                    first: "<i class='fas fa-angle-double-left'></i>",
+                    last: "<i class='fas fa-angle-double-right'></i>",
+                    next: "<i class='fas fa-chevron-right'></i>",
+                    previous: "<i class='fas fa-chevron-left'></i>"
+                }
+            },
+            ordering: true,
+            paging: true,
+            info: true,
+            searching: true,
+            responsive: true,
+            autoWidth: true
+        });
+    });
+</script>
+{% endblock javascripts %}

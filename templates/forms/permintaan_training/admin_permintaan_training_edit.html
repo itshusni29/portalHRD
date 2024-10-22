@@ -18,7 +18,7 @@
                         </nav>
                     </div>
                 </div>
-            </div>
+            </div>  
         </div>
     </div>
 
@@ -35,7 +35,10 @@
                             {% csrf_token %}
                             
                             <!-- Hidden Field for HRD Manager -->
-                            <input type="hidden" name="hrd_manager" value="3">
+                            <input type="hidden" name="hrd_manager" value="{{ training_form.hrd_manager.value|default:training.hrd_manager.id }}">
+
+                            <input type="hidden" id="id_pic_trainings" name="pic_trainings" value="{{ training.pic_trainings }}">
+
 
                             <!-- Requestor and User Details -->
                             <div class="form-row">
@@ -125,7 +128,7 @@
                             </div>
 
                             <div class="form-row">
-                                <div class="form-group col-md-6">
+                                <div class="form-group col-md-12">
                                     <label for="id_background">Latar Belakang:</label>
                                     <textarea 
                                         class="form-control{% if training_form.background.errors %} is-invalid{% endif %}" 
@@ -137,7 +140,7 @@
                                     {% endfor %}
                                 </div>
 
-                                <div class="form-group col-md-6">
+                                <div class="form-group col-md-12">
                                     <label for="id_participants">Peserta:</label>
                                     <textarea 
                                         class="form-control{% if training_form.participants.errors %} is-invalid{% endif %}" 
@@ -180,7 +183,7 @@
                                 </div>
 
                                 <div class="form-group col-md-4">
-                                    <label for="id_jenis">Lokasi:</label>
+                                    <label for="id_jenis">Jenis:</label>
                                     <input 
                                         type="text" 
                                         class="form-control{% if training_form.jenis.errors %} is-invalid{% endif %}" 

@@ -90,6 +90,45 @@ def request_training_user(request):
         'hrd_manager': hrd_manager,
 
     })
+    
+    
+@login_required
+@user_passes_test(is_training_and_development, login_url='login')
+def edit_training_request(request, training_id):
+    training = get_object_or_404(Training, id=training_id)
+
+    if request.method == 'POST':
+        # Pass the existing training instance along with the posted data
+        training_form = TrainingForm(request.POST, request.FILES, instance=training)
+
+        if training_form.is_valid():
+            try:
+                # Save the updated training request
+                training_form.save()
+                messages.success(request, "Training request updated successfully!")
+                logger.info(f"Training request {training_id} updated by {request.user.username}.")
+                return redirect('permintaan_training:admin_request_training_list')
+
+            except Exception as e:
+                logger.error(f"Error updating training request {training_id}: {e}", exc_info=True)
+                messages.error(request, "An error occurred while updating the training request.")
+        else:
+            logger.warning(f"Form errors while updating: {training_form.errors}")
+            messages.error(request, "Please correct the errors below.")
+
+    else:
+        # Pre-fill the form with the existing training data
+        training_form = TrainingForm(instance=training)
+
+        # Fetch HRD Manager for the hidden input
+        hrd_manager = User.objects.get(username="XN02018")  # Ensure this is correct logic
+        training_form.fields['hrd_manager'].initial = hrd_manager.id  # Set initial value for the hidden field
+
+    return render(request, 'forms/permintaan_training/admin_permintaan_training_edit.html', {
+        'training_form': training_form,
+        'training': training,
+        'hrd_manager': hrd_manager,  # Pass HRD Manager to the template if needed
+    })
 
 
 

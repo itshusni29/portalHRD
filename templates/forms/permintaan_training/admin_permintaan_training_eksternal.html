@@ -1,11 +1,15 @@
 
 {% extends 'layouts/d_base.html' %}
+
 {% load static %}
+
 {% block title %} Training Requests - Eksternal {% endblock title %}
+
 {% block stylesheets %}
 <link rel="stylesheet" href="{% static 'assets/css/datatables.min.css' %}">
 {% endblock stylesheets %}
 
+{% load currency_filters %}
 
 
 {% block content %}
@@ -63,18 +67,18 @@
                                         <td>{{ forloop.counter }}</td>
                                         <td>{{ training.topic }}</td>
                                         <td>{{ training.requestor.get_full_name }}</td>
-                                        <td>{{ training.date }}</td>
+                                        <td>{{ training.date|date:"d F Y" }}</td>
                                         <td>{{ training.get_jenis_display }}</td>
-                                        <td>{{ training.cost }}</td>
+                                        <td>{{ training.cost|rupiah_format }}</td>
                                         <td>
-                                                {% if training.status.exists %}
-                                                    {% with last_status=training.status.last %}
-                                                            {{ last_status.get_status_display }}
-                                                    {% endwith %}
-                                                {% else %}
-                                                No statuses available
-                                                {% endif %}
-                                            </td>
+                                            {% if training.status.exists %}
+                                                {% with last_status=training.status.last %}
+                                                        {{ last_status.get_status_display }}
+                                                {% endwith %}
+                                            {% else %}
+                                            No statuses available
+                                            {% endif %}
+                                        </td>
                                         <td>
                                             <a href="{% url 'permintaan_training:edit_training_request' training.id %}" 
                                                class="btn btn-warning btn-sm">

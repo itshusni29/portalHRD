@@ -1,6 +1,6 @@
 gm & manager is auto point
 create notification for requests
-beri filter di tbale
+
 
 
 
@@ -23,3 +23,4 @@ Boby  -> eksternal training
 auto choices hrd aproval with NIK pa Faisal
 Sebelum ke HRD manager ke PIC training dahulu
 fix the training status in tbale
+beri filter di Table
