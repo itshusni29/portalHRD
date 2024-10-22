@@ -18035,3 +18035,51 @@ ul.timeline p.text-default {
     font-size: 0.9rem; /* Slightly smaller on small screens */
   }
 }
+
+
+
+
+/* marquee div container */
+.marquee {
+  font-weight: bold;
+  font-size: 1em; /* Adjust as needed */
+  color: #2d75ce;
+  font-family: var(--fonBebas, 'Bebas Neue'), sans-serif;
+  height: 2.5em; /* Adjust as needed */
+  overflow: hidden;
+  background-color: #ffffff;
+  position: relative;
+}
+
+.runtextmarquee {
+  font-weight: bold;
+  font-size: 1em; /* Adjust as needed */
+  color: #2d75ce;
+  font-family: var(--fonBebas, 'Bebas Neue'), sans-serif;
+}
+
+/* nested div inside the container */
+.marquee div {
+  display: flex; /* Use flex to make the spans appear in one line */
+  width: 200%;
+  position: absolute;
+  overflow: hidden;
+  animation: marquee 12s linear infinite;
+}
+
+/* span with text */
+.marquee span {
+  width: 50%;
+}
+
+/* keyframes with vendor prefixes */
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* Vendor prefixes for older browsers */
+@-webkit-keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}

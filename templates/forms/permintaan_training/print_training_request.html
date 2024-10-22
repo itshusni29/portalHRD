@@ -1,5 +1,8 @@
 {% load static %}
 {% load status_filters %}
+{% load currency_filters %}
+
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -40,8 +43,70 @@
       .page-break {
         page-break-before: always;
       }
+
+      /* Bootstrap grid overrides for print */
+      .row {
+        display: flex;
+        flex-wrap: wrap;
+        margin-right: -15px;
+        margin-left: -15px;
+      }
+
+      .col-12, .col-md-6 {
+        position: relative;
+        width: 100%;
+        padding-right: 15px;
+        padding-left: 15px;
+      }
+
+      .col-md-6 {
+        max-width: 50%; /* Adjust to make sure two columns fit */
+      }
+
+      /* Ensure text sizes and colors for print */
+      body {
+        color: #000;
+        font-size: 12pt;
+      }
+
+      h4 {
+        margin-bottom: 10px;
+        font-weight: bold;
+      }
+
+      p {
+        margin-bottom: 0.5rem;
+      }
+
+      .text-primary {
+        color: #000 !important; /* Ensure text color is black for print */
+      }
+
+      .text-muted {
+        color: #000 !important; /* Change muted text color to black */
+      }
+
+      table {
+        border-collapse: collapse;
+        width: 100%; /* Ensure tables take full width */
+      }
+
+      th, td {
+        border: 1px solid black;
+        padding: 5px;
+      }
+
+      th {
+        background-color: #f2f2f2;
+      }
+
+      .img-fluid {
+        max-width: 100px;
+        max-height: 100px;
+      }
     }
 
+    /* For screen view */
     h4 {
       margin-bottom: 10px;
       font-weight: bold;
@@ -74,53 +139,49 @@
 
     <!-- Two-Column Layout for Each Row -->
     <div class="row">
-      <div class="col-md-6">
+      <div class="col-md-6 col-12">
         <h4>Requestor</h4>
         <p class="text-primary">{{ training.requestor.get_full_name }}</p>
       </div>
-      <div class="col-md-6">
+      <div class="col-md-6 col-12">
         <h4>Topic</h4>
         <p class="text-primary">{{ training.topic }}</p>
       </div>
     </div>
 
     <div class="row">
-      <div class="col-md-6">
+      <div class="col-md-6 col-12">
         <h4>Date</h4>
         <p class="text-primary">{{ training.date|date:"d F Y" }}</p>
       </div>
-      <div class="col-md-6">
+      <div class="col-md-6 col-12">
         <h4>Trainer</h4>
         <p class="text-primary">{{ training.trainer }}</p>
       </div>
     </div>
 
     <div class="row">
-      <div class="col-md-6">
+      <div class="col-md-6 col-12">
         <h4>Jenis</h4>
         <p class="text-primary">{{ training.get_jenis_display }}</p>
       </div>
-      <div class="col-md-6">
+      <div class="col-md-6 col-12">
         <h4>Cost</h4>
-        <p class="text-primary">{{ training.cost }}</p>
+        <p class="text-primary">{{ training.cost|rupiah_format }}</p>
       </div>
     </div>
 
     <div class="row">
-      <div class="col-md-6">
-        <h4>Background</h4>
-        <p class="text-primary">{{ training.background }}</p>
-      </div>
-      <div class="col-md-6">
-        <h4>Target</h4>
-        <p class="text-primary">{{ training.target }}</p>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-md-6">
+      <div class="col-md-6 col-12">
         <h4>Evaluation Level</h4>
         <p class="text-primary">{{ training.get_evaluation_level_display }}</p>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 col-12">
+        <h4>Background</h4>
+        <p class="text-primary">{{ training.background }}</p>
       </div>
     </div>
 
@@ -150,16 +211,14 @@
               <!-- Images for Each Status -->
               <td class="align-middle">
                   <img src="{% static 'assets/img/theme/SUBMIT.png' %}"  
-                       alt="Submitted" class="img-fluid" 
-                       style="max-width: 50px; max-height: 50px;">
+                       alt="Submitted" class="img-fluid">
               </td>
   
               <td class="align-middle">
                   {% with training.status.all|get_manager_status as manager_status %}
                       {% if manager_status %}
                           <img src="{% static 'assets/img/theme/Approved-Stamp.png' %}" 
-                               alt="Manager Approved" class="img-fluid" 
-                               style="max-width: 50px; max-height: 50px;">
+                               alt="Manager Approved" class="img-fluid">
                       {% else %}
                           <h3>Pending</h3>
                       {% endif %}
@@ -170,8 +229,7 @@
                   {% with training.status.all|get_gm_status as gm_status %}
                       {% if gm_status %}
                           <img src="{% static 'assets/img/theme/Approved-Stamp.png' %}" 
-                               alt="GM Approved" class="img-fluid" 
-                               style="max-width: 50px; max-height: 50px;">
+                               alt="GM Approved" class="img-fluid">
                       {% else %}
                           <h3>Pending</h3>
                       {% endif %}
@@ -182,8 +240,7 @@
                   {% with training.status.all|get_hrd_status as hrd_status %}
                       {% if hrd_status %}
                           <img src="{% static 'assets/img/theme/Approved-Stamp.png' %}" 
-                               alt="HRD Approved" class="img-fluid" 
-                               style="max-width: 50px; max-height: 50px;">
+                               alt="HRD Approved" class="img-fluid">
                       {% else %}
                           <h3>Pending</h3>
                       {% endif %}
@@ -247,18 +304,17 @@
                 {% endwith %}
             </td>
         </tr>
-        
-        
-        
-        
       </tbody>
   </table>
-  
-      
+
   </div>
+
+  <script>
+    window.onload = function() {
+        window.print();
+    }
+  </script>
 
 </body>
 
 </html>
-
-
