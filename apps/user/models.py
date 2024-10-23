@@ -57,10 +57,13 @@ class User(AbstractUser):
         RECRUITMENT_TRAINING_DEVELOPMENT = 'recruitment_training_development', 'Recruitment & Training Development'
         TOOLS_CENTER = 'tools_center', 'Tools Center'
         VALUE_INNOVATION = 'value_innovation', 'Value Innovation'
+        TPM = 'tpm', 'TPM'
+        FINANCE = 'finance', 'Finance'
         OTHER = 'other', 'Other'  
 
     class Section(models.TextChoices):
-        ASSEMBLY = 'assembly', 'Assembly'
+        ASSEMBLY = 'assembly', 'Assembly and E-CVT'
+        AXLE_MACHINING = 'axle_machining', 'Axle Machining'
         BIG_ENGINE_HC_FINAL_INSPECTION = 'big_engine_hc_final_inspection', 'Big Engine & HC Final Inspection'
         CASTING_MACHINING_HC = 'casting_machining_hc', 'Casting & Machining HC'
         CN_ADMINISTRATION = 'cn_administration', 'CN Administration'
@@ -140,7 +143,12 @@ class User(AbstractUser):
         TRAINING_DEVELOPMENT = 'training_development', 'Training & Development'
         TREASURY = 'treasury', 'Treasury'
         WORKSHOP_CENTER = 'workshop_center', 'Workshop Center'
-        OTHER = 'other', 'Other'  
+        FORK_SHIFT_FINAL_INSPECTION = 'fork_shift_final_inspection', 'Fork Shift & Final Inspection'
+        IE_AUTOMATION = 'ie_automation', 'IE & Automation'
+        PAINTING_ASSY_WHEEL_PE = 'painting_assy_wheel_pe', 'Painting Assy Wheel Pe'
+        TPM = 'tpm', 'TPM'
+        OTHER = 'other', 'Other'
+
 
 
 

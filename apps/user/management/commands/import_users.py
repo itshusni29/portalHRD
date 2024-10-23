@@ -1,7 +1,6 @@
 import csv
 from django.core.management.base import BaseCommand
 from django.contrib.auth import get_user_model
-from django.conf import settings
 
 User = get_user_model()
 
@@ -16,7 +15,11 @@ class Command(BaseCommand):
 
         try:
             with open(csv_file, newline='', encoding='utf-8') as file:
-                reader = csv.DictReader(file)
+                reader = csv.DictReader(file, delimiter=';')
+                # Remove BOM from the first header (username)
+                if reader.fieldnames[0].startswith('\ufeff'):
+                    reader.fieldnames[0] = reader.fieldnames[0].replace('\ufeff', '')
+
                 for row in reader:
                     username = row['username']
                     first_name = row['first_name']
