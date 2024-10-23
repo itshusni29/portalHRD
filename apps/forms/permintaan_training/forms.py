@@ -121,15 +121,16 @@ class TrainingForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(TrainingForm, self).__init__(*args, **kwargs)
-        # Populate the queryset for manager and gm
+
+        # Set the queryset for managers
         self.fields['manager'].queryset = User.objects.filter(occupation='manager', is_active=True)
         self.fields['gm'].queryset = User.objects.filter(occupation='general_manager', is_active=True)
 
-        # Auto-fill manager based on requestor_username if it is present
-        if 'requestor_username' in self.data:
-            requestor_username = self.data['requestor_username'].lower()  # Convert to lowercase for consistency
-            if requestor_username in MANAGER_MAPPING:
-                self.fields['manager'].initial = MANAGER_MAPPING[requestor_username]  # Set manager username
+        # Autofill manager and gm based on requestor_username
+        requestor_section = self.data.get('requestor_section')
+        if requestor_section and requestor_section in MANAGER_MAPPING:
+            self.fields['manager'].initial = MANAGER_MAPPING[requestor_section]
+            self.fields['gm'].initial = 'default_gm_username'  # Set GM username if needed
 
     def clean_requestor_username(self):
         username = self.cleaned_data.get('requestor_username')
@@ -152,7 +153,7 @@ class TrainingForm(forms.ModelForm):
     def clean_flyer(self):
         flyer = self.cleaned_data.get('flyer')
         if flyer is None:
-            return flyer
+            return flyer  
 
         valid_extensions = ['pdf']
         ext = flyer.name.split('.')[-1].lower()
