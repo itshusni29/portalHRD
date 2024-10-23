@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'apps.information',
     'apps.forms',  # This includes the forms app
     'apps.forms.formHardCopy',  # Ensure this is correctly defined if formHardCopy is its own module
+    
 ]
 
 
