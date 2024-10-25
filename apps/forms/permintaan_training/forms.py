@@ -38,24 +38,24 @@ class TrainingForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(TrainingForm, self).__init__(*args, **kwargs)
 
-
         # Fetch users for GM and Manager fields with full names
         users = User.objects.all()
-        user_choices = [(user.username, f"{user.username} - {user.first_name} {user.last_name}") for user in users]
+        user_choices = [(user.id, f"{user.username} - {user.first_name} {user.last_name}") for user in users]
         
         # Set the choices for GM and Manager fields
         self.fields['gm'].choices = user_choices
         self.fields['manager'].choices = user_choices
         
-        # If editing an instance, set initial values
+        # Set initial values using instance IDs for editing
         if self.instance and self.instance.pk:
-            self.initial['gm'] = self.instance.gm.username
-            self.initial['manager'] = self.instance.manager.username
+            self.initial['gm'] = self.instance.gm_id
+            self.initial['manager'] = self.instance.manager_id
 
-        # Set fields to not be required (although already set in the field definition)
+        # Set fields to not be required
         self.fields['hrd_manager'].required = False
         self.fields['gm'].required = False
         self.fields['manager'].required = False
+
 
     def clean_requestor_username(self):
         username = self.cleaned_data.get('requestor_username')
