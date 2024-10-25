@@ -1,13 +1,14 @@
 from django import forms
 from django.contrib.auth import get_user_model
 from ..models import Training, GMApproval, ManagerApproval, HRDManagerApproval, TrainingStatus
-
 User = get_user_model()
 
 
 
 class TrainingForm(forms.ModelForm):
     requestor_username = forms.CharField(max_length=50, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    
+    
 
     class Meta:
         model = Training
@@ -36,6 +37,20 @@ class TrainingForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(TrainingForm, self).__init__(*args, **kwargs)
+
+
+        # Fetch users for GM and Manager fields with full names
+        users = User.objects.all()
+        user_choices = [(user.username, f"{user.username} - {user.first_name} {user.last_name}") for user in users]
+        
+        # Set the choices for GM and Manager fields
+        self.fields['gm'].choices = user_choices
+        self.fields['manager'].choices = user_choices
+        
+        # If editing an instance, set initial values
+        if self.instance and self.instance.pk:
+            self.initial['gm'] = self.instance.gm.username
+            self.initial['manager'] = self.instance.manager.username
 
         # Set fields to not be required (although already set in the field definition)
         self.fields['hrd_manager'].required = False
