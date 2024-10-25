@@ -4,91 +4,6 @@ from ..models import Training, GMApproval, ManagerApproval, HRDManagerApproval, 
 
 User = get_user_model()
 
-MANAGER_MAPPING = {
-    'assembly': 'XN00205',
-    'axle_machining': 'RL10014',
-    'big_engine_hc_final_inspection': 'XN01677',
-    'casting_machining_hc': 'XN01677',
-    'cn_administration': 'XN01044',
-    'cost_control': 'XN04142',
-    'costing_budgeting': 'XN12315',
-    'crank_pe': 'RL04021',
-    'crank_shaft_machining': 'XN00382',
-    'custom_clearance': 'XN00029',
-    'customer_relationship': 'XN00506',
-    'delivery_control': 'XN04079',
-    'delivery_control_plant_2': 'XN04079',
-    'die_casting_wheel_ged_2': 'XN00013',
-    'die_casting_wheel_ged_6': 'XN00786',
-    'direct_inventory_control': 'RL10020',
-    'equipment_control': 'XN01781',
-    'fa_control': 'XN12315',
-    'forging': 'XN00205',
-    'forging_heat_treatment_ga_pe': 'XN08862',
-    'fork_cam_shift_ht': 'XN00382',
-    'fork_shift_final_inspection': 'XN00382',
-    'gear_machining': 'RL10014',
-    'general_accounting': 'XN12315',
-    'general_affairs': 'XN01352',
-    'gravity_wheel_ged_6': 'XN00786',
-    'hc_machining_pe': 'XN00257',
-    'heat_treatment': 'RL10014',
-    'high_pressure_die_casting_pe': 'XN01736',
-    'ie_automation': 'XN01781',
-    'indirect_inventory_control': 'RL10020',
-    'industrial_relations_hr_administration': 'XN02018',
-    'inventory_operation_control': 'RL10020',
-    'iot': 'XN01781',
-    'legal_risk_management': 'XN01352',
-    'logistic_control': 'XN00083',
-    'low_pressure_die_casting_gravity_pe': 'XN00257',
-    'machining_painting_wheel_ged_1': 'XN01056',
-    'machining_ga_pe': 'XN08862',
-    'machining_wheel_pe': 'XN01736',
-    'management_information_system': 'RL10017',
-    'manufacturing_center': 'XN00787',
-    'medical_welfare': 'XN02018',
-    'mold_dies_maintenance': 'XN00787',
-    'mold_dies_manufacturing': 'XN00787',
-    'mtc_engineering_aluminium': 'XN00586',
-    'mtc_engineering_steel': 'XN00586',
-    'mtc_engineering_utility': 'XN00586',
-    'mtc_operation_1': 'XN00935',
-    'mtc_operation_2': 'XN00935',
-    'mtc_operation_3': 'XN00935',
-    'mtc_operation_utility': 'XN00935',
-    'painting_assy_wheel_pe': 'XN01736',
-    'pin_weight_cam_shaft_machining': 'XN00382',
-    'piston_forging_machining_platting': 'XN01677',
-    'piston_pe': 'XN00257',
-    'poc_wheel': 'XN04079',
-    'process_control': 'XN00382',
-    'prod_preparation_aluminium': 'XN01736',
-    'prod_preparation_steel': 'XN01781',
-    'production_control': 'XN04079',
-    'production_control_plant_2': 'XN04079',
-    'production_planning_system': 'XN00083',
-    'purchase_administration': None,
-    'purchase_strategy': None,
-    'quality_control_1': 'RL03042',
-    'quality_control_2': 'RL03042',
-    'quality_control_3': 'RL03042',
-    'quality_engineering_aluminium': 'XN01736',
-    'quality_engineering_steel': 'XN08862',
-    'quality_management_system': 'XN01044',
-    'quality_system_calibration': 'XN00506',
-    'recruitment_selection': 'XN02018',
-    'safety_environment': 'XN01044',
-    'shaft_parts_pe': 'RL04021',
-    'suppliers_relationship': 'XN00506',
-    'taxation': 'XN00029',
-    'technical_support_documentation': 'XN01736',
-    'tools_jig_maintenance': 'XN00787',
-    'tpm': 'XN00023',
-    'training_development': 'XN02018',
-    'treasury': 'XN00029',
-    'workshop_center': 'XN01781',
-}
 
 
 class TrainingForm(forms.ModelForm):
@@ -122,15 +37,10 @@ class TrainingForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(TrainingForm, self).__init__(*args, **kwargs)
 
-        # Set the queryset for managers
-        self.fields['manager'].queryset = User.objects.filter(occupation='manager', is_active=True)
-        self.fields['gm'].queryset = User.objects.filter(occupation='general_manager', is_active=True)
-
-        # Autofill manager and gm based on requestor_username
-        requestor_section = self.data.get('requestor_section')
-        if requestor_section and requestor_section in MANAGER_MAPPING:
-            self.fields['manager'].initial = MANAGER_MAPPING[requestor_section]
-            self.fields['gm'].initial = 'default_gm_username'  # Set GM username if needed
+        # Set fields to not be required (although already set in the field definition)
+        self.fields['hrd_manager'].required = False
+        self.fields['gm'].required = False
+        self.fields['manager'].required = False
 
     def clean_requestor_username(self):
         username = self.cleaned_data.get('requestor_username')

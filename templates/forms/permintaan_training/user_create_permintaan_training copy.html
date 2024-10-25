@@ -24,7 +24,8 @@
                     <form method="post" enctype="multipart/form-data">
                         {% csrf_token %}
 
-                        
+                        <!-- Assuming the HRD manager's ID is 3, replace as necessary -->
+                        <input type="hidden" name="hrd_manager" value="{{ hrd_manager.id }}">
 
 
                         <!-- Requestor and User Details -->
@@ -162,13 +163,38 @@
                                 </div>
                             </div>
                         </div>
+                        <input type="hidden" id="id_pic_trainings" name="pic_trainings">
 
-                        <input type="hidden" id="id_pic_trainings" name="pic_trainings" >
-                        <input type="hidden" name="hrd_manager" value="{{ hrd_manager.id }}">
-                        <input type="hidden" id="id_manager" name="manager" >
-                        <input type="hidden" id="id_gm" name="gm" >
+                        
+                        
+                        
+                        
+                        <!-- Remarks Section 
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="id_gm">GM:</label>
+                                <select class="form-control{% if training_form.gm.errors %} is-invalid{% endif %}" id="id_gm" name="gm">
+                                    {% for choice in training_form.gm.field.choices %}
+                                        <option value="{{ choice.0 }}" {% if choice.0 == training_form.gm.value %}selected{% endif %}>{{ choice.1 }}</option>
+                                    {% endfor %}
+                                </select>
+                                {% for error in training_form.gm.errors %}
+                                    <div class="invalid-feedback">{{ error }}</div>
+                                {% endfor %}
+                            </div>
 
-
+                            <div class="form-group col-md-6">
+                                <label for="id_manager">Manager:</label>
+                                <select class="form-control{% if training_form.manager.errors %} is-invalid{% endif %}" id="id_manager" name="manager">
+                                    {% for choice in training_form.manager.field.choices %}
+                                        <option value="{{ choice.0 }}" {% if choice.0 == training_form.manager.value %}selected{% endif %}>{{ choice.1 }}</option>
+                                    {% endfor %}
+                                </select>
+                                {% for error in training_form.manager.errors %}
+                                    <div class="invalid-feedback">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+                        </div>-->
 
                         <!-- Submit Button -->
                         <div class="form-group">
@@ -223,8 +249,7 @@
             picTrainingsInput.value = 'XN09542';  // External
         }
     });
-
-        
+    
 </script>
 
 {% endblock content %}

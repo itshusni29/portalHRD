@@ -10,7 +10,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required, user_passes_test
 
 from django.db.models import Count, Q
-
+from .mappings import MANAGER_MAPPING, GM_MAPPING
 
 
 
@@ -64,11 +64,26 @@ def request_training_user(request):
                     training = training_form.save(commit=False)
                     training.requestor = requestor
                     
-                    # Fetch the HRD manager by username or id
-                    hrd_manager = User.objects.get(username="XN02018")  # Replace with actual logic if needed
-                    training.hrd_manager = hrd_manager  # Assign valid HRD Manager
-                    
-                    training.pic_trainings = training_form.cleaned_data['pic_trainings']  # Ensure this is filled
+                    # Autofill manager and GM based on requestor's section
+                    requestor_section = requestor.section  # Assuming 'section' is an attribute of User
+
+                    # Autofill Manager field
+                    manager_username = MANAGER_MAPPING.get(requestor_section)
+                    if manager_username:
+                        manager = User.objects.filter(username=manager_username).first()
+                        if manager:
+                            training.manager = manager  # Directly assign the User object
+
+                    # Autofill GM field
+                    gm_username = GM_MAPPING.get(requestor_section)
+                    if gm_username:
+                        gm = User.objects.filter(username=gm_username).first()
+                        if gm:
+                            training.gm = gm  # Directly assign the User object
+
+                    # Assign HRD Manager directly as it's already managed in the form
+                    training.hrd_manager = training_form.cleaned_data.get('hrd_manager')
+                    training.pic_trainings = training_form.cleaned_data.get('pic_trainings')  # Ensure this is filled
                     training.save()
 
                     messages.success(request, "Training request submitted successfully!")
@@ -84,12 +99,14 @@ def request_training_user(request):
 
     else:
         training_form = TrainingForm()
-    hrd_manager = User.objects.get(username="XN02018")
+        
+    hrd_manager = User.objects.get(username="XN02018")  # HRD Manager is fetched once
     return render(request, 'forms/permintaan_training/user_create_permintaan_training.html', {
         'training_form': training_form,
         'hrd_manager': hrd_manager,
-
     })
+
+
     
     
 @login_required
