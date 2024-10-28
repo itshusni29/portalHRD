@@ -20,7 +20,7 @@ def is_training_and_development(user):
 
 
 
-
+    
 
 def login_view(request):
     if request.method == 'POST':

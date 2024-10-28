@@ -103,17 +103,17 @@ class TrainingStatus(models.Model):
 # ====================================================================================================================== 
 class Training(models.Model):
     LEVEL_CHOICES = [
-        ('1', 'Level 1'),
-        ('2', 'Level 2'),
-        ('3', 'Level 3'),
+        ('1', 'Level 1 = Kesan umum Terhadap pelaksanaan Training'),
+        ('2', 'Level 2 = Penambahan pengetahuan akibat pelaksanaan Training'),
+        ('3', 'Level 3 = Penerapan hasil training di tempat kerja'),
     ]
     
     
 
     
     JENIS_CHOICES = [
-        ('1', 'Internal'),
-        ('2', 'Eksternal')
+        ('1', 'Internal = Jika trainer berasal dari internal YPMI'),
+        ('2', 'Eksternal = Jika trainer berasal dari pihak luar')
     ]
 
 
