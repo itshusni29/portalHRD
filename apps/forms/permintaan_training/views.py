@@ -12,7 +12,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.db.models import Count, Q
 from .mappings import MANAGER_MAPPING, GM_MAPPING
 
-
+    
 
 def is_training_and_development(user):
     return user.section == 'training_development'

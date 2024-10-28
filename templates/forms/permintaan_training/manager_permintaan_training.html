@@ -125,15 +125,16 @@
                                                                             </div>
                                                                             <div class="col-sm-6">
                                                                                 <h4>Cost</h4>
-                                                                                <p class="text-primary">{{ training.cost }}</p>
+                                                                                <p class="text-primary">{{ training.cost|rupiah_format }}</p>
                                                                             </div>
                                                                         </div>
                                                                 
                                                                         <!-- Third Row -->
                                                                         <div class="row mt-3">
+                                                                            
                                                                             <div class="col-sm-6">
-                                                                                <h4>Participants</h4>
-                                                                                <p class="text-primary">{{ training.participants|linebreaksbr }}</p>
+                                                                                <h4>Evaluation Level</h4>
+                                                                                <p class="text-primary">{{ training.get_evaluation_level_display }}</p>
                                                                             </div>
                                                                             <div class="col-sm-6">
                                                                                 <h4>Background</h4>
@@ -144,12 +145,8 @@
                                                                         <!-- Fourth Row -->
                                                                         <div class="row mt-3">
                                                                             <div class="col-sm-6">
-                                                                                <h4>Target</h4>
-                                                                                <p class="text-primary">{{ training.target }}</p>
-                                                                            </div>
-                                                                            <div class="col-sm-6">
-                                                                                <h4>Evaluation Level</h4>
-                                                                                <p class="text-primary">{{ training.get_evaluation_level_display }}</p>
+                                                                                <h4>Participants</h4>
+                                                                                <p class="text-primary">{{ training.participants|linebreaksbr }}</p>
                                                                             </div>
                                                                         </div>
                                                                     </div>

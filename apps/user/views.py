@@ -11,10 +11,12 @@ from .forms import UserLoginForm, UserRegisterForm
 
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from .forms import CustomUserCreationForm, CustomUserChangeForm
 from .models import User
 
+def is_training_and_development(user):
+    return user.section == 'training_development'
 
 
 def login_view(request):
@@ -25,7 +27,7 @@ def login_view(request):
             if user is not None:
                 login(request, user)
                 messages.success(request, 'Successfully logged in.')
-                return redirect('dashboard')  # Redirect to the dashboard after login
+                return redirect('dashboard')  
             else:
                 messages.error(request, 'Invalid username or password.')
     else:
@@ -55,6 +57,8 @@ def logout_view(request):
 
 
 # Create a new user
+@login_required
+@user_passes_test(is_training_and_development, login_url='login') 
 def create_user(request):
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
@@ -66,11 +70,15 @@ def create_user(request):
     return render(request, 'user/Create_user.html', {'form': form})
 
 # View all users (Admin User Panel)
+@login_required
+@user_passes_test(is_training_and_development, login_url='login') 
 def user_list(request):
-    users = User.objects.all()  # Get all users
+    users = User.objects.all() 
     return render(request, 'user/admin_user.html', {'users': users})
 
 # Edit an existing user
+@login_required
+@user_passes_test(is_training_and_development, login_url='login')   
 def edit_user(request, user_id):
     user = get_object_or_404(User, id=user_id)
     if request.method == 'POST':
@@ -84,9 +92,26 @@ def edit_user(request, user_id):
     return render(request, 'user/Update_user.html', {'form': form, 'user': user})
 
 # Delete a user
+@login_required
+@user_passes_test(is_training_and_development, login_url='login') 
 def delete_user(request, user_id):
     user = get_object_or_404(User, id=user_id)
     if request.method == 'POST':
         user.delete()
         return redirect('user_list')
     return render(request, 'user/Delete_user.html', {'user': user})
+
+#Edit user profile
+@login_required
+def edit_profile(request):
+    user = request.user
+    if request.method == 'POST':
+        form = CustomUserChangeForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Profile updated successfully.')
+            return redirect('dashboard')
+    else:
+        form = CustomUserChangeForm(instance=user)
+    
+    return render(request, 'user/Update_user_self.html', {'form': form, 'user': user})
