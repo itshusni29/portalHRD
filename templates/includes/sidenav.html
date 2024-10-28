@@ -69,6 +69,14 @@
             </a>
           </li>
 
+          {% elif request.user.occupation == 'supervisor' or request.user.occupation == 'staff' or request.user.occupation == 'foreman' or request.user.occupation == 'general_foreman' or request.user.occupation == 'operator' %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'edit_profile' %}">
+              <i class="ni ni-circle-08 text-pink"></i>
+              <span class="nav-link-text">Edit Profile</span>
+            </a>
+          </li>
+
           {% else %}
           <!-- General Links for Other Users -->
           <li class="nav-item">

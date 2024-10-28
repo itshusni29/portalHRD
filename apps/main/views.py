@@ -41,6 +41,9 @@ def custom_500(request):
 def dashboard(request):
     return render(request, "main/dashboard.html")
 
+def user_dashboard(request):
+    return render(request, "main/user_dashboard.html")
+
 # Views: Tim Kami
 # ======================================================================================================================
 def timKami(request):

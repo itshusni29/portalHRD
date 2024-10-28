@@ -19,6 +19,9 @@ def is_training_and_development(user):
     return user.section == 'training_development'
 
 
+
+
+
 def login_view(request):
     if request.method == 'POST':
         form = UserLoginForm(request, data=request.POST)
@@ -27,12 +30,17 @@ def login_view(request):
             if user is not None:
                 login(request, user)
                 messages.success(request, 'Successfully logged in.')
-                return redirect('dashboard')  
+                
+                if user.department == 'recruitment_training_development':
+                    return redirect('dashboard')
+                else:
+                    return redirect('user_dashboard')
             else:
                 messages.error(request, 'Invalid username or password.')
     else:
         form = UserLoginForm()
     return render(request, 'user/auth/login.html', {'form': form})
+
 
 
 def register_view(request):
