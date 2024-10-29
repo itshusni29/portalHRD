@@ -163,8 +163,8 @@ EMAIL_HOST = '172.20.2.201'
 EMAIL_PORT = 587
 EMAIL_USE_SSL = False  
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'xndum00@globalymc.com'
-EMAIL_HOST_PASSWORD = 'Trainergaspoll1#'     
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''     
 EMAIL_USE_AUTHENTICATION_METHOD = 'LOGIN'    
 
 ssl._create_default_https_context = ssl._create_unverified_context
