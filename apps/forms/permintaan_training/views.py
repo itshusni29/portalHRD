@@ -8,7 +8,7 @@ from apps.user.models import User
 import logging
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, user_passes_test
-
+from ..utils import send_notification_email
 from django.db.models import Count, Q
 from .mappings import MANAGER_MAPPING, GM_MAPPING
 
@@ -85,6 +85,22 @@ def request_training_user(request):
                     training.hrd_manager = training_form.cleaned_data.get('hrd_manager')
                     training.pic_trainings = training_form.cleaned_data.get('pic_trainings')  # Ensure this is filled
                     training.save()
+                    
+                    # Sending the notification email to the specific user 'RL20155'
+                    subject = 'Training Request Submitted'
+                    message = f'A new training request has been submitted by {requestor_username}.'
+                    try:
+                        # Get the recipient's email address
+                        recipient_email = User.objects.get(username='RL20155').email
+                        recipient_list = [recipient_email]
+                        
+                        # Send the notification email
+                        send_notification_email(subject, message, recipient_list)
+                    except User.DoesNotExist:
+                        logger.warning("User 'RL20155' does not exist.")
+                    except Exception as e:
+                        logger.error(f"Error sending email notification: {e}")
+
 
                     messages.success(request, "Training request submitted successfully!")
                     logger.info(f"Training request created successfully by {requestor_username}.")

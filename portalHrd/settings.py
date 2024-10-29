@@ -11,6 +11,10 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 import os
 from pathlib import Path
+import ssl
+import smtplib
+from django.core.mail import send_mail
+from ssl import create_default_context
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -136,9 +140,6 @@ USE_TZ = True
 USE_L10N = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.0/howto/static-files/
-
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
 STATIC_ROOT = BASE_DIR / 'staticfiles'
@@ -147,12 +148,23 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-# Default primary key field type
-# https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 AUTH_USER_MODEL = 'user.User'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-LOGIN_URL = '/user/login/'  # Pastikan sesuai dengan rute login Anda
+LOGIN_URL = '/user/login/'  
+
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = '172.20.2.201'
+EMAIL_PORT = 587
+EMAIL_USE_SSL = False  
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'xndum00@globalymc.com'
+EMAIL_HOST_PASSWORD = 'Trainergaspoll1#'     
+EMAIL_USE_AUTHENTICATION_METHOD = 'LOGIN'    
+
+ssl._create_default_https_context = ssl._create_unverified_context
