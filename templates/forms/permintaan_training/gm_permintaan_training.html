@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="{% static 'assets/css/datatables.min.css' %}">
 {% endblock stylesheets %}
 
-{% load currency_filters %}
+
 
 {% block content %}
     <!-- Header -->
@@ -65,7 +65,7 @@
                                             <td>{{ training.requestor.get_full_name }}</td>
                                             <td>{{ training.date|date:"d F Y" }}</td>
                                             <td>{{ training.get_jenis_display }}</td>
-                                            <td>{{ training.cost|rupiah_format }}</td>
+                                            <td>{{ training.cost }}</td>
                                             <td>
                                                 {% if training.status.exists %}
                                                     {% with last_status=training.status.last %}
@@ -125,7 +125,7 @@
                                                                             </div>
                                                                             <div class="col-sm-6">
                                                                                 <h4>Cost</h4>
-                                                                                <p class="text-primary">{{ training.cost|rupiah_format }}</p>
+                                                                                <p class="text-primary">{{ training.cost }}</p>
                                                                             </div>
                                                                         </div>
                                                                 

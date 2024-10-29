@@ -103,17 +103,17 @@ class TrainingStatus(models.Model):
 # ====================================================================================================================== 
 class Training(models.Model):
     LEVEL_CHOICES = [
-        ('1', 'Level 1 = Kesan umum Terhadap pelaksanaan Training'),
-        ('2', 'Level 2 = Penambahan pengetahuan akibat pelaksanaan Training'),
-        ('3', 'Level 3 = Penerapan hasil training di tempat kerja'),
+        ('1', 'Level 1'),
+        ('2', 'Level 2'),
+        ('3', 'Level 3'),
     ]
     
     
 
     
     JENIS_CHOICES = [
-        ('1', 'Internal = Jika trainer berasal dari internal YPMI'),
-        ('2', 'Eksternal = Jika trainer berasal dari pihak luar')
+        ('1', 'Internal'),
+        ('2', 'Eksternal')
     ]
 
 
@@ -125,7 +125,7 @@ class Training(models.Model):
     date = models.DateField()
     date_end = models.DateField()
     jenis = models.CharField(max_length=2, choices=JENIS_CHOICES)
-    cost = models.DecimalField(max_digits=12, decimal_places=2)
+    cost = models.CharField(max_length=100)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     evaluation_level = models.CharField(max_length=2, choices=LEVEL_CHOICES)

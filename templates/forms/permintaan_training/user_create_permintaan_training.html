@@ -144,13 +144,22 @@
                                 <label for="id_jenis">Jenis:</label>
                                 <select class="form-control{% if training_form.jenis.errors %} is-invalid{% endif %}" id="id_jenis" name="jenis">
                                     {% for choice in training_form.jenis.field.choices %}
-                                        <option value="{{ choice.0 }}" {% if choice.0 == training_form.jenis.value %}selected{% endif %}>{{ choice.1 }}</option>
+                                        <option value="{{ choice.0 }}" {% if choice.0 == training_form.jenis.value %}selected{% endif %}>
+                                            {% if choice.0 == '1' %}
+                                                {{ choice.1 }} = Jika trainer berasal dari internal YPMI
+                                            {% elif choice.0 == '2' %}
+                                                {{ choice.1 }} = Jika trainer berasal dari Eksternal YPMI
+                                            {% else %}
+                                                {{ choice.1 }}
+                                            {% endif %}
+                                        </option>
                                     {% endfor %}
                                 </select>
                                 {% for error in training_form.jenis.errors %}
                                     <div class="invalid-feedback">{{ error }}</div>
                                 {% endfor %}
                             </div>
+                            
                         </div>
 
                         <div class="form-row">
@@ -165,7 +174,7 @@
                                 info
                                 </button>
 
-                                <input type="number" step="0.01" class="form-control{% if training_form.cost.errors %} is-invalid{% endif %}" id="id_cost" name="cost" value="{{ training_form.cost.value }}">
+                                <input type="text" class="form-control{% if training_form.cost.errors %} is-invalid{% endif %}" id="id_cost" name="cost" value="{{ training_form.cost.value }}">
                                 {% for error in training_form.cost.errors %}
                                     <div class="invalid-feedback">{{ error }}</div>
                                 {% endfor %}
@@ -173,15 +182,27 @@
 
                             <div class="form-group col-md-6">
                                 <label for="id_evaluation_level">Level Evaluasi:</label>
-                                <select class="form-control{% if training_form.evaluation_level.errors %} is-invalid{% endif %}" id="id_evaluation_level" name="evaluation_level">
+                                <select class="form-control{% if training_form.evaluation_level.errors %} is-invalid{% endif %}" 
+                                        id="id_evaluation_level" name="evaluation_level">
                                     {% for choice in training_form.evaluation_level.field.choices %}
-                                        <option value="{{ choice.0 }}" {% if choice.0 == training_form.evaluation_level.value %}selected{% endif %}>{{ choice.1 }}</option>
+                                        <option value="{{ choice.0 }}" {% if choice.0 == training_form.evaluation_level.value %}selected{% endif %}>
+                                            {% if choice.0 == '1' %}
+                                                {{ choice.1 }} = Kesan umum terhadap pelaksanaan Training
+                                            {% elif choice.0 == '2' %}
+                                                {{ choice.1 }} = Penambahan pengetahuan akibat pelaksanaan Training
+                                            {% elif choice.0 == '3' %}
+                                                {{ choice.1 }} = Penerapan hasil Training di tempat kerja
+                                            {% else %}
+                                                {{ choice.1 }}
+                                            {% endif %}
+                                        </option>
                                     {% endfor %}
                                 </select>
                                 {% for error in training_form.evaluation_level.errors %}
                                     <div class="invalid-feedback">{{ error }}</div>
                                 {% endfor %}
                             </div>
+                            
                         </div>
 
                         <div class="form-row">
