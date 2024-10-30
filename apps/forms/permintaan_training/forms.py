@@ -30,7 +30,7 @@ class TrainingForm(forms.ModelForm):
             'manager': forms.Select(attrs={'class': 'form-control'}),
             'gm': forms.Select(attrs={'class': 'form-control'}),
             'flyer': forms.FileInput(attrs={'class': 'custom-file-input'}),
-            'pic_trainings': forms.Select(attrs={'class': 'form-control'}),
+            'pic_trainings': forms.HiddenInput(),  # Hide the pic_trainings field
         }
 
     flyer = forms.FileField(required=False)
@@ -46,13 +46,13 @@ class TrainingForm(forms.ModelForm):
         # Set the choices for GM and Manager fields
         self.fields['gm'].choices = user_choices
         self.fields['manager'].choices = user_choices
-        self.fields['pic_trainings'].queryset = User.objects.all()
+        self.fields['pic_trainings'].queryset = users
 
-        
         # Set initial values using instance IDs for editing
         if self.instance and self.instance.pk:
             self.initial['gm'] = self.instance.gm_id
             self.initial['manager'] = self.instance.manager_id
+            self.initial['pic_trainings'] = self.instance.pic_trainings_id 
 
         # Set fields to not be required
         self.fields['hrd_manager'].required = False
@@ -67,13 +67,20 @@ class TrainingForm(forms.ModelForm):
             raise forms.ValidationError("Requestor username must be exactly 7 characters long.")
         return username
 
-    def clean_pic_trainings(self): 
-        jenis = self.cleaned_data.get('jenis')
+    def clean(self):
+        cleaned_data = super().clean()
+        jenis = cleaned_data.get('jenis')
+
+        # Automatically assign pic_trainings based on jenis
         if jenis == '1':  # Internal
-            return User.objects.get(username='RL20155')
+            cleaned_data['pic_trainings'] = User.objects.get(username='RL20155')  # Get the User instance
         elif jenis == '2':  # External
-            return User.objects.get(username='XN09542')
-        raise forms.ValidationError("Invalid 'jenis' value.")
+            cleaned_data['pic_trainings'] = User.objects.get(username='XN09542')  # Get the User instance
+        else:
+            cleaned_data['pic_trainings'] = None  # Or handle as needed
+
+        return cleaned_data
+
 
 
     def clean_hrd_manager(self):

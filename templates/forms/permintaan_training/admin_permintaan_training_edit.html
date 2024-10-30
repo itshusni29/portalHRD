@@ -37,7 +37,8 @@
                             <!-- Hidden Field for HRD Manager -->
                             <input type="hidden" name="hrd_manager" value="{{ training_form.hrd_manager.value|default:training.hrd_manager.id }}">
 
-                            <input type="hidden" id="id_pic_trainings" name="pic_trainings" value="{{ training.pic_trainings }}">
+                            {{ training_form.pic_trainings }}
+                            
 
 
                             <!-- Requestor and User Details -->
@@ -195,6 +196,7 @@
                                         <div class="invalid-feedback">{{ error }}</div>
                                     {% endfor %}
                                 </div>
+                                
                                 
                             </div>
 

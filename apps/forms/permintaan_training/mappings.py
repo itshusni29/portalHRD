@@ -54,7 +54,7 @@ GM_MAPPING = {
     'medical_welfare': 'XN00029',
     'management_information_system': 'XN00029',
     'recruitment_selection': 'XN00029',
-    'training_development': 'XN09542',
+    'training_development': 'XN00029',
     'costing_budgeting': 'XN00029',
     'direct_inventory_control': 'XN00083',
     'indirect_inventory_control': 'XN00083',
@@ -166,7 +166,7 @@ MANAGER_MAPPING = {
     'technical_support_documentation': 'XN01736',
     'tools_jig_maintenance': 'XN00787',
     'tpm': 'XN00023',
-    'training_development': 'RL20155',
+    'training_development': 'XN02018',
     'treasury': 'XN00029',
     'workshop_center': 'XN01781',
 }

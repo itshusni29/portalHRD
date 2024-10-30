@@ -178,7 +178,7 @@
                                                                                         <a class="text-primary">
                                                                                             {{ status.get_status_display }} 
                                                                                         </a>
-                                                                                        <p class="text-default">{{ status.remarks|default:"No remarks provided" }}</p>
+                                                                                        <p class="text-default">{{ status.remarks }}</p>
                                                                                         <a class="date text-muted">{{ status.created_at|date:"d F Y H:i:s" }}</a>
                                                                                     </li>
                                                                                 {% endfor %}
