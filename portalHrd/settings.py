@@ -162,9 +162,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = '172.20.2.201'
 EMAIL_PORT = 587
 EMAIL_USE_SSL = False  
-EMAIL_USE_TLS = True
+EMAIL_USE_TLS = False
 EMAIL_HOST_USER = ''
 EMAIL_HOST_PASSWORD = ''     
-EMAIL_USE_AUTHENTICATION_METHOD = 'LOGIN'    
-
-ssl._create_default_https_context = ssl._create_unverified_context
+DEFAULT_FROM_EMAIL = 'training_YPMI@yamaha-motor.co.id'

@@ -8,10 +8,16 @@ from apps.user.models import User
 import logging
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, user_passes_test
-from ..utils import send_notification_email
 from django.db.models import Count, Q
 from .mappings import MANAGER_MAPPING, GM_MAPPING
 
+
+from django.core.mail import EmailMultiAlternatives
+from django.core.mail import EmailMessage
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
+import ssl
+from django.core.mail import get_connection
     
 
 def is_training_and_development(user):
@@ -86,22 +92,10 @@ def request_training_user(request):
                     training.pic_trainings = training_form.cleaned_data.get('pic_trainings')  # Ensure this is filled
                     training.save()
                     
-                    # Sending the notification email to the specific user 'RL20155'
-                    subject = 'Training Request Submitted'
-                    message = f'A new training request has been submitted by {requestor_username}.'
-                    try:
-                        # Get the recipient's email address
-                        recipient_email = User.objects.get(username='RL20155').email
-                        recipient_list = [recipient_email]
-                        
-                        # Send the notification email
-                        send_notification_email(subject, message, recipient_list)
-                    except User.DoesNotExist:
-                        logger.warning("User 'RL20155' does not exist.")
-                    except Exception as e:
-                        logger.error(f"Error sending email notification: {e}")
-
-
+                     # Send email notification to the manager
+                    if training.manager and training.manager.email:
+                        send_training_request_email(training, training.manager.email)
+                    
                     messages.success(request, "Training request submitted successfully!")
                     logger.info(f"Training request created successfully by {requestor_username}.")
                     return redirect('permintaan_training:request_training_list')
@@ -116,12 +110,33 @@ def request_training_user(request):
     else:
         training_form = TrainingForm()
         
-    hrd_manager = User.objects.get(username="XN02018")  # HRD Manager is fetched once
+    hrd_manager = User.objects.get(username="XN02018")  # 
     return render(request, 'forms/permintaan_training/user_create_permintaan_training.html', {
         'training_form': training_form,
         'hrd_manager': hrd_manager,
     })
 
+logger = logging.getLogger(__name__)
+
+def send_training_request_email(training, manager_email):
+    # Render the HTML template with context
+    subject = f"New Training Request: {training.topic}"
+    from_email = 'training_YPMI@yamaha-motor.co.id'
+    recipient_list = [manager_email]  # Use the provided manager email
+
+    # Create the HTML message
+    html_message = render_to_string('emails/new_training_request.html', {'training': training})
+    plain_message = f"A new training request has been created for topic: {training.topic}."
+
+    # Set up the email
+    email = EmailMultiAlternatives(subject, plain_message, from_email, recipient_list)
+    email.attach_alternative(html_message, "text/html")  # Attach HTML version of the message
+
+    try:
+        email.send()
+        logger.info("Email sent successfully!")
+    except Exception as e:
+        logger.error(f"Failed to send email: {e}")
 
     
     
