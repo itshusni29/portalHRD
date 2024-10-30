@@ -66,9 +66,9 @@ class TrainingForm(forms.ModelForm):
     def clean_pic_trainings(self):
         jenis = self.cleaned_data.get('jenis')
         if jenis == '1':  # Internal
-            return 'RL20155'
+            return User.objects.get(username='RL20155')
         elif jenis == '2':  # External
-            return 'XN09542'
+            return User.objects.get(username='XN09542')
         raise forms.ValidationError("Invalid 'jenis' value.")
 
     def clean_hrd_manager(self):

@@ -55,7 +55,7 @@ logger = logging.getLogger(__name__)
 # Views: Untuk pengajuan form request training baru oleh user tanpa harus logi
 # ======================================================================================================================
 def request_training_user(request):
-    if request.method == 'POST':
+    if request.method == 'POST':    
         training_form = TrainingForm(request.POST, request.FILES)
 
         requestor_username = training_form.data.get('requestor_username')
@@ -119,18 +119,15 @@ def request_training_user(request):
 logger = logging.getLogger(__name__)
 
 def send_training_request_email(training, manager_email):
-    # Render the HTML template with context
     subject = f"New Training Request: {training.topic}"
     from_email = 'training_YPMI@yamaha-motor.co.id'
-    recipient_list = [manager_email]  # Use the provided manager email
+    recipient_list = [manager_email] 
 
-    # Create the HTML message
     html_message = render_to_string('emails/new_training_request.html', {'training': training})
     plain_message = f"A new training request has been created for topic: {training.topic}."
 
-    # Set up the email
     email = EmailMultiAlternatives(subject, plain_message, from_email, recipient_list)
-    email.attach_alternative(html_message, "text/html")  # Attach HTML version of the message
+    email.attach_alternative(html_message, "text/html")  
 
     try:
         email.send()
@@ -240,6 +237,12 @@ def admin_request_training_view(request, training_id):
             updated_status.training = training
             updated_status.save()
 
+            # Check if the new status is 'ok_analisa'
+            if updated_status.status == 'ok_analisa':
+                # Replace this with the actual logic to get the HRD manager's email
+                hrd_manager_email = User.objects.get(username="XN02018").email
+                send_training_request_email_hrd(training, hrd_manager_email)
+
             # Display appropriate message based on the new status
             messages.success(request, f"Training status updated to {updated_status.get_status_display()}.")
 
@@ -253,6 +256,25 @@ def admin_request_training_view(request, training_id):
         'training': training,
         'form': form,
     })
+
+    
+def send_training_request_email_hrd(training, manager_email):
+    subject = f"New Training Request: {training.topic}"
+    from_email = 'training_YPMI@yamaha-motor.co.id'
+    recipient_list = [manager_email] 
+
+    html_message = render_to_string('emails/hrd_manager_training_request.html', {'training': training})
+    plain_message = f"A new training request has been created for topic: {training.topic}."
+
+    email = EmailMultiAlternatives(subject, plain_message, from_email, recipient_list)
+    email.attach_alternative(html_message, "text/html")  
+
+    try:
+        email.send()
+        logger.info("Email sent successfully!")
+    except Exception as e:
+        logger.error(f"Failed to send email: {e}")
+        
 
 @login_required
 def admin_delete_training(request, training_id):
@@ -293,6 +315,8 @@ def manager_training_list(request):
             # Display appropriate messages
             if manager_approval.approval_status:
                 messages.success(request, "Training request approved successfully.")
+                gm_email = training.gm.email  # Assuming the GM's email is stored in the Training model
+                send_training_request_email_gm(training, gm_email)
             else:
                 messages.error(request, "Training request rejected.")
 
@@ -306,6 +330,24 @@ def manager_training_list(request):
         'trainings': trainings,
         'form': form,
     })
+    
+    
+def send_training_request_email_gm(training, gm_email):
+    subject = f"New Training Request: {training.topic}"
+    from_email = 'training_YPMI@yamaha-motor.co.id'
+    recipient_list = [gm_email] 
+
+    html_message = render_to_string('emails/gm_training_request.html', {'training': training})
+    plain_message = f"A new training request has been created for topic: {training.topic}."
+
+    email = EmailMultiAlternatives(subject, plain_message, from_email, recipient_list)
+    email.attach_alternative(html_message, "text/html")  
+
+    try:
+        email.send()
+        logger.info("Email sent successfully!")
+    except Exception as e:
+        logger.error(f"Failed to send email: {e}")
 
 @login_required
 def gm_training_list(request):
@@ -336,6 +378,11 @@ def gm_training_list(request):
             # Update the training object with the GM approval and save
             training.gm_approval = gm_approval
             training.save()
+            
+            # Send email notification to PIC if approved
+            if gm_approval.approval_status:  # Only send if approved
+                pic_email = training.pic_trainings  # Get the PIC email from the training object
+                send_training_request_email_pic(training, pic_email)
 
             # Redirect to GM's training list page
             return redirect('permintaan_training:gm_request_training_list')
@@ -347,12 +394,28 @@ def gm_training_list(request):
         'trainings': trainings,  # Pass only manager-approved training requests
         'form': form,  # Pass the GM approval form to the template
     })
+    
+    
+def send_training_request_email_pic(training, pic_email):
+    subject = f"New Training Request: {training.topic}"
+    from_email = 'training_YPMI@yamaha-motor.co.id'
+    recipient_list = [pic_email] 
+
+    html_message = render_to_string('emails/hrd_manager_training_request.html', {'training': training})
+    plain_message = f"A new training request has been created for topic: {training.topic}."
+
+    email = EmailMultiAlternatives(subject, plain_message, from_email, recipient_list)
+    email.attach_alternative(html_message, "text/html")  
+
+    try:
+        email.send()
+        logger.info("Email sent successfully!")
+    except Exception as e:
+        logger.error(f"Failed to send email: {e}")
 
 @login_required
 def hrd_training_list(request):
-    # Filter training requests where the logged-in user is HRD Manager 
-    # and has both statuses: 'gm_approved' and 'ok_analisa'
-    
+
     trainings = Training.objects.filter(
         hrd_manager=request.user
     ).annotate(
