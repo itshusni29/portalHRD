@@ -129,7 +129,7 @@ class Training(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     evaluation_level = models.CharField(max_length=2, choices=LEVEL_CHOICES)
-    pic_trainings = models.CharField(max_length=9)
+    pic_trainings = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='pic_trainings', null=True)
     flyer = models.FileField(upload_to="uploads/forms/request_training")
    
 

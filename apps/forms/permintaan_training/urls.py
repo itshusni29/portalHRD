@@ -33,10 +33,5 @@ urlpatterns = [
     path('training/print/<int:training_id>/', print_training_request, name='print_training_request'),
     path('internal/', internal_training_requests, name='internal_training_requests'),
     path('eksternal/', eksternal_training_requests, name='eksternal_training_requests'),
-
-
-
-
-
 ]
 

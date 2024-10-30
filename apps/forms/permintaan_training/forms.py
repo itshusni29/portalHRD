@@ -30,7 +30,7 @@ class TrainingForm(forms.ModelForm):
             'manager': forms.Select(attrs={'class': 'form-control'}),
             'gm': forms.Select(attrs={'class': 'form-control'}),
             'flyer': forms.FileInput(attrs={'class': 'custom-file-input'}),
-            'pic_trainings': forms.TextInput(attrs={'class': 'form-control'}),
+            'pic_trainings': forms.Select(attrs={'class': 'form-control'}),
         }
 
     flyer = forms.FileField(required=False)
@@ -42,9 +42,12 @@ class TrainingForm(forms.ModelForm):
         users = User.objects.all()
         user_choices = [(user.id, f"{user.username} - {user.first_name} {user.last_name}") for user in users]
         
+        
         # Set the choices for GM and Manager fields
         self.fields['gm'].choices = user_choices
         self.fields['manager'].choices = user_choices
+        self.fields['pic_trainings'].queryset = User.objects.all()
+
         
         # Set initial values using instance IDs for editing
         if self.instance and self.instance.pk:
@@ -55,6 +58,7 @@ class TrainingForm(forms.ModelForm):
         self.fields['hrd_manager'].required = False
         self.fields['gm'].required = False
         self.fields['manager'].required = False
+        self.fields['pic_trainings'].required = False
 
 
     def clean_requestor_username(self):
@@ -63,13 +67,14 @@ class TrainingForm(forms.ModelForm):
             raise forms.ValidationError("Requestor username must be exactly 7 characters long.")
         return username
 
-    def clean_pic_trainings(self):
+    def clean_pic_trainings(self): 
         jenis = self.cleaned_data.get('jenis')
         if jenis == '1':  # Internal
             return User.objects.get(username='RL20155')
         elif jenis == '2':  # External
             return User.objects.get(username='XN09542')
         raise forms.ValidationError("Invalid 'jenis' value.")
+
 
     def clean_hrd_manager(self):
         # This is not needed anymore since we handle it in the view
