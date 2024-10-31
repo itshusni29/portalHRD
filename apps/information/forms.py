@@ -2,7 +2,7 @@ from django import forms
 from django.core.exceptions import ValidationError
 from django.forms import ModelForm, FileField
 import os
-from .models import JadwalBusM, PengumumanM, MenuKantinM, Grafik
+from .models import JadwalBusM, PengumumanM, MenuKantinM, Grafik, MenuShift
 
 # ======================================================================================================================
 # Forms: Manajemen Jadwal Bus
@@ -47,6 +47,14 @@ class MenuKantinF(ModelForm):
 
 class SearchForm(forms.Form):
     search_query = forms.CharField(max_length=100, required=False, label='Search')
+    
+    
+
+class MenuShiftForm(forms.ModelForm):
+    class Meta:
+        model = MenuShift
+        fields = ['tanggal', 'shift_1', 'shift_2', 'shift_3']
+
 
 
 

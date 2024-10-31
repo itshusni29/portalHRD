@@ -32,6 +32,10 @@ urlpatterns = [
     path('menu_kantin/', views.menuKantin, name='menuKantin'),
     path('dashboard/menu_kantin/upload/', views.upload_csv, name='upload_csv'),
     path('dashboard/menu_kantin/delete/<int:file_id>/', views.delete_csv, name='delete_csv'),
+    path('dashboard/menu_shift', views.menu_shift_list, name='menu_shift_list'),
+    path('dashboard/menu_create/', views.menu_shift_create, name='menu_shift_create'),
+    path('dashboard/menu_update/<int:pk>/', views.menu_shift_update, name='menu_shift_update'),
+    path('dashboard/menu_delete/<int:pk>/', views.menu_shift_delete, name='menu_shift_delete'),
     
     # ======================================================================================================================
     # URL Configuration for Grafik

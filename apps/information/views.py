@@ -29,7 +29,8 @@ from .models import (
     JadwalBusM,
     MenuKantinM,
     PengumumanM,
-    Grafik  
+    Grafik,
+    MenuShift
 )
 
 
@@ -38,7 +39,8 @@ from .forms import (
     MenuKantinF,
     PengumumanF,
     SearchForm,
-    GrafikForm
+    GrafikForm,
+    MenuShiftForm
     
 )
 
@@ -193,6 +195,48 @@ def file_pengumuman_download(request, pengumuman_id):
 # ======================================================================================================================
 # Views: Manajemen Menu Kantin
 # ======================================================================================================================
+@login_required
+@user_passes_test(is_training_and_development, login_url='login')
+def menu_shift_list(request):
+    shifts = MenuShift.objects.all()
+    return render(request, 'information/Menu_kantin/list_menu_shift.html', {'shifts': shifts})
+
+@login_required
+@user_passes_test(is_training_and_development, login_url='login')
+def menu_shift_create(request):
+    if request.method == "POST":
+        form = MenuShiftForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('information:menu_shift_list')  # Use namespaced URL
+    else:
+        form = MenuShiftForm()
+    return render(request, 'information/Menu_kantin/create_menu_shift.html', {'form': form})
+
+@login_required
+@user_passes_test(is_training_and_development, login_url='login')
+def menu_shift_update(request, pk):
+    shift = get_object_or_404(MenuShift, pk=pk)
+    if request.method == "POST":
+        form = MenuShiftForm(request.POST, instance=shift)
+        if form.is_valid():
+            form.save()
+            return redirect('information:menu_shift_list')  # Use namespaced URL
+    else:
+        form = MenuShiftForm(instance=shift)
+    return render(request, 'information/Menu_kantin/update_menu_shift.html', {'form': form})
+
+@login_required
+@user_passes_test(is_training_and_development, login_url='login')
+def menu_shift_delete(request, pk):
+    shift = get_object_or_404(MenuShift, pk=pk)
+    if request.method == "POST":
+        shift.delete()
+        return redirect('information:menu_shift_list')  # Use namespaced URL
+    return render(request, 'information/Menu_kantin/delete_menu_shift.html', {'shift': shift})
+
+
+
 @login_required
 @user_passes_test(is_training_and_development, login_url='login')
 def admin_menukantin(request):

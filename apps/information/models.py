@@ -44,6 +44,18 @@ class MenuKantinM(models.Model):
 
     def __str__(self):
         return str(self.nama_file)
+    
+
+class MenuShift(models.Model):
+    tanggal = models.DateField()
+    shift_1 = models.TextField()  # Changed to TextField
+    shift_2 = models.TextField()  # Changed to TextField
+    shift_3 = models.TextField()  # Changed to TextField
+
+    def __str__(self):
+        return f"{self.tanggal} - {self.shift_1}, {self.shift_2}, {self.shift_3}"
+
+
 
 
 # ======================================================================================================================

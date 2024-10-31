@@ -1,0 +1,75 @@
+{% extends 'layouts/d_base.html' %}
+
+{% block title %} Edit Menu Shift {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+    <!-- Header -->
+    <div class="header">
+      <div class="container-fluid">
+        <div class="header-body">
+          <div class="row align-items-center py-4">
+            <div class="col-lg-6 col-7">
+              <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+                <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                  <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
+                  <li class="breadcrumb-item"><a href="#">Dashboards</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">Edit Menu Shift</li>
+                </ol>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Page content -->
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-xl-12">
+          <div class="card">
+            <div class="card-header border-0">
+              <h3 class="mb-0">Edit Menu Shift</h3>
+            </div>
+            <div class="card-body">
+              <!-- Form Start -->
+              <form method="post">
+                {% csrf_token %}
+                <input type="hidden" name="id" value="{{ shift.id }}">
+                
+                <div class="form-group">
+                  <label for="tanggal">Tanggal:</label>
+                  <input type="date" class="form-control" id="tanggal" name="tanggal" value="{{ shift.tanggal }}" required>
+                </div>
+                
+                <div class="form-group">
+                  <label for="shift_1">Shift 1:</label>
+                  <input type="text" class="form-control" id="shift_1" name="shift_1" value="{{ shift.shift_1 }}" required>
+                </div>
+                
+                <div class="form-group">
+                  <label for="shift_2">Shift 2:</label>
+                  <input type="text" class="form-control" id="shift_2" name="shift_2" value="{{ shift.shift_2 }}" required>
+                </div>
+                
+                <div class="form-group">
+                  <label for="shift_3">Shift 3:</label>
+                  <input type="text" class="form-control" id="shift_3" name="shift_3" value="{{ shift.shift_3 }}" required>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">Update</button>
+              </form>  
+              <!-- Form End -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {% include "includes/footer.html" %}
+
+    </div>
+
+{% endblock content %}
