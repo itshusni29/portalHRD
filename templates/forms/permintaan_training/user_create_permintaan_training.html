@@ -89,7 +89,14 @@
                             </div>
                         
                             <div class="form-group col-md-6">
-                                <label for="id_trainer">Trainer:</label><span class="text-muted text-sm"> (Nama Trainer/ Vendor/ Consultant. Isi " - " jika belum dapat)</span>
+                                <label for="id_trainer">Trainer:</label>
+                                <button type="button" class="btn btn-primary btn-sm fw-bold" 
+                                        data-container="body" data-toggle="popover" data-html="true" 
+                                        data-placement="top" 
+                                        data-content="Nama Trainer/ Vendor/ Consultant<br>Kosongkan jika tidak tahu" 
+                                        onclick="customizePopover(this)">
+                                info
+                                </button>
                                 <input type="text" class="form-control{% if training_form.trainer.errors %} is-invalid{% endif %}" id="id_trainer" name="trainer">
                                 {% for error in training_form.trainer.errors %}
                                     <div class="invalid-feedback">{{ error }}</div>
@@ -99,19 +106,29 @@
 
                         <div class="form-row">
                             <div class="form-group col-md-6">
+                                <label for="id_managerTarget">Target Manager:</label>
+                                <textarea class="form-control{% if training_form.managerTarget.errors %} is-invalid{% endif %}" id="id_managerTarget" name="managerTarget"></textarea>
+                                {% for error in training_form.managerTarget.errors %}
+                                    <div class="invalid-feedback">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+                            <div class="form-group col-md-6">
                                 <label for="id_background">Latar Belakang:</label>
                                 <textarea class="form-control{% if training_form.background.errors %} is-invalid{% endif %}" id="id_background" name="background"></textarea>
                                 {% for error in training_form.background.errors %}
                                     <div class="invalid-feedback">{{ error }}</div>
                                 {% endfor %}
                             </div>
-                            <div class="form-group col-md-6">
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
                                 <label for="id_participants">Peserta:</label><!-- <span class="text-muted text-sm">(NIK Nama CC Target)</span>-->
                                 
                                 <button type="button" class="btn btn-primary btn-sm fw-bold" 
                                         data-container="body" data-toggle="popover" data-html="true" 
                                         data-placement="top" 
-                                        data-content="(NIK Nama CC Target)<br>XN1234 NAMA PESERTA 9001 MAMPU ....." 
+                                        data-content="(NIK Nama CC Target)<br>XN1234 HUSNI 9001 MAMPU ....." 
                                         onclick="customizePopover(this)">
                                 info
                                 </button>
@@ -124,23 +141,22 @@
                         </div>
 
                         <div class="form-row">
-                            <div class="form-group col-md-4">
-                                <label for="id_date">Tanggal Mulai:</label>
+                            <div class="form-group col-md-6">
+                                <label for="id_date">Tanggal pelaksanaan:</label>
+                                <button type="button" class="btn btn-primary btn-sm fw-bold" 
+                                        data-container="body" data-toggle="popover" data-html="true" 
+                                        data-placement="top" 
+                                        data-content="Estimasi Tanggal pelaksanaan<br>Kosongkan jika belum tahu" 
+                                        onclick="customizePopover(this)">
+                                info
+                                </button>
                                 <input type="date" class="form-control{% if training_form.date.errors %} is-invalid{% endif %}" id="id_date" name="date" value="{{ training_form.date.value }}">
                                 {% for error in training_form.date.errors %}
                                     <div class="invalid-feedback">{{ error }}</div>
                                 {% endfor %}
                             </div>
 
-                            <div class="form-group col-md-4">
-                                <label for="id_date_end">Tanggal Selesai:</label>
-                                <input type="date" class="form-control{% if training_form.date_end.errors %} is-invalid{% endif %}" id="id_date_end" name="date_end" value="{{ training_form.date_end.value }}">
-                                {% for error in training_form.date_end.errors %}
-                                    <div class="invalid-feedback">{{ error }}</div>
-                                {% endfor %}
-                            </div>
-
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-6">
                                 <label for="id_jenis">Jenis:</label>
                                 <select class="form-control{% if training_form.jenis.errors %} is-invalid{% endif %}" id="id_jenis" name="jenis">
                                     {% for choice in training_form.jenis.field.choices %}
@@ -169,7 +185,7 @@
                                 <button type="button" class="btn btn-primary btn-sm fw-bold" 
                                         data-container="body" data-toggle="popover" data-html="true" 
                                         data-placement="top" 
-                                        data-content="Estimasi biaya yang di inginkan <br>Contoh : Rp. 2.000.000" 
+                                        data-content="Estimasi biaya yang di inginkan <br>Contoh : Rp. 2.000.000<br>atau kosongkan jika belum tahu" 
                                         onclick="customizePopover(this)">
                                 info
                                 </button>
@@ -208,7 +224,13 @@
                         <div class="form-row">
                             <div class="form-group col-md-12">
                                 <label for="flyer">Flyer:</label>
-                                <span class="text-muted text-sm">(Di isi jika Training Eksternal)</span>
+                                <button type="button" class="btn btn-primary btn-sm fw-bold" 
+                                    data-container="body" data-toggle="popover" data-html="true" 
+                                    data-placement="top" 
+                                    data-content="Upload flyer untuk training eksternal<br>atau kosongkan jika belum tahu" 
+                                    onclick="customizePopover(this)">
+                                    info
+                                </button>
                                 <div class="custom-file">
                                     <input type="file" class="custom-file-input{% if training_form.flyer.errors %} is-invalid{% endif %}" id="flyer" name="flyer">
                                     <label class="custom-file-label" for="flyer">Choose file</label>
@@ -220,7 +242,7 @@
                             </div>
                         </div>
 
-                        <input type="hidden" id="id_pic_trainings" name="pic_trainings" >
+                        <input type="hidden" id="id_pic_trainings" name="pic_trainings">
                         <input type="hidden" name="hrd_manager" value="{{ hrd_manager.id }}">
                         <input type="hidden" id="id_manager" name="manager" >
                         <input type="hidden" id="id_gm" name="gm" >
@@ -289,18 +311,29 @@
             });
     }
 
-    document.getElementById('id_jenis').addEventListener('change', function () {
-        const jenisValue = this.value;
-        const picTrainingsInput = document.getElementById('id_pic_trainings');
+    document.addEventListener("DOMContentLoaded", function() {
+        const jenisField = document.getElementById("id_jenis");
+        const picTrainingsField = document.getElementById("id_pic_trainings");
     
-        if (jenisValue === '1') {
-            picTrainingsInput.value = 'RL20155';  // Internal
-        } else if (jenisValue === '2') {
-            picTrainingsInput.value = 'XN09542';  // External
+        function updatePicTrainings() {
+            if (jenisField.value === '1') {
+                picTrainingsField.value = 'RL20155'; // Internal trainer's user ID
+            } else if (jenisField.value === '2') {
+                picTrainingsField.value = 'XN09542'; // External trainer's user ID
+            } else {
+                picTrainingsField.value = ''; // Clear if no valid option
+            }
         }
+    
+        // Initial call in case of a preselected value
+        updatePicTrainings();
+    
+        // Update `pic_trainings` on `jenis` change
+        jenisField.addEventListener("change", updatePicTrainings);
     });
 
         
 </script>
 
 {% endblock content %}
+

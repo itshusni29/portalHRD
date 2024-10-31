@@ -14,8 +14,8 @@ class TrainingForm(forms.ModelForm):
         model = Training
         fields = [
             'requestor_username', 'topic', 'background', 'participants',
-            'trainer', 'date', 'date_end', 'jenis', 'cost', 'evaluation_level',
-            'manager', 'gm', 'hrd_manager', 'flyer', 'pic_trainings'
+            'trainer', 'date', 'jenis', 'cost', 'evaluation_level',
+            'manager', 'gm', 'hrd_manager', 'flyer', 'pic_trainings', 'managerTarget'
         ]
         widgets = {
             'topic': forms.TextInput(attrs={'class': 'form-control'}),
@@ -23,14 +23,14 @@ class TrainingForm(forms.ModelForm):
             'participants': forms.Textarea(attrs={'class': 'form-control'}),
             'trainer': forms.TextInput(attrs={'class': 'form-control'}),
             'date': forms.DateInput(attrs={'class': 'form-control'}),
-            'date_end': forms.DateInput(attrs={'class': 'form-control'}),
             'jenis': forms.Select(attrs={'class': 'form-control'}),
             'cost': forms.NumberInput(attrs={'class': 'form-control'}),
             'evaluation_level': forms.Select(attrs={'class': 'form-control'}),
             'manager': forms.Select(attrs={'class': 'form-control'}),
             'gm': forms.Select(attrs={'class': 'form-control'}),
             'flyer': forms.FileInput(attrs={'class': 'custom-file-input'}),
-            'pic_trainings': forms.HiddenInput(),  # Hide the pic_trainings field
+            'pic_trainings': forms.HiddenInput(),
+            'managerTarget': forms.TextInput(attrs={'class': 'form-control'}),
         }
 
     flyer = forms.FileField(required=False)
@@ -59,6 +59,9 @@ class TrainingForm(forms.ModelForm):
         self.fields['gm'].required = False
         self.fields['manager'].required = False
         self.fields['pic_trainings'].required = False
+        self.fields['managerTarget'].required = False 
+        self.fields['trainer'].required = False 
+        self.fields['date'].required = False  
 
 
     def clean_requestor_username(self):
@@ -73,11 +76,11 @@ class TrainingForm(forms.ModelForm):
 
         # Automatically assign pic_trainings based on jenis
         if jenis == '1':  # Internal
-            cleaned_data['pic_trainings'] = User.objects.get(username='RL20155')  # Get the User instance
+            cleaned_data['pic_trainings'] = User.objects.get(username='RL20155')  
         elif jenis == '2':  # External
-            cleaned_data['pic_trainings'] = User.objects.get(username='XN09542')  # Get the User instance
+            cleaned_data['pic_trainings'] = User.objects.get(username='XN09542') 
         else:
-            cleaned_data['pic_trainings'] = None  # Or handle as needed
+            cleaned_data['pic_trainings'] = None 
 
         return cleaned_data
 
