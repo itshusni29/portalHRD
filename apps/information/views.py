@@ -198,8 +198,9 @@ def file_pengumuman_download(request, pengumuman_id):
 @login_required
 @user_passes_test(is_training_and_development, login_url='login')
 def menu_shift_list(request):
-    shifts = MenuShift.objects.all()
-    return render(request, 'information/Menu_kantin/list_menu_shift.html', {'shifts': shifts})
+    menu_shift_list = MenuShift.objects.all()  
+    return render(request, 'information/Menu_kantin/list_menu_shift.html', {'menu_shift_list': menu_shift_list})
+
 
 @login_required
 @user_passes_test(is_training_and_development, login_url='login')

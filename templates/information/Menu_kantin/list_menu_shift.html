@@ -2,70 +2,76 @@
 
 {% block title %} Daftar Menu Shift {% endblock title %}
 
-<!-- Specific CSS goes HERE -->
-{% block stylesheets %}{% endblock stylesheets %}
-
 {% block content %}
 
-    <!-- Header -->
-    <div class="header">
-      <div class="container-fluid">
-        <div class="header-body">
-          <div class="row align-items-center py-4">
-            <div class="col-lg-6 col-7">
-              <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
-                <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
-                  <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
-                  <li class="breadcrumb-item active" aria-current="page">Daftar Menu Shift</li>
-                </ol>
-              </nav>
-            </div>
-          </div>
+<!-- Header -->
+<div class="header">
+  <div class="container-fluid">
+    <div class="header-body">
+      <div class="row align-items-center py-4">
+        <div class="col-lg-6 col-7">
+          <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+            <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+              <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
+              <li class="breadcrumb-item active" aria-current="page">Daftar Menu Shift</li>
+            </ol>
+          </nav>
+        </div>
+        <div class="col text-right">
+          <a href="{% url 'information:menu_shift_create' %}" class="btn btn-sm btn-primary"><i class="fas fa-plus"></i> Tambah</a>
         </div>
       </div>
     </div>
+  </div>
+</div>
 
-    <!-- Page content -->
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-xl-12">
-          <div class="card">
-            <div class="card-header border-0">
-              <h3 class="mb-0">Daftar Menu Shift</h3>
-            </div>
-            <div class="card-body">
-              <table class="table">
-                <thead>
-                  <tr>
-                    <th>Tanggal</th>
-                    <th>Shift 1</th>
-                    <th>Shift 2</th>
-                    <th>Shift 3</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {% for shift in menu_shift_list %}
+<!-- Page content -->
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-xl-12">
+      <div class="card">
+        <div class="card-header border-0">
+          <h3 class="mb-0">Daftar Menu Shift</h3>
+        </div>
+        <div class="card-body">
+          <table class="table table-responsive">
+            <thead class="table-head-bg">
+              <tr>
+                <th>Tanggal</th>
+                <th>Shift 1</th>
+                <th>Shift 2</th>
+                <th>Shift 3</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% if menu_shift_list %}
+                {% for shift in menu_shift_list %}
                   <tr>
                     <td>{{ shift.tanggal }}</td>
-                    <td>{{ shift.shift_1 }}</td>
-                    <td>{{ shift.shift_2 }}</td>
-                    <td>{{ shift.shift_3 }}</td>
+                    <td>{{ shift.shift_1|linebreaksbr }}</td>
+                    <td>{{ shift.shift_2|linebreaksbr }}</td>
+                    <td>{{ shift.shift_3|linebreaksbr }}</td>
                     <td>
                       <a href="{% url 'information:menu_shift_update' shift.pk %}" class="btn btn-warning">Edit</a>
                       <a href="{% url 'information:menu_shift_delete' shift.pk %}" class="btn btn-danger">Delete</a>
                     </td>
                   </tr>
-                  {% endfor %}
-                </tbody>
-              </table>
-            </div>
-          </div>
+                {% endfor %}
+              {% else %}
+                <tr>
+                  <td colspan="5" class="text-center">No data available</td>
+                </tr>
+              {% endif %}
+            </tbody>
+          </table>
         </div>
       </div>
-
-      {% include "includes/footer.html" %}
-
     </div>
+  </div>
+
+  {% include "includes/footer.html" %}
+
+</div>
 
 {% endblock content %}
