@@ -128,7 +128,7 @@
                                 <button type="button" class="btn btn-primary btn-sm fw-bold" 
                                         data-container="body" data-toggle="popover" data-html="true" 
                                         data-placement="top" 
-                                        data-content="(NIK Nama CC Target)<br>XN1234 HUSNI 9001 MAMPU ....." 
+                                        data-content="(NIK Nama CC Target)<br>XN1234 HUSNI 9001 MAMPU .....<br>bisa copy dari excel" 
                                         onclick="customizePopover(this)">
                                 info
                                 </button>
@@ -314,21 +314,21 @@
     document.addEventListener("DOMContentLoaded", function() {
         const jenisField = document.getElementById("id_jenis");
         const picTrainingsField = document.getElementById("id_pic_trainings");
+        const internalPicId = "{{ internal_pic_id }}";
+        const externalPicId = "{{ external_pic_id }}";
     
         function updatePicTrainings() {
             if (jenisField.value === '1') {
-                picTrainingsField.value = 'RL20155'; // Internal trainer's user ID
+                picTrainingsField.value = internalPicId; 
             } else if (jenisField.value === '2') {
-                picTrainingsField.value = 'XN09542'; // External trainer's user ID
+                picTrainingsField.value = externalPicId; 
             } else {
-                picTrainingsField.value = ''; // Clear if no valid option
+                picTrainingsField.value = ''; 
             }
         }
     
-        // Initial call in case of a preselected value
         updatePicTrainings();
     
-        // Update `pic_trainings` on `jenis` change
         jenisField.addEventListener("change", updatePicTrainings);
     });
 
@@ -336,4 +336,3 @@
 </script>
 
 {% endblock content %}
-

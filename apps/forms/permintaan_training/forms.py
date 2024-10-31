@@ -74,7 +74,6 @@ class TrainingForm(forms.ModelForm):
         cleaned_data = super().clean()
         jenis = cleaned_data.get('jenis')
 
-        # Automatically assign pic_trainings based on jenis
         if jenis == '1':  # Internal
             cleaned_data['pic_trainings'] = User.objects.get(username='RL20155')  
         elif jenis == '2':  # External

@@ -1,6 +1,4 @@
-create notification for requests
-cost to text
-add button info
+
 
 done
 
@@ -22,3 +20,6 @@ beri filter di Table
 perbaiki user dept gd 4-1
 add profil for edit password
 gm & manager is auto point
+create notification for requests
+cost to text
+add button info

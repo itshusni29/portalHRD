@@ -111,10 +111,15 @@ def request_training_user(request):
         training_form = TrainingForm()
         
     hrd_manager = User.objects.get(username="XN02018")  # 
+    internal_pic = User.objects.get(username="RL20155").id  # Internal PIC
+    external_pic = User.objects.get(username="XN09542").id  # External PIC
     return render(request, 'forms/permintaan_training/user_create_permintaan_training.html', {
         'training_form': training_form,
         'hrd_manager': hrd_manager,
+        'internal_pic_id': internal_pic,
+        'external_pic_id': external_pic,
     })
+
 
 logger = logging.getLogger(__name__)
 
