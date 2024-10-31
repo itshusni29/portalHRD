@@ -21,7 +21,8 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 import json
 
-
+from django.forms import ModelForm, FileField
+from django.core.exceptions import ValidationError
 
 
 from .models import (
@@ -205,12 +206,12 @@ def upload_csv(request):
     if request.method == "POST":
         form = MenuKantinF(request.POST, request.FILES)
         if form.is_valid():
-            # Save the uploaded file
             form.save()
-            return redirect("menuKantin")  # Assuming 'menuKantin' is the URL pattern name for menuKantin view
+            return redirect("information:admin_menukantin")  # Assuming 'menuKantin' is the URL pattern name for menuKantin view
     else:
         form = MenuKantinF()
     return render(request, "information/Menu_kantin/create_menukantin.html", {"form": form})
+
 
 
 @login_required
@@ -220,7 +221,7 @@ def delete_csv(request, file_id):
     file_instance = MenuKantinM.objects.get(pk=file_id)
 
     # Get the file path
-    file_path = file_instance.alamat_file.path
+    file_path = file_instance.file.path
 
     # Delete the file from the storage
     if os.path.exists(file_path):
@@ -229,7 +230,7 @@ def delete_csv(request, file_id):
     # Delete the MenuKantinM instance
     file_instance.delete()
 
-    return redirect("menuKantin")
+    return redirect("information:admin_menukantin")
 
 def menuKantin(request):
     csv_file_path = get_most_recent_csv_file()

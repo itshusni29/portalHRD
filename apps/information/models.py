@@ -37,13 +37,13 @@ class PengumumanM(models.Model):
 # ======================================================================================================================
 class MenuKantinM(models.Model):
     # Model for handling canteen menu data
-    nama_menu = models.CharField(max_length=35)
-    alamat_file = models.FileField(upload_to="uploads/menuKantin")
+    nama_file = models.CharField(max_length=35)
+    file = models.FileField(upload_to="uploads/menuKantin")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return str(self.nama_menu)
+        return str(self.nama_file)
 
 
 # ======================================================================================================================

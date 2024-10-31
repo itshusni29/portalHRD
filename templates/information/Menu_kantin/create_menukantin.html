@@ -1,9 +1,6 @@
 {% extends 'layouts/d_base.html' %}
 
-{% block title %} Tambah Prosedur {% endblock title %}
-
-<!-- Specific CSS goes HERE -->
-{% block stylesheets %}{% endblock stylesheets %}
+{% block title %} Tambah Menu {% endblock title %}
 
 {% block content %}
 
@@ -16,7 +13,7 @@
               <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
                 <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
                   <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
-                  <li class="breadcrumb-item"><a href="#">Prosedur</a></li>
+                  <li class="breadcrumb-item"><a href="#">Menu</a></li>
                   <li class="breadcrumb-item active" aria-current="page">Tambah</li>
                 </ol>
               </nav>
@@ -34,9 +31,8 @@
             <div class="card-header border-0">
               <div class="row align-items-center">
                 <div class="col">
-                  <h3 class="mb-0">Daftar Prosedur</h3>
+                  <h3 class="mb-0">Daftar Menu</h3>
                 </div>
-                
               </div>
             </div>
             <div class="card-body">
@@ -44,37 +40,16 @@
               <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 
-                <!-- Nama Prosedur Field -->
+                <!-- Nama Menu Field -->
                 <div class="form-group">
-                    <label for="id_nama">Nama Prosedur:</label>
-                    <input type="text" class="form-control{% if form.nama.errors %} is-invalid{% endif %}" id="id_nama" name="nama" value="{{ form.nama.value|default_if_none:'' }}">
-                    {% for error in form.nama.errors %}
-                        <div class="invalid-feedback">{{ error }}</div>
-                    {% endfor %}
-                </div>
-
-                <!-- Kategori Field -->
-                <div class="form-group">
-                    <label for="id_kategori">Kategori:</label>
-                    <select class="form-control{% if form.kategori.errors %} is-invalid{% endif %}" id="id_kategori" name="kategori">
-                        <option value="Recruitment" {% if form.kategori.value == "Recruitment" %}selected{% endif %}>Recruitment</option>
-                        <option value="Training" {% if form.kategori.value == "Training" %}selected{% endif %}>Training</option>
-                        <option value="Welfare" {% if form.kategori.value == "Welfare" %}selected{% endif %}>Medical & Welfare</option>
-                        <option value="Legal" {% if form.kategori.value == "Legal" %}selected{% endif %}>Legal</option>
-                        <option value="Attendance" {% if form.kategori.value == "Attendance" %}selected{% endif %}>Payroll & Administration</option>
-                    </select>
-                    {% for error in form.kategori.errors %}
-                        <div class="invalid-feedback">{{ error }}</div>
-                    {% endfor %}
+                  <label for="nama_file">Nama Menu</label>
+                  <input type="text" class="form-control" id="nama_file" name="nama_file" required>
                 </div>
 
                 <!-- File Upload Field -->
                 <div class="form-group">
-                    <label for="id_file_upload">File Upload:</label>
-                    <input type="file" class="form-control-file{% if form.file_upload.errors %} is-invalid{% endif %}" id="id_file_upload" name="file_upload">
-                    {% for error in form.file_upload.errors %}
-                        <div class="invalid-feedback">{{ error }}</div>
-                    {% endfor %}
+                    <label for="file">File Upload</label>
+                    <input type="file" class="form-control-file" id="file" name="file" required>
                 </div>
 
                 <!-- Submit Button -->
