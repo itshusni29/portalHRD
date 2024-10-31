@@ -1,4 +1,9 @@
+fix print page
+add index kehadirana department
 
+add field implementasi yang di inginkan, jika level 3
+kemduian muncul metode lapopran hasil implementasi dalam choices- interview atasan, obeservasi, presentasi
+dan plan check
 
 done
 
