@@ -206,7 +206,7 @@ def menu_shift_list(request):
 @user_passes_test(is_training_and_development, login_url='login')
 def menu_shift_create(request):
     if request.method == "POST":
-        form = MenuShiftForm(request.POST)
+        form = MenuShiftForm(request.POST) 
         if form.is_valid():
             form.save()
             return redirect('information:menu_shift_list')  # Use namespaced URL
@@ -280,6 +280,8 @@ def delete_csv(request, file_id):
 def menuKantin(request):
     csv_file_path = get_most_recent_csv_file()
     menus = MenuKantinM.objects.all()
+    menu_shift_list = MenuShift.objects.all()  
+
 
     if csv_file_path:
         df = pd.read_csv(csv_file_path, delimiter=";")
@@ -321,6 +323,7 @@ def menuKantin(request):
                 "today_data": today_data_list,
                 "tomorrow_data": tomorrow_data_list,
                 "menus": menus,
+                'menu_shift_list': menu_shift_list
             },
         )
     else:

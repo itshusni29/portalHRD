@@ -40,7 +40,7 @@
                 {% csrf_token %}
                 <input type="hidden" name="id" value="{{ shift.id }}">
                 <button type="submit" class="btn btn-danger">Hapus</button>
-                <a href="{% url 'information:list_menu_shift' %}" class="btn btn-secondary">Batal</a>
+                <a href="{% url 'information:menu_shift_list' %}" class="btn btn-secondary">Batal</a>
               </form>  
             </div>
           </div>

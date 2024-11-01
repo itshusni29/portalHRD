@@ -50,10 +50,16 @@ class SearchForm(forms.Form):
     
     
 
-class MenuShiftForm(forms.ModelForm):
+class MenuShiftForm(forms.ModelForm):   
     class Meta:
         model = MenuShift
         fields = ['tanggal', 'shift_1', 'shift_2', 'shift_3']
+        widgets = {
+            'tanggal': forms.DateInput(attrs={'class': 'form-control'}),
+            'shift_1': forms.Textarea(attrs={'class': 'form-control'}),
+            'shift_2': forms.Textarea(attrs={'class': 'form-control'}),
+            'shift_3': forms.Textarea(attrs={'class': 'form-control'}),
+        }
 
 
 

@@ -24,8 +24,40 @@
 
           <h1 class="header_page_label">MENU MAKAN</h1>
 
-          <!-- Today's Menu Table -->
+          <!-- Menu Rendah Lemak -->
           <div class="table-responsive">
+            <h1 class="table-label text-center">Menu Rendah Lemak</h1>
+            <table class="table table-responsive">
+              <thead class="table-head-bg">
+                <tr>
+                  <th>Tanggal</th>
+                  <th>Shift 1</th>
+                  <th>Shift 2</th>
+                  <th>Shift 3</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% if menu_shift_list %}
+                  {% for shift in menu_shift_list %}
+                    <tr>
+                      <td>{{ shift.tanggal|date:"d F Y" }}</td>
+                      <td>{{ shift.shift_1|linebreaksbr }}</td>
+                      <td>{{ shift.shift_2|linebreaksbr }}</td>
+                      <td>{{ shift.shift_3|linebreaksbr }}</td>
+                    </tr>
+                  {% endfor %}
+                {% else %}
+                  <tr>
+                    <td colspan="5" class="text-center">No data available</td>
+                  </tr>
+                {% endif %}
+              </tbody>
+            </table>
+          </div>
+
+
+          <!-- Today's Menu Table -->
+          <div class="table-responsive mt-5" >
             <h1 class="table-label text-center">Menu Makan Hari ini / <span id="currentDate"></span></h1>
             <table class="table">
               <thead class="table-head-bg">
@@ -101,8 +133,3 @@
 
 
 
-
-
-tanggal     shift 1   shift 2   shift 3
-29 10 2024  menu 1    menu 2    menu 3
-30 10 2024  menu 1    menu 2    menu 3

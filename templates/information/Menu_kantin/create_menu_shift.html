@@ -23,7 +23,7 @@
   </div>
 </div>
 
-<!-- Page content -->
+<!-- Page Content -->
 <div class="container-fluid">
   <div class="row">
     <div class="col-xl-12">
@@ -36,28 +36,49 @@
           <form method="post" action="{% url 'information:menu_shift_create' %}">
             {% csrf_token %}
             
+            <!-- Date Field -->
             <div class="form-group">
-              <label for="tanggal">Tanggal:</label>
-              <input type="date" class="form-control" id="tanggal" name="tanggal" required>
+              <label for="id_tanggal">Tanggal:</label>
+              <input type="date" class="form-control{% if form.tanggal.errors %} is-invalid{% endif %}" 
+                     id="id_tanggal" name="tanggal" value="{{ form.tanggal.value }}">
+              {% for error in form.tanggal.errors %}
+                <div class="invalid-feedback">{{ error }}</div>
+              {% endfor %}
+            </div>
+
+            <!-- Shift 1 Field -->
+            <div class="form-group">
+              <label for="id_shift_1">Shift 1:</label>
+              <textarea class="form-control{% if form.shift_1.errors %} is-invalid{% endif %}" 
+                        id="id_shift_1" name="shift_1">{{ form.shift_1.value }}</textarea>
+              {% for error in form.shift_1.errors %}
+                <div class="invalid-feedback">{{ error }}</div>
+              {% endfor %}
+            </div>
+
+            <!-- Shift 2 Field -->
+            <div class="form-group">
+              <label for="id_shift_2">Shift 2:</label>
+              <textarea class="form-control{% if form.shift_2.errors %} is-invalid{% endif %}" 
+                        id="id_shift_2" name="shift_2">{{ form.shift_2.value }}</textarea>
+              {% for error in form.shift_2.errors %}
+                <div class="invalid-feedback">{{ error }}</div>
+              {% endfor %}
+            </div>
+
+            <!-- Shift 3 Field -->
+            <div class="form-group">
+              <label for="id_shift_3">Shift 3:</label>
+              <textarea class="form-control{% if form.shift_3.errors %} is-invalid{% endif %}" 
+                        id="id_shift_3" name="shift_3">{{ form.shift_3.value }}</textarea>
+              {% for error in form.shift_3.errors %}
+                <div class="invalid-feedback">{{ error }}</div>
+              {% endfor %}
             </div>
             
-            <div class="form-group">
-              <label for="shift_1">Shift 1:</label>
-              <input type="text" class="form-control" id="shift_1" name="shift_1" placeholder="Enter details for Shift 1" required>
-            </div>
-            
-            <div class="form-group">
-              <label for="shift_2">Shift 2:</label>
-              <input type="text" class="form-control" id="shift_2" name="shift_2" placeholder="Enter details for Shift 2" required>
-            </div>
-            
-            <div class="form-group">
-              <label for="shift_3">Shift 3:</label>
-              <input type="text" class="form-control" id="shift_3" name="shift_3" placeholder="Enter details for Shift 3" required>
-            </div>
-            
+            <!-- Submit Button -->
             <button type="submit" class="btn btn-primary">Submit</button>
-          </form>  
+          </form>
           <!-- Form End -->
         </div>
       </div>
@@ -65,7 +86,6 @@
   </div>
 
   {% include "includes/footer.html" %}
-
 </div>
 
 {% endblock content %}
