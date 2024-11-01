@@ -25,12 +25,24 @@
           <div class="row">
             <div class="col-lg-12 mx-auto">
               <h1 class="table-label text-center mt-4">PENGUMUMAN HRD</h1>
-                
+              
+              <!-- Filter Year Buttons -->
+              <div class="d-flex justify-content-center mb-4">
+                <form method="get" action="{% url 'information:pengumuman_list' %}">
+                  <input type="hidden" name="year" value="2023">
+                  <button type="submit" class="btn btn-primary {% if selected_year == '2023' %}active{% endif %}">Show 2023</button>
+                </form>
+                <form method="get" action="{% url 'information:pengumuman_list' %}">
+                  <input type="hidden" name="year" value="2024">
+                  <button type="submit" class="btn btn-primary {% if selected_year == '2024' %}active{% endif %} ml-2">Show 2024</button>
+                </form>
+              </div>
+              
               <div class="table-responsive">
                 <!-- Filter and Search Form -->
                 <form method="get" action="{% url 'information:pengumuman_list' %}" class="row g-3">
                   <div class="col-sm-6 pt-4">
-                    <h1 class="table-label">List Pengumuman 2023</h1>
+                    <h1 class="table-label">List Pengumuman {{ selected_year }}</h1>
                   </div>
                   <div class="col-sm-4 pt-2">
                       <input type="text" id="searchInput" class="form-control mb-2" oninput="searchTable()" placeholder="Type to search..." name="q" value="{{ query }}">
@@ -39,7 +51,8 @@
                     <button type="submit" class="btn btn-warning mt-2">Search</button>
                   </div>
                 </form>
-              <!-- End Filter and Search Form -->
+                <!-- End Filter and Search Form -->
+                
                 <table class="table">
                   <thead class="table-head-bg">
                     <tr>
@@ -51,9 +64,9 @@
                   </thead>
                   <tbody>
                     {% for pengumuman in pengumumans %}
-                        {% if pengumuman.catThn == "2023" %}
+                        {% if pengumuman.catThn == selected_year %}
                             <tr>
-                                <td>{{ pengumuman.catThn }}</td>
+                                <td>{{ forloop.counter }}</td>
                                 <td>{{ pengumuman.nama_pengumuman }}</td>
                                 <td>{{ pengumuman.tanggal_upload }}</td>
                                 <td>
@@ -79,17 +92,10 @@
                             <td colspan="4">No announcements available.</td>
                         </tr>
                     {% endfor %}
-                </tbody>
-                
+                  </tbody>
                 </table>
               </div>
-                <!-- Additional Features (Edit and Filter) -->
-                <div class="d-flex mt-3">
-                  <a href="{% url 'information:pengumuman_create' %}" class="btn btn-success">
-                    <i class="fas fa-plus"></i> Create Pengumuman
-                  </a>
-                </div>
-                <!-- End Additional Features -->
+
             </div>
           </div>
         </div>

@@ -7,6 +7,14 @@ add field implementasi yang di inginkan, jika level 3
 kemduian muncul metode lapopran hasil implementasi dalam choices- interview atasan, obeservasi, presentasi
 dan plan check
 
+
+fix the side bar for manager and admin
+fix edit page 
+fix link redirect for approval
+http://172.20.40.153:8001/forms/permintaan_training/gm/approval/list
+
+
+
 done
 
 fix login and register page
