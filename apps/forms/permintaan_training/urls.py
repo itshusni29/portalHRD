@@ -5,6 +5,7 @@ from .views import (
     create_training,
     fetch_user_details,
     manager_training_list,
+    user_training_list,
     gm_training_list,
     hrd_training_list,  
     admin_request_training_list,
@@ -25,6 +26,7 @@ urlpatterns = [
     path('admin/create', create_training, name='create_training'),
     path('fetch_user_details/', fetch_user_details, name='fetch_user_details'),  # Ensure this has a trailing slash
     path('manager/approval/list', manager_training_list, name='manager_request_training_list'), # This is the URL for the manager list view and approval
+    path('user/list', user_training_list, name='user_request_training_list'), # This is the URL for the manager list view and approval
     path('gm/approval/list', gm_training_list, name='gm_request_training_list'), # This is the URL for the GM list view and approval
     path('manager_hrd/approval/list', hrd_training_list, name='hrd_request_training_list'),  # This is the URL for the HRD Manager list view and approval
     path('admin/request_training/<int:training_id>/', admin_request_training_view, name='admin_request_training_view'), # This is the URL for the admin view

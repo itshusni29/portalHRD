@@ -20,7 +20,6 @@
               <span class="nav-link-text">Manager Approval</span>
             </a>
           </li>
-          
 
           {% elif request.user.occupation == 'manager' and request.user.department == 'recruitment_training_development' %}
           <li class="nav-item">
@@ -36,7 +35,6 @@
               <span class="nav-link-text">Manager Approval Training</span>
             </a>
           </li>
-          
 
           {% elif request.user.occupation == 'general_manager' or request.user.occupation == 'deputy_director' %}
           <li class="nav-item">
@@ -52,9 +50,10 @@
               <span class="nav-link-text">Manager Approval</span>
             </a>
           </li>
-          
+
           {% else %}
           <!-- General Links for Other Users -->
+          {% if request.user.section == 'training_development' %}
           <li class="nav-item">
             <a class="nav-link" href="{% url 'dashboard' %}">
               <i class="ni ni-tv-2 text-red"></i>
@@ -67,31 +66,6 @@
               <span class="nav-link-text">User</span>
             </a>
           </li>
-
-          {% if request.user.username == 'RL20155' %}
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'permintaan_training:internal_training_requests' %}">
-              <i class="ni ni-single-copy-04 text-indigo"></i>
-              <span class="nav-link-text">Internal Training Requests</span>
-            </a>
-          </li>
-          {% elif request.user.username == 'XN09542' %}
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'permintaan_training:eksternal_training_requests' %}">
-              <i class="ni ni-single-copy-04 text-indigo"></i>
-              <span class="nav-link-text">Eksternal Training Requests</span>
-            </a>
-          </li>
-          {% else %}
-          <!-- Show Admin Request Training for Other Users -->
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'permintaan_training:admin_request_training_list' %}">
-              <i class="ni ni-paper-diploma text-indigo"></i>
-              <span class="nav-link-text">Request Training</span>
-            </a>
-          </li>
-          {% endif %}
-
           <li class="nav-item">
             <a class="nav-link" href="{% url 'formHardCopy:form_hard_copy_admin_list' %}">
               <i class="ni ni-single-copy-04 text-blue"></i>
@@ -146,6 +120,32 @@
               <span class="nav-link-text">Banner Home</span>
             </a>
           </li>
+          {% endif %}
+
+          {% if request.user.username == 'RL20155' %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'permintaan_training:internal_training_requests' %}">
+              <i class="ni ni-single-copy-04 text-indigo"></i>
+              <span class="nav-link-text">Internal Training Requests</span>
+            </a>
+          </li>
+          {% elif request.user.username == 'XN09542' %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'permintaan_training:eksternal_training_requests' %}">
+              <i class="ni ni-single-copy-04 text-indigo"></i>
+              <span class="nav-link-text">Eksternal Training Requests</span>
+            </a>
+          </li>
+          {% else %}
+          <!-- Show Admin Request Training for Other Users -->
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'permintaan_training:user_request_training_list' %}">
+              <i class="ni ni-paper-diploma text-indigo"></i>
+              <span class="nav-link-text">Request Training</span>
+            </a>
+          </li>
+          {% endif %}
+
           {% endif %}
 
         </ul>

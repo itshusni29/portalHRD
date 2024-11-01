@@ -30,6 +30,16 @@ def request_training_list(request):
         'trainings': trainings
     })
 
+
+@login_required
+def user_training_list(request):
+    trainings = Training.objects.filter(requestor=request.user)
+
+    return render(request, 'forms/permintaan_training/manager_permintaan_training.html', {
+        'trainings': trainings.distinct(),  
+    })
+    
+    
 # ======================================================================================================================
 # Views: Untuk mendapatkan detail user pada form request training
 # ====================================================================================================================== 
