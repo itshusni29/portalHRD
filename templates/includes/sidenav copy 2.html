@@ -1,0 +1,300 @@
+{% load static %}
+
+<nav class="sidenav navbar navbar-vertical fixed-left navbar-expand-xs navbar-light bg-white" id="sidenav-main">
+  <div class="scrollbar-inner">
+    <!-- Brand -->
+    <div class="sidenav-header align-items-center">
+      <a class="navbar-brand" href="/">
+        <img src="{% static 'assets/img/brand/hrdportal4.png' %}" class="navbar-brand-img" alt="HRD Portal Logo">
+      </a>
+    </div>
+    <div class="navbar-inner">
+      <!-- Collapse -->
+      <div class="collapse navbar-collapse" id="sidenav-collapse-main">
+        <ul class="navbar-nav">
+
+          <!-- If the user is a manager but not in the recruitment_training_development department, show Manager Approval link -->
+          {% if request.user.occupation == 'manager' and request.user.department != 'recruitment_training_development' %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'permintaan_training:manager_request_training_list' %}">
+              <i class="ni ni-single-copy-04 text-indigo"></i>
+              <span class="nav-link-text">Manager Approval</span>
+            </a>
+          </li>
+
+          <!-- If the user is a manager in the recruitment_training_development department, show HRD and Manager Approval Training links -->
+          {% elif request.user.occupation == 'manager' and request.user.department == 'recruitment_training_development' %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'permintaan_training:hrd_request_training_list' %}">
+              <i class="ni ni-check-bold text-red"></i>
+              <span class="nav-link-text">HRD Approval Training</span>
+            </a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'permintaan_training:manager_request_training_list' %}">
+              <i class="ni ni-archive-2 text-indigo"></i>
+              <span class="nav-link-text">Manager Approval Training</span>
+            </a>
+          </li>
+
+          <!-- If the user is a general manager or deputy director, show GM and Manager Approval links -->
+          {% elif request.user.occupation == 'general_manager' or request.user.occupation == 'deputy_director' %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'permintaan_training:gm_request_training_list' %}">
+              <i class="ni ni-calendar-grid-58 text-blue"></i>
+              <span class="nav-link-text">GM Approval</span>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'permintaan_training:manager_request_training_list' %}">
+              <i class="ni ni-single-copy-04 text-indigo"></i>
+              <span class="nav-link-text">Manager Approval</span>
+            </a>
+          </li>
+
+          <!-- Else, if the user is from training_development section, show general links -->
+          {% else %}
+          {% if request.user.section == 'training_development' %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'dashboard' %}">
+              <i class="ni ni-tv-2 text-red"></i>
+              <span class="nav-link-text">Dashboard</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'user_list' %}">
+              <i class="ni ni-circle-08 text-pink"></i>
+              <span class="nav-link-text">User</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'formHardCopy:form_hard_copy_admin_list' %}">
+              <i class="ni ni-single-copy-04 text-blue"></i>
+              <span class="nav-link-text">Forms Hard Copy</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'admin_kegiatan' %}">
+              <i class="ni ni-calendar-grid-58 text-purple"></i>
+              <span class="nav-link-text">Kegiatan</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'admin_prosedur' %}">
+              <i class="ni ni-settings text-orange"></i>
+              <span class="nav-link-text">Prosedur</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'admin_aturan' %}">
+              <i class="ni ni-bullet-list-67 text-yellow"></i>
+              <span class="nav-link-text">Aturan</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'information:admin_menukantin' %}">
+              <i class="ni ni-shop text-green"></i>
+              <span class="nav-link-text">Menu Kantin</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'information:admin_pengumuman' %}">
+              <i class="ni ni-bell-55 text-teal"></i>
+              <span class="nav-link-text">Pengumuman</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'information:grafik_list' %}">
+              <i class="ni ni-chart-bar-32 text-cyan"></i>
+              <span class="nav-link-text">Kehadiran</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'information:admin_jadwalbus' %}">
+              <i class="ni ni-delivery-fast text-red"></i>
+              <span class="nav-link-text">Jadwal Bus</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'admin_banner' %}">
+              <i class="ni ni-image text-red"></i>
+              <span class="nav-link-text">Banner Home</span>
+            </a>
+          </li>
+          {% endif %}
+
+          <!-- If the user has specific usernames, show specific training request links -->
+          {% if request.user.username == 'RL20155' %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'permintaan_training:internal_training_requests' %}">
+              <i class="ni ni-single-copy-04 text-indigo"></i>
+              <span class="nav-link-text">Internal Training Requests</span>
+            </a>
+          </li>
+          {% elif request.user.username == 'XN09542' %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'permintaan_training:eksternal_training_requests' %}">
+              <i class="ni ni-single-copy-04 text-indigo"></i>
+              <span class="nav-link-text">Eksternal Training Requests</span>
+            </a>
+          </li>
+          {% else %}
+          <!-- For all other users, show the general Request Training link -->
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'permintaan_training:user_request_training_list' %}">
+              <i class="ni ni-paper-diploma text-indigo"></i>
+              <span class="nav-link-text">Request Training</span>
+            </a>
+          </li>
+          {% endif %}
+
+          {% endif %}
+
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- ================================================================================================================================================= -->
+
+
+{% load static %}
+
+<nav class="sidenav navbar navbar-vertical fixed-left navbar-expand-xs navbar-light bg-white" id="sidenav-main">
+  <div class="scrollbar-inner">
+    <!-- Brand -->
+    <div class="sidenav-header align-items-center">
+      <a class="navbar-brand" href="/">
+        <img src="{% static 'assets/img/brand/hrdportal4.png' %}" class="navbar-brand-img" alt="HRD Portal Logo">
+      </a>
+    </div>
+    <div class="navbar-inner">
+      <!-- Collapse -->
+      <div class="collapse navbar-collapse" id="sidenav-collapse-main">
+        <ul class="navbar-nav">
+
+          <!-- Check for roles with Manager and GM approvals -->
+          {% if request.user.occupation == 'assistant_general_manager' or request.user.occupation == 'deputy_director' or request.user.occupation == 'director' or request.user.occupation == 'expatriates' or request.user.occupation == 'general_manager' %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'permintaan_training:manager_request_training_list' %}">
+              <i class="ni ni-single-copy-04 text-indigo"></i>
+              <span class="nav-link-text">Manager Approval</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'permintaan_training:gm_request_training_list' %}">
+              <i class="ni ni-calendar-grid-58 text-blue"></i>
+              <span class="nav-link-text">GM Approval</span>
+            </a>
+          </li>
+
+          <!-- Check for manager, assistant_manager, or senior_manager -->
+          {% elif request.user.occupation == 'manager' or request.user.occupation == 'assistant_manager' or request.user.occupation == 'senior_manager' %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'permintaan_training:manager_request_training_list' %}">
+              <i class="ni ni-single-copy-04 text-indigo"></i>
+              <span class="nav-link-text">Manager Approval</span>
+            </a>
+          </li>
+
+          <!-- Check for manager in recruitment_training_development department -->
+          {% elif request.user.occupation == 'manager' and request.user.department == 'recruitment_training_development' %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'permintaan_training:hrd_request_training_list' %}">
+              <i class="ni ni-check-bold text-red"></i>
+              <span class="nav-link-text">HRD Approval Training</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'permintaan_training:manager_request_training_list' %}">
+              <i class="ni ni-archive-2 text-indigo"></i>
+              <span class="nav-link-text">Manager Approval Training</span>
+            </a>
+          </li>
+
+          <!-- Check for other users in training_development section -->
+          {% elif request.user.occupation != 'manager' and request.user.section == 'training_development' %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'dashboard' %}">
+              <i class="ni ni-tv-2 text-red"></i>
+              <span class="nav-link-text">Dashboard</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'user_list' %}">
+              <i class="ni ni-circle-08 text-pink"></i>
+              <span class="nav-link-text">User</span>
+            </a>
+          </li>
+
+          {% if request.user.username == 'rl20155' %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'permintaan_training:internal_training_requests' %}">
+                <i class="ni ni-single-copy-04 text-indigo"></i>
+                <span class="nav-link-text">Internal Training Requests</span>
+              </a>
+            </li>
+          {% elif request.user.username == 'xn09542' %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'permintaan_training:eksternal_training_requests' %}">
+                <i class="ni ni-single-copy-04 text-indigo"></i>
+                <span class="nav-link-text">Eksternal Training Requests</span>
+              </a>
+            </li>
+          {% else %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'permintaan_training:admin_request_training_list' %}">
+                <i class="ni ni-single-copy-04 text-blue"></i>
+                <span class="nav-link-text">Training Requests</span>
+              </a>
+            </li>
+          {% endif %}
+
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'formHardCopy:form_hard_copy_admin_list' %}">
+              <i class="ni ni-single-copy-04 text-blue"></i>
+              <span class="nav-link-text">Forms HRD</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'admin_kegiatan' %}">
+              <i class="ni ni-calendar-grid-58 text-purple"></i>
+              <span class="nav-link-text">Kegiatan</span>
+            </a>
+          </li>
+          <!-- Add more links as needed -->
+          
+          {% endif %}
+
+          <!-- Check for other occupations in other sections -->
+          {% elif request.user.occupation == 'supervisor' or request.user.occupation == 'staff' or request.user.occupation == 'operator' or request.user.occupation == 'general_foreman' or request.user.occupation == 'foreman' and request.user.section != 'training_development' %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'permintaan_training:user_request_training_list' %}">
+              <i class="ni ni-paper-diploma text-indigo"></i>
+              <span class="nav-link-text">Request Training</span>
+            </a>
+          </li>
+
+          {% endif %}
+          
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>
+  

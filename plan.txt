@@ -1,6 +1,5 @@
 fix print page
 add index kehadirana department
-fix menu shift that can linesbreakerbr
 
 
 add field implementasi yang di inginkan, jika level 3
@@ -8,12 +7,15 @@ kemduian muncul metode lapopran hasil implementasi dalam choices- interview atas
 dan plan check
 
 
-fix the side bar for manager and admin
 fix edit page 
-fix link redirect for approval
-http://172.20.40.153:8001/forms/permintaan_training/gm/approval/list
 
 
+        jika user occupation adalah assistant_general_manager, deputy_director, director, expatriates, general_manager, show permintaan_training:manager_request_training_list and permintaan_training:gm_request_training_list
+        if user occupation adalah manager, assistant_manager, senior_manager show only permintaan_training:manager_request_training_list
+        if user occupation is manager and department is recruitment_training_development show permintaan_training:hrd_request_training_list and permintaan_training:manager_request_training_list
+        if user occupation isnot manager and section is training_development show all
+        if user occupation is supervisor, staff, operator, general_foreman, foreman, and not section is training_development show permintaan_training:user_request_training_list
+        
 
 done
 
@@ -38,3 +40,7 @@ gm & manager is auto point
 create notification for requests
 cost to text
 add button info
+fix menu shift that can linesbreakerbr
+fix link redirect for approval
+http://172.20.40.153:8001/forms/permintaan_training/gm/approval/list
+fix the side bar for manager and admin

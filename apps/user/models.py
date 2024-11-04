@@ -9,20 +9,23 @@ class User(AbstractUser):
     class Occupation(models.TextChoices):
         ASSISTANT_GENERAL_MANAGER = 'assistant_general_manager', 'Assistant General Manager'
         ASSISTANT_MANAGER = 'assistant_manager', 'Assistant Manager'
-        CLEANING_SERVICE = 'cleaning_service', 'Cleaning Service'
         DEPUTY_DIRECTOR = 'deputy_director', 'Deputy Director'
         DIRECTOR = 'director', 'Director'
-        DRIVER = 'driver', 'Driver'
         EXPATRIATES = 'expatriates', 'Expatriates'
         FOREMAN = 'foreman', 'Foreman'
         GENERAL_FOREMAN = 'general_foreman', 'General Foreman'
         GENERAL_MANAGER = 'general_manager', 'General Manager'
-        LEADER = 'leader', 'Leader'
         MANAGER = 'manager', 'Manager'
         OPERATOR = 'operator', 'Operator'
         SENIOR_MANAGER = 'senior_manager', 'Senior Manager'
         STAFF = 'staff', 'Staff'
         SUPERVISOR = 'supervisor', 'Supervisor'
+        
+        
+        
+        
+        
+        
 
 
     class Department(models.TextChoices):

@@ -1,0 +1,137 @@
+{% extends 'layouts/d_base.html' %}
+
+{% block title %} Daftar Kehadiran Departemen {% endblock title %}
+
+{% block content %}
+    <!-- Header -->
+    <div class="header">
+        <div class="container-fluid">
+            <div class="header-body">
+                <div class="row align-items-center py-4">
+                    <div class="col-lg-6 col-7">
+                        <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+                            <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                                <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
+                                <li class="breadcrumb-item"><a href="#">Dashboards</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Kehadiran Departemen</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Page content -->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="card">
+                  <div class="card-header border-0">
+                    <div class="row align-items-center">
+                      <div class="col">
+                        <h3 class="mb-0">Daftar Kehadiran Departemen</h3>
+                      </div>
+                      <div class="col text-right">
+                        <a href="{% url 'information:grafikdept_create' %}" class="btn btn-sm btn-primary"><i class="fas fa-plus"></i> Tambah Baru</a>
+                      </div>
+                    </div>
+                  </div>
+                    <div class="card-body">
+                      <div class="table-responsive">
+
+                        <table class="table">
+                          <thead class="table-head-bg">
+                            <tr>
+                                <th>No</th>
+                                <th>Nama</th>
+                                <th>Prod Preparation Aluminium</th>
+                                <th>Prod Preparation Steel</th>
+                                <th>Head Cylinder & Piston Production - GED #3</th>
+                                <th>Gear Axle Production - GED #4</th>
+                                <th>Quality Assurance</th>
+                                <th>Finance</th>
+                                <th>Die Casting Wheel - Gedung #2</th>
+                                <th>Tools Center</th>
+                                <th>Plant-2 Production</th>
+                                <th>Production Engineering Aluminium #1</th>
+                                <th>Machining & Painting Wheel - Gedung #1</th>
+                                <th>Purchasing</th>
+                                <th>MTC Operation</th>
+                                <th>Quality Engineering</th>
+                                <th>Quality Control</th>
+                                <th>HRD</th>
+                                <th>General Affairs</th>
+                                <th>Gravity & Die Casting Wheel - GD #6</th>
+                                <th>Quality, Safety & Environment (QSE)</th>
+                                <th>Production Engineering Aluminium #2</th>
+                                <th>MTC Engineering</th>
+                                <th>Value Innovation</th>
+                                <th>Production Engineering Steel #2</th>
+                                <th>Production Common</th>
+                                <th>Production Planning</th>
+                                <th>Inventory Control</th>
+                                <th>Production & Delivery Control</th>
+                                <th>Production Engineering Steel #1</th>
+                                <th>Dibuat pada</th>
+                                <th>Diperbarui pada</th>
+                                <th>Aksi</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {% for data in grafikdept %}
+                                <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>{{ data.nama }}</td>
+                                    <td>{{ data.prod_preparation_aluminium }}</td>
+                                    <td>{{ data.prod_preparation_steel }}</td>
+                                    <td>{{ data.head_cylinder_piston_production_ged3 }}</td>
+                                    <td>{{ data.gear_axle_production_ged4 }}</td>
+                                    <td>{{ data.crank_shaft_production_ged5 }}</td>
+                                    <td>{{ data.quality_assurance }}</td>
+                                    <td>{{ data.finance }}</td>
+                                    <td>{{ data.die_casting_wheel_gedung2 }}</td>
+                                    <td>{{ data.tools_center }}</td>
+                                    <td>{{ data.plant_2_production }}</td>
+                                    <td>{{ data.production_engineering_aluminium_1 }}</td>
+                                    <td>{{ data.machining_painting_wheel_gedung1 }}</td>
+                                    <td>{{ data.purchasing }}</td>
+                                    <td>{{ data.mtc_operation }}</td>
+                                    <td>{{ data.quality_engineering }}</td>
+                                    <td>{{ data.quality_control }}</td>
+                                    <td>{{ data.hrd }}</td>
+                                    <td>{{ data.general_affairs }}</td>
+                                    <td>{{ data.gravity_die_casting_wheel_gd6 }}</td>
+                                    <td>{{ data.quality_safety_environment_qse }}</td>
+                                    <td>{{ data.production_engineering_aluminium_2 }}</td>
+                                    <td>{{ data.mtc_engineering }}</td>
+                                    <td>{{ data.value_innovation }}</td>
+                                    <td>{{ data.production_engineering_steel_2 }}</td>
+                                    <td>{{ data.production_common }}</td>
+                                    <td>{{ data.production_planning }}</td>
+                                    <td>{{ data.department_name }}</td>
+                                    <td>{{ data.production_delivery_control }}</td>
+                                    <td>{{ data.production_engineering_steel_1 }}</td>
+                                    <td>{{ data.created_at }}</td>
+                                    <td>{{ data.updated_at }}</td>
+                                    <td>
+                                        <a href="{% url 'information:grafikdept_update' data.id %}" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i> Edit</a>
+                                        <a href="{% url 'information:grafikdept_delete' data.id %}" class="btn btn-sm btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?');"><i class="fas fa-trash"></i> Hapus</a>
+                                    </td>
+                                </tr>
+                            {% empty %}
+                                <tr>
+                                    <td colspan="6">Tidak ada data kehadiran departemen yang tersedia.</td>
+                                </tr>
+                            {% endfor %}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% include "includes/footer.html" %}
+    </div>
+{% endblock content %}

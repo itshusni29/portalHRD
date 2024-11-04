@@ -6,6 +6,13 @@
 
 {% block stylesheets %}
 <link rel="stylesheet" href="{% static 'assets/css/datatables.min.css' %}">
+
+<style>
+    .wrap-text {
+        word-wrap: break-word;
+        white-space: pre-line;
+    }
+</style>
 {% endblock stylesheets %}
 
 
@@ -134,7 +141,7 @@
                                                                         <div class="row mt-3">
                                                                             <div class="col-sm-6">
                                                                                 <h4>Background</h4>
-                                                                                <p class="text-primary">{{ training.background }}</p>
+                                                                                <p class="text-primary wrap-text">{{ training.background }}</p>
                                                                             </div>
                                                                         </div>
                                                                 
@@ -142,7 +149,7 @@
                                                                         <div class="row mt-3">
                                                                             <div class="col-sm-6">
                                                                                 <h4>Participants</h4>
-                                                                                <p class="text-primary">{{ training.participants|linebreaksbr }}</p>
+                                                                                <p class="text-primary wrap-text">{{ training.participants|linebreaksbr }}</p>
                                                                             </div>
                                                                         </div>
                                                                     </div>

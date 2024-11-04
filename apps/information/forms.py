@@ -2,7 +2,7 @@ from django import forms
 from django.core.exceptions import ValidationError
 from django.forms import ModelForm, FileField
 import os
-from .models import JadwalBusM, PengumumanM, MenuKantinM, Grafik, MenuShift
+from .models import JadwalBusM, PengumumanM, MenuKantinM, Grafik, MenuShift, GrafikDept
 
 # ======================================================================================================================
 # Forms: Manajemen Jadwal Bus
@@ -73,3 +73,21 @@ class GrafikForm(forms.ModelForm):
         model = Grafik
         fields = ['nama', 'januari', 'februari', 'maret', 'april', 'mei', 'juni', 'juli', 'agustus', 'september', 'oktober', 'november', 'desember']
 
+
+
+class GrafikDeptForm(forms.ModelForm):
+    class Meta:
+        model = GrafikDept
+        fields = [
+            'nama',
+            'prod_preparation_aluminium', 'prod_preparation_steel',
+            'head_cylinder_piston_production_ged3', 'gear_axle_production_ged4',
+            'crank_shaft_production_ged5', 'quality_assurance', 'finance',
+            'die_casting_wheel_gedung2', 'tools_center', 'plant_2_production',
+            'production_engineering_aluminium_1', 'machining_painting_wheel_gedung1',
+            'purchasing', 'mtc_operation', 'quality_engineering', 'quality_control', 'hrd',
+            'general_affairs', 'gravity_die_casting_wheel_gd6', 'quality_safety_environment_qse',
+            'production_engineering_aluminium_2', 'mtc_engineering', 'value_innovation',
+            'production_engineering_steel_2', 'production_common', 'production_planning',
+            'inventory_control', 'production_delivery_control', 'production_engineering_steel_1'
+        ]

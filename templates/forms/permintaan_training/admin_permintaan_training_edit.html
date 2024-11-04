@@ -169,19 +169,6 @@
                                     {% endfor %}
                                 </div>
                             
-                                <div class="form-group col-md-4">
-                                    <label for="id_date_end">Tanggal Selesai:</label>
-                                    <input 
-                                        type="date" 
-                                        class="form-control{% if training_form.date_end.errors %} is-invalid{% endif %}" 
-                                        id="id_date_end" 
-                                        name="date_end" 
-                                        value="{{ training_form.date_end.value|default:training.date_end|date:'Y-m-d' }}"
-                                    >
-                                    {% for error in training_form.date_end.errors %}
-                                        <div class="invalid-feedback">{{ error }}</div>
-                                    {% endfor %}
-                                </div>
 
                                 <div class="form-group col-md-4">
                                     <label for="id_jenis">Jenis:</label>

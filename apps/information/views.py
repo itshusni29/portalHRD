@@ -30,7 +30,8 @@ from .models import (
     MenuKantinM,
     PengumumanM,
     Grafik,
-    MenuShift
+    MenuShift,
+    GrafikDept
 )
 
 
@@ -40,9 +41,11 @@ from .forms import (
     PengumumanF,
     SearchForm,
     GrafikForm,
-    MenuShiftForm
+    MenuShiftForm,
+    GrafikDeptForm
     
 )
+
 
 # Utility function to check if the user belongs to Training & Development section
 def is_training_and_development(user):
@@ -356,7 +359,6 @@ def get_most_recent_csv_file():
 
 def kehadiran(request):
     grafik = Grafik.objects.all()
-    # Convert data to JSON format
     grafik_data = list(grafik.values('nama', 'januari', 'februari', 'maret', 'april', 'mei', 'juni', 'juli', 'agustus', 'september', 'oktober', 'november', 'desember'))
     return render(request, "information/Kehadiran/indexsKehadiran.html", {'grafik_data': json.dumps(grafik_data), 'grafik': grafik.first()})
 
@@ -400,3 +402,45 @@ def grafik_delete(request, pk):
         grafik.delete()
         return redirect('information:grafik_list')
     return render(request, 'information/Kehadiran/Delete_kehadiran.html', {'grafik': grafik})
+
+
+####################################################################################################################################################
+@login_required
+@user_passes_test(is_training_and_development, login_url='login')
+def grafikdept_list(request):
+    grafik = GrafikDept.objects.all()
+    return render(request, 'information/Kehadiran/Dept_List_kehadiran.html', {'grafik': grafik})
+
+@login_required
+@user_passes_test(is_training_and_development, login_url='login')
+def grafikdept_create(request):
+    if request.method == 'POST':
+        form = GrafikDeptForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('information:grafikdept_list')
+    else:
+        form = GrafikDeptForm()
+    return render(request, 'information/Kehadiran/Dept_Create_kehadiran.html', {'form': form})
+
+@login_required
+@user_passes_test(is_training_and_development, login_url='login')
+def grafikdept_update(request, pk):
+    grafik = get_object_or_404(GrafikDept, pk=pk)
+    if request.method == 'POST':
+        form = GrafikDeptForm(request.POST, instance=grafik)
+        if form.is_valid():
+            form.save()
+            return redirect('information:grafikdept_list')
+    else:
+        form = GrafikDeptForm(instance=grafik)
+    return render(request, 'information/Kehadiran/Dept_Update_kehadiran.html', {'form': form})
+
+@login_required
+@user_passes_test(is_training_and_development, login_url='login')
+def grafikdept_delete(request, pk):
+    grafik = get_object_or_404(GrafikDept, pk=pk)
+    if request.method == 'POST':
+        grafik.delete()
+        return redirect('information:grafikdept_list')
+    return render(request, 'information/Kehadiran/Dept_Delete_kehadiran.html', {'grafik': grafik})

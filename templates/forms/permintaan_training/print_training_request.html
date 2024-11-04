@@ -200,9 +200,6 @@
                   {% with manager_timestamp=status.created_at %}{% endwith %}
                 {% endif %}
               {% endfor %}
-              {% if not manager_timestamp %}
-                <span class="text-muted">Not Available</span>
-              {% endif %}
             {% endwith %}
           </td>
 
@@ -214,9 +211,6 @@
                   {% with gm_timestamp=status.created_at %}{% endwith %}
                 {% endif %}
               {% endfor %}
-              {% if not gm_timestamp %}
-                <span class="text-muted">Not Available</span>
-              {% endif %}
             {% endwith %}
           </td>
 
@@ -228,9 +222,6 @@
                   {% with hrd_timestamp=status.created_at %}{% endwith %}
                 {% endif %}
               {% endfor %}
-              {% if not hrd_timestamp %}
-                <span class="text-muted">Not Available</span>
-              {% endif %}
             {% endwith %}
           </td>
         </tr>

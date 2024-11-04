@@ -25,7 +25,7 @@ def is_training_and_development(user):
 
 
 def request_training_list(request):
-    trainings = Training.objects.all()  # Get all training requests
+    trainings = Training.objects.all() 
     return render(request, 'forms/permintaan_training/permintaan_training.html', {
         'trainings': trainings
     })
@@ -120,9 +120,9 @@ def request_training_user(request):
     else:
         training_form = TrainingForm()
         
-    hrd_manager = User.objects.get(username="XN02018")  # 
-    internal_pic = User.objects.get(username="RL20155").id  # Internal PIC
-    external_pic = User.objects.get(username="XN09542").id  # External PIC
+    hrd_manager = User.objects.get(username="XN02018") 
+    internal_pic = User.objects.get(username="RL20155").id 
+    external_pic = User.objects.get(username="XN09542").id  
     return render(request, 'forms/permintaan_training/user_create_permintaan_training.html', {
         'training_form': training_form,
         'hrd_manager': hrd_manager,

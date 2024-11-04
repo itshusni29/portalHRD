@@ -1,0 +1,207 @@
+{% extends 'layouts/d_base.html' %}
+
+{% block title %} Tambah Prosedur {% endblock title %}
+
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+    <!-- Header -->
+    <div class="header">
+      <div class="container-fluid">
+        <div class="header-body">
+          <div class="row align-items-center py-4">
+            <div class="col-lg-6 col-7">
+              <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+                <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                  <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
+                  <li class="breadcrumb-item"><a href="#">Prosedur</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">Tambah</li>
+                </ol>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Page content -->
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-xl-12">
+          <div class="card">
+            <div class="card-header border-0">
+              <div class="row align-items-center">
+                <div class="col">
+                  <h3 class="mb-0">Daftar Prosedur</h3>
+                </div>
+                
+              </div>
+            </div>
+            <div class="card-body">
+              <!-- Form Start -->
+              <form method="post">
+                {% csrf_token %}
+
+                <div class="form-group">
+                  <label for="nama">Nama:</label>
+                  <input type="text" class="form-control" id="nama" name="nama" required>
+                </div>
+
+                <div class="form-group">
+                  <label for="prod_preparation_aluminium">PROD PREPARATION ALUMINIUM:</label>
+                  <input type="number" step="0.1" class="form-control" id="prod_preparation_aluminium" name="prod_preparation_aluminium" required>
+                </div>
+                <div class="form-group">
+                  <label for="prod_preparation_steel">PROD PREPARATION STEEL:</label>
+                  <input type="number" step="0.1" class="form-control" id="prod_preparation_steel" name="prod_preparation_steel" required>
+                </div>
+                <div class="form-group">
+                  <label for="head_cylinder_piston_production">HEAD CYLINDER & PISTON PRODUCTION - GED #3:</label>
+                  <input type="number" step="0.1" class="form-control" id="head_cylinder_piston_production" name="head_cylinder_piston_production" required>
+                </div>
+                <div class="form-group">
+                  <label for="gear_axle_production">GEAR AXLE PRODUCTION - GED #4:</label>
+                  <input type="number" step="0.1" class="form-control" id="gear_axle_production" name="gear_axle_production" required>
+                </div>
+                <div class="form-group">
+                  <label for="crank_shaft_production">CRANK SHAFT PRODUCTION - GED #5:</label>
+                  <input type="number" step="0.1" class="form-control" id="crank_shaft_production" name="crank_shaft_production" required>
+                </div>
+                <!-- Add other departments similarly -->
+
+                <div class="form-group">
+                  <label for="quality_assurance">Quality Assurance:</label>
+                  <input type="number" step="0.1" class="form-control" id="quality_assurance" name="quality_assurance" required>
+                </div>
+
+                <div class="form-group">
+                  <label for="finance">Finance:</label>
+                  <input type="number" step="0.1" class="form-control" id="finance" name="finance" required>
+                </div>
+
+                <div class="form-group">
+                  <label for="die_casting_wheel_gedung2">Die Casting Wheel - Gedung #2:</label>
+                  <input type="number" step="0.1" class="form-control" id="die_casting_wheel_gedung2" name="die_casting_wheel_gedung2" required>
+                </div>
+
+                <div class="form-group">
+                  <label for="tools_center">Tools Center:</label>
+                  <input type="number" step="0.1" class="form-control" id="tools_center" name="tools_center" required>
+                </div>
+
+                <div class="form-group">
+                  <label for="plant_2_production">Plant-2 Production:</label>
+                  <input type="number" step="0.1" class="form-control" id="plant_2_production" name="plant_2_production" required>
+                </div>
+
+                <div class="form-group">
+                  <label for="production_engineering_aluminium_1">CRANK SHAFT PRODUCTION - GED #5:</label>
+                  <input type="number" step="0.1" class="form-control" id="production_engineering_aluminium_1" name="production_engineering_aluminium_1" required>
+                </div>
+
+                <div class="form-group">
+                  <label for="machining_painting_wheel_gedung1">CRANK SHAFT PRODUCTION - GED #5:</label>
+                  <input type="number" step="0.1" class="form-control" id="machining_painting_wheel_gedung1" name="machining_painting_wheel_gedung1" required>
+                </div>
+
+                <div class="form-group">
+                  <label for="purchasing">CRANK SHAFT PRODUCTION - GED #5:</label>
+                  <input type="number" step="0.1" class="form-control" id="purchasing" name="purchasing" required>
+                </div>
+
+                <div class="form-group">
+                  <label for="mtc_operation">CRANK SHAFT PRODUCTION - GED #5:</label>
+                  <input type="number" step="0.1" class="form-control" id="mtc_operation" name="mtc_operation" required>
+                </div>
+
+                <div class="form-group">
+                  <label for="quality_engineering">CRANK SHAFT PRODUCTION - GED #5:</label>
+                  <input type="number" step="0.1" class="form-control" id="quality_engineering" name="quality_engineering" required>
+                </div>
+
+                <div class="form-group">
+                  <label for="quality_control">CRANK SHAFT PRODUCTION - GED #5:</label>
+                  <input type="number" step="0.1" class="form-control" id="quality_control" name="quality_control" required>
+                </div>
+
+
+                <!-- Add other departments similarly -->
+                
+                <div class="form-group">
+                  <label for="hrd">HRD:</label>
+                  <input type="number" step="0.1" class="form-control" id="hrd" name="hrd" required>
+                </div>
+                <div class="form-group">
+                  <label for="general_affairs">GENERAL AFFAIRS:</label>
+                  <input type="number" step="0.1" class="form-control" id="general_affairs" name="general_affairs" required>
+                </div>
+                <div class="form-group">
+                  <label for="gravity_die_casting_wheel_gd6">GENERAL AFFAIRS:</label>
+                  <input type="number" step="0.1" class="form-control" id="gravity_die_casting_wheel_gd6" name="gravity_die_casting_wheel_gd6" required>
+                </div>
+                <div class="form-group">
+                  <label for="qse">QUALITY, SAFETY & ENVIRONMENT (QSE):</label>
+                  <input type="number" step="0.1" class="form-control" id="qse" name="qse" required>
+                </div>
+                <div class="form-group">
+                  <label for="production_engineering_aluminium_2">PRODUCTION ENGINEERING ALUMUNIUM #2:</label>
+                  <input type="number" step="0.1" class="form-control" id="production_engineering_aluminium_2" name="production_engineering_aluminium_2" required>
+                </div>
+
+                
+
+                <div class="form-group">
+                  <label for="mtc_engineering">CRANK SHAFT PRODUCTION - GED #5:</label>
+                  <input type="number" step="0.1" class="form-control" id="mtc_engineering" name="mtc_engineering" required>
+                </div>
+
+                <div class="form-group">
+                  <label for="value_innovation">CRANK SHAFT PRODUCTION - GED #5:</label>
+                  <input type="number" step="0.1" class="form-control" id="value_innovation" name="value_innovation" required>
+                </div>
+
+                <div class="form-group">
+                  <label for="production_engineering_steel_2">CRANK SHAFT PRODUCTION - GED #5:</label>
+                  <input type="number" step="0.1" class="form-control" id="production_engineering_steel_2" name="production_engineering_steel_2" required>
+                </div>
+
+                <div class="form-group">
+                  <label for="production_common">CRANK SHAFT PRODUCTION - GED #5:</label>
+                  <input type="number" step="0.1" class="form-control" id="production_common" name="production_common" required>
+                </div>
+
+                <div class="form-group">
+                  <label for="production_planning">CRANK SHAFT PRODUCTION - GED #5:</label>
+                  <input type="number" step="0.1" class="form-control" id="production_planning" name="production_planning" required>
+                </div>
+
+                <div class="form-group">
+                  <label for="inventory_control">CRANK SHAFT PRODUCTION - GED #5:</label>
+                  <input type="number" step="0.1" class="form-control" id="inventory_control" name="inventory_control" required>
+                </div>
+
+                <div class="form-group">
+                  <label for="production_delivery_control">CRANK SHAFT PRODUCTION - GED #5:</label>
+                  <input type="number" step="0.1" class="form-control" id="production_delivery_control" name="production_delivery_control" required>
+                </div>
+
+                <div class="form-group">
+                  <label for="production_engineering_steel_1">CRANK SHAFT PRODUCTION - GED #5:</label>
+                  <input type="number" step="0.1" class="form-control" id="production_engineering_steel_1" name="production_engineering_steel_1" required>
+                </div>
+
+                
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </form>
+              <!-- Form End -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {% include "includes/footer.html" %}
+
+    </div>
+
+{% endblock content %}

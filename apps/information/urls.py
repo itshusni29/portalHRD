@@ -45,5 +45,10 @@ urlpatterns = [
     path('dashboard/kehadiran/new/', views.grafik_create, name='grafik_create'),
     path('dashboard/kehadiran/<int:pk>/edit/', views.grafik_update, name='grafik_update'),
     path('dashboard/kehadiran/<int:pk>/delete/', views.grafik_delete, name='grafik_delete'),
+    
+    path('dashboard/grafikdept/list', views.grafikdept_list, name='grafikdept_list'),
+    path('dashboard/grafikdept/new/', views.grafikdept_create, name='grafikdept_create'),
+    path('dashboard/grafikdept/<int:pk>/edit/', views.grafikdept_update, name='grafikdept_update'),
+    path('dashboard/grafikdept/<int:pk>/delete/', views.grafikdept_delete, name='grafikdept_delete'),
 ]
 
