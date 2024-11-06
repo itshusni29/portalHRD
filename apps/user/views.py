@@ -14,6 +14,8 @@ from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required, user_passes_test
 from .forms import CustomUserCreationForm, CustomUserChangeForm
 from .models import User
+from django.contrib.auth import update_session_auth_hash  # To keep the user logged in after password change
+
 
 def is_training_and_development(user):
     return user.section == 'training_development'
@@ -110,12 +112,27 @@ def delete_user(request, user_id):
     return render(request, 'user/Delete_user.html', {'user': user})
 
 #Edit user profile
+
 @login_required
 def edit_profile(request):
     user = request.user
     if request.method == 'POST':
         form = CustomUserChangeForm(request.POST, instance=user)
+        
         if form.is_valid():
+            # Check if password fields are filled
+            new_password = form.cleaned_data.get('password1')
+            confirm_password = form.cleaned_data.get('password2')
+            
+            if new_password and confirm_password:
+                if new_password == confirm_password:
+                    user.set_password(new_password)
+                    messages.success(request, 'Password updated successfully.')
+                    update_session_auth_hash(request, user)  # Keeps the user logged in after password change
+                else:
+                    form.add_error('password2', 'Passwords do not match.')
+                    return render(request, 'user/Update_user_self.html', {'form': form, 'user': user})
+            
             form.save()
             messages.success(request, 'Profile updated successfully.')
             return redirect('dashboard')

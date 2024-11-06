@@ -31,6 +31,17 @@ class CustomUserCreationForm(UserCreationForm):
         fields = ['username', 'first_name', 'last_name', 'email', 'role', 'occupation', 'department', 'section', 'cc']
 
 class CustomUserChangeForm(UserChangeForm):
+    password1 = forms.CharField(
+        label='New Password',
+        widget=forms.PasswordInput(attrs={'class': 'form-control'}),
+        required=False
+    )
+    password2 = forms.CharField(
+        label='Confirm New Password',
+        widget=forms.PasswordInput(attrs={'class': 'form-control'}),
+        required=False
+    )
+    
     class Meta(UserChangeForm.Meta):
         model = User
         fields = ['username', 'first_name', 'last_name', 'email', 'role', 'occupation', 'department', 'section', 'cc']

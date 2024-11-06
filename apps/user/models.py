@@ -21,12 +21,6 @@ class User(AbstractUser):
         STAFF = 'staff', 'Staff'
         SUPERVISOR = 'supervisor', 'Supervisor'
         
-        
-        
-        
-        
-        
-
 
     class Department(models.TextChoices):
         ACCOUNTING = 'accounting', 'Accounting'
