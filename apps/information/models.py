@@ -85,8 +85,6 @@ class Grafik(models.Model):
 
 class GrafikDept(models.Model):
     nama = models.CharField(max_length=255, verbose_name="Name")
-
-    # Adding verbose_name for each department to make them more readable
     prod_preparation_aluminium = models.FloatField(null=True, blank=True, verbose_name="Prod Preparation Aluminium")
     prod_preparation_steel = models.FloatField(null=True, blank=True, verbose_name="Prod Preparation Steel")
     head_cylinder_piston_production_ged3 = models.FloatField(null=True, blank=True, verbose_name="Head Cylinder & Piston Production - GED #3")

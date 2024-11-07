@@ -25,8 +25,6 @@ class ProsedurM(models.Model):
 # ======================================================================================================================
 class AturanM(models.Model):
     judul = models.CharField(max_length=255)
-    kategori = models.CharField(max_length=30)
-    deskripsi = models.TextField(blank=True, null=True)
     file_pdf = models.FileField(upload_to="uploads/aturan/")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

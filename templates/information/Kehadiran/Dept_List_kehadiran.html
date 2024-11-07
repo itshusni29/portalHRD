@@ -39,7 +39,6 @@
                   </div>
                     <div class="card-body">
                       <div class="table-responsive">
-
                         <table class="table">
                           <thead class="table-head-bg">
                             <tr>
@@ -49,6 +48,7 @@
                                 <th>Prod Preparation Steel</th>
                                 <th>Head Cylinder & Piston Production - GED #3</th>
                                 <th>Gear Axle Production - GED #4</th>
+                                <th>Crank Shaft Production - GED #5</th>
                                 <th>Quality Assurance</th>
                                 <th>Finance</th>
                                 <th>Die Casting Wheel - Gedung #2</th>
@@ -79,7 +79,7 @@
                             </tr>
                           </thead>
                           <tbody>
-                            {% for data in grafikdept %}
+                            {% for data in grafik %}
                                 <tr>
                                     <td>{{ forloop.counter }}</td>
                                     <td>{{ data.nama }}</td>
@@ -109,7 +109,7 @@
                                     <td>{{ data.production_engineering_steel_2 }}</td>
                                     <td>{{ data.production_common }}</td>
                                     <td>{{ data.production_planning }}</td>
-                                    <td>{{ data.department_name }}</td>
+                                    <td>{{ data.inventory_control }}</td>
                                     <td>{{ data.production_delivery_control }}</td>
                                     <td>{{ data.production_engineering_steel_1 }}</td>
                                     <td>{{ data.created_at }}</td>
@@ -121,7 +121,7 @@
                                 </tr>
                             {% empty %}
                                 <tr>
-                                    <td colspan="6">Tidak ada data kehadiran departemen yang tersedia.</td>
+                                    <td colspan="33">Tidak ada data kehadiran departemen yang tersedia.</td>
                                 </tr>
                             {% endfor %}
                           </tbody>
@@ -131,7 +131,6 @@
                 </div>
             </div>
         </div>
-
         {% include "includes/footer.html" %}
     </div>
 {% endblock content %}

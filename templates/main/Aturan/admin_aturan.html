@@ -48,8 +48,6 @@
                     <thead class="table-head-bg">
                         <tr>
                             <th>Judul</th>
-                            <th>Kategori</th>
-                            <th>Deskripsi</th>
                             <th>File PDF</th>
                             <th>Actions</th>
                         </tr>
@@ -58,8 +56,6 @@
                         {% for aturan in aturans %}
                             <tr>
                                 <td>{{ aturan.judul }}</td>
-                                <td>{{ aturan.kategori }}</td>
-                                <td>{{ aturan.deskripsi|truncatewords:10 }}</td>
                                 <td>
                                   {% if aturan.file_pdf %}
                                     <a href="{{ aturan.file_pdf.url }}" class="btn btn-sm btn-primary" download>

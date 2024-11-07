@@ -14,7 +14,7 @@ from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required, user_passes_test
 from .forms import CustomUserCreationForm, CustomUserChangeForm
 from .models import User
-from django.contrib.auth import update_session_auth_hash  # To keep the user logged in after password change
+from django.contrib.auth import update_session_auth_hash
 
 
 def is_training_and_development(user):

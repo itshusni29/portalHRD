@@ -360,8 +360,32 @@ def get_most_recent_csv_file():
 def kehadiran(request):
     grafik = Grafik.objects.all()
     grafik_data = list(grafik.values('nama', 'januari', 'februari', 'maret', 'april', 'mei', 'juni', 'juli', 'agustus', 'september', 'oktober', 'november', 'desember'))
-    return render(request, "information/Kehadiran/indexsKehadiran.html", {'grafik_data': json.dumps(grafik_data), 'grafik': grafik.first()})
 
+
+    # Query GrafikDept data
+    grafik_dept = GrafikDept.objects.all()
+    grafik_dept_data = list(grafik_dept.values(
+        'nama', 'prod_preparation_aluminium', 'prod_preparation_steel',
+        'head_cylinder_piston_production_ged3', 'gear_axle_production_ged4',
+        'crank_shaft_production_ged5', 'quality_assurance', 'finance',
+        'die_casting_wheel_gedung2', 'tools_center', 'plant_2_production',
+        'production_engineering_aluminium_1', 'machining_painting_wheel_gedung1',
+        'purchasing', 'mtc_operation', 'quality_engineering', 'quality_control',
+        'hrd', 'general_affairs', 'gravity_die_casting_wheel_gd6',
+        'quality_safety_environment_qse', 'production_engineering_aluminium_2',
+        'mtc_engineering', 'value_innovation', 'production_engineering_steel_2',
+        'production_common', 'production_planning', 'inventory_control',
+        'production_delivery_control', 'production_engineering_steel_1',
+        
+    ))
+
+    # Render the template with both datasets
+    return render(request, "information/Kehadiran/indexsKehadiran.html", {
+        'grafik_data': json.dumps(grafik_data),
+        'grafik_dept_data': json.dumps(grafik_dept_data),
+        'grafik': grafik.first(),
+        'grafik_dept': grafik_dept.first()
+    })
 
 @login_required
 @user_passes_test(is_training_and_development, login_url='login')

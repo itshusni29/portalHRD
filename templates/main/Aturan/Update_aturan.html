@@ -50,28 +50,6 @@
                     {% endif %}
                 </div>
                 
-                <div class="form-group">
-                    <label for="kategori">{{ form.kategori.label }}:</label>
-                    <select class="form-control" id="kategori" name="kategori" required>
-                        <option value="">--- Pilih Kategori ---</option>
-                        <option value="Legal" {% if form.kategori.value == "Legal" %}selected{% endif %}>Legal</option>
-                        <option value="Recruitment" {% if form.kategori.value == "Recruitment" %}selected{% endif %}>Recruitment</option>
-                        <option value="Training" {% if form.kategori.value == "Training" %}selected{% endif %}>Training</option>
-                        <option value="Wellfare" {% if form.kategori.value == "Wellfare" %}selected{% endif %}>Medical & Welfare</option>
-                        <option value="Attendance" {% if form.kategori.value == "Attendance" %}selected{% endif %}>Payroll & Administration</option>
-                    </select>
-                    {% if form.kategori.errors %}
-                        <div class="text-danger">{{ form.kategori.errors }}</div>
-                    {% endif %}
-                </div>
-            
-                <div class="form-group">
-                    <label for="deskripsi">{{ form.deskripsi.label }}:</label>
-                    <textarea class="form-control" id="deskripsi" name="deskripsi" rows="3" required>{{ form.deskripsi.value }}</textarea>
-                    {% if form.deskripsi.errors %}
-                        <div class="text-danger">{{ form.deskripsi.errors }}</div>
-                    {% endif %}
-                </div>
             
                 <div class="form-group">
                     <label for="file_pdf">{{ form.file_pdf.label }}:</label>
