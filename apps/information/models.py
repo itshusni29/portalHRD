@@ -82,7 +82,7 @@ class Grafik(models.Model):
     def __str__(self):
         return self.nama
 
-
+    
 class GrafikDept(models.Model):
     nama = models.CharField(max_length=255, verbose_name="Name")
     prod_preparation_aluminium = models.FloatField(null=True, blank=True, verbose_name="Prod Preparation Aluminium")

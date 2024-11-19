@@ -1,21 +1,16 @@
+
 fix print page
 add index kehadirana department
-
+staff admin foreman ke gf/spv dahulu 
+jika manager dan gm sama maka langsung approve gm
+beberapa field tidak perlu required
+tambahkan burger untuk sidenav
+perbesar modal di di kegiatan dan home
+berikan modal pada banner
 
 add field implementasi yang di inginkan, jika level 3
 kemduian muncul metode lapopran hasil implementasi dalam choices- interview atasan, obeservasi, presentasi
 dan plan check
-
-
-fix edit page 
-
-
-        jika user occupation adalah assistant_general_manager, deputy_director, director, expatriates, general_manager, show permintaan_training:manager_request_training_list and permintaan_training:gm_request_training_list
-        if user occupation adalah manager, assistant_manager, senior_manager show only permintaan_training:manager_request_training_list
-        if user occupation is manager and department is recruitment_training_development show permintaan_training:hrd_request_training_list and permintaan_training:manager_request_training_list
-        if user occupation isnot manager and section is training_development show all
-        if user occupation is supervisor, staff, operator, general_foreman, foreman, and not section is training_development show permintaan_training:user_request_training_list
-        
 
 done
 
@@ -44,3 +39,5 @@ fix menu shift that can linesbreakerbr
 fix link redirect for approval
 http://172.20.40.153:8001/forms/permintaan_training/gm/approval/list
 fix the side bar for manager and admin
+fix menu shift that can linesbreakerbr
+target manager pindahkan ke manager approve

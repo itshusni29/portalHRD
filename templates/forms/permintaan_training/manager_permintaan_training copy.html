@@ -1,8 +1,20 @@
 {% extends 'layouts/d_base.html' %}
 
-{% block title %}General Manager Training Requests{% endblock title %}
+{% load static %}
 
-{% block stylesheets %}{% endblock stylesheets %}
+{% block title %}Manager Approval{% endblock title %}
+
+{% block stylesheets %}
+<link rel="stylesheet" href="{% static 'assets/css/datatables.min.css' %}">
+<style>
+    .wrap-text {
+        word-wrap: break-word;
+        white-space: pre-line;
+    }
+</style>
+{% endblock stylesheets %}
+
+
 
 {% block content %}
     <!-- Header -->
@@ -38,14 +50,14 @@
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table">
+                            <table id="trainingRequestManagerTable" class="table">
                                 <thead class="table-head-bg">
                                     <tr>
                                         <th>No</th>
                                         <th>Topic</th>
                                         <th>Requestor</th>
                                         <th>Date</th>
-                                        <th>jenis</th>
+                                        <th>Jenis</th>
                                         <th>Cost</th>
                                         <th>Status</th>
                                         <th>Actions</th>
@@ -58,24 +70,26 @@
                                             <td>{{ training.topic }}</td>
                                             <td>{{ training.requestor.get_full_name }}</td>
                                             <td>{{ training.date|date:"d F Y" }}</td>
-                                            <td>{{ training.jenis }}</td>
+                                            <td>{{ training.get_jenis_display }}</td>
                                             <td>{{ training.cost }}</td>
                                             <td>
                                                 {% if training.status.exists %}
-                                                    {{ training.status.get_status_display }}
+                                                    {% with last_status=training.status.last %}
+                                                            {{ last_status.get_status_display }}
+                                                    {% endwith %}
                                                 {% else %}
-                                                    <span>No status available</span>
+                                                No statuses available
                                                 {% endif %}
                                             </td>
                                             <td>
                                                 <!-- Button trigger modal -->
                                                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-form-{{ forloop.counter }}">
-                                                    view
+                                                    View
                                                 </button>
-                                                
+
                                                 <!-- Modal -->
                                                 <div class="modal fade" id="modal-form-{{ forloop.counter }}" tabindex="-1" role="dialog" aria-labelledby="modal-form-label-{{ forloop.counter }}" aria-hidden="true">
-                                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                                    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                                                         <div class="modal-content">
                                                             <div class="modal-header">
                                                                 <h5 class="modal-title" id="modal-form-label-{{ forloop.counter }}">Training Request Details</h5>
@@ -86,83 +100,104 @@
                                                             <div class="modal-body">
                                                                 <div class="row">
                                                                     <div class="col-md-10 mx-auto">
-                                                                        
+                                                                        <!-- First Row -->
+                                                                        <div class="row mt-3">
+                                                                            <div class="col-sm-12">
+                                                                                <h4>Topik</h4>
+                                                                                <p class="text-primary wrap-text">{{ training.topic|linebreaksbr }}</p>
+                                                                            </div>
+                                                                        </div>
+
                                                                         <div class="row">
-                                                                            <div class="col-sm-4">
+                                                                            <div class="col-sm-6">
                                                                                 <h4>Requestor</h4>
                                                                                 <p class="text-primary">{{ training.requestor.get_full_name }}</p>
-                                                                            </div>
-                                                                            <div class="col-sm-4">
-                                                                                <h4>Topic</h4>
-                                                                                <p class="text-primary">{{ training.topic }}</p>
-                                                                            </div>
-                                                                            <div class="col-sm-4">
-                                                                                <h4>Date</h4>
-                                                                                <p class="text-primary">{{ training.date|date:"d F Y" }}</p>
-                                                                            </div>
-                                                                        </div>
-                                                                        
-                                                                        <div class="row mt-3">
-                                                                            <div class="col-sm-4">
-                                                                                <h4>Trainer</h4>
-                                                                                <p class="text-primary">{{ training.trainer }}</p>
-                                                                            </div>
-                                                                            <div class="col-sm-4">
-                                                                                <h4>jenis</h4>
-                                                                                <p class="text-primary">{{ training.jenis }}</p>
-                                                                            </div>
-                                                                            <div class="col-sm-4">
-                                                                                <h4>Cost</h4>
-                                                                                <p class="text-primary">{{ training.cost }}</p>
-                                                                            </div>
-                                                                        </div>
-                                                                        
-                                                                        <div class="row mt-3">
-                                                                            <div class="col-sm-4">
-                                                                                <h4>Participants</h4>
-                                                                                <p class="text-primary">{{ training.participants }}</p>
-                                                                            </div>
-                                                                            <div class="col-sm-8">
-                                                                                <h4>Background</h4>
-                                                                                <p class="text-primary">{{ training.background }}</p>
-                                                                            </div>
-                                                                        </div>
-                                                                        
-                                                                        <div class="row mt-3">
-                                                                            <div class="col-sm-6">
-                                                                                <h4>Target</h4>
-                                                                                <p class="text-primary">{{ training.target }}</p>
                                                                             </div>
                                                                             <div class="col-sm-6">
                                                                                 <h4>Evaluation Level</h4>
                                                                                 <p class="text-primary">{{ training.get_evaluation_level_display }}</p>
                                                                             </div>
-                                                                        </div>                                                                        
+                                                                        </div>
+                                                                        
+                                                                        <div class="row mt-3">
+                                                                            <div class="col-sm-6">
+                                                                                <h4>Date</h4>
+                                                                                <p class="text-primary">{{ training.date|date:"d F Y" }}</p>
+                                                                            </div>
+                                                                            <div class="col-sm-6">
+                                                                                <h4>Trainer</h4>
+                                                                                <p class="text-primary">{{ training.trainer }}</p>
+                                                                            </div>
+                                                                        </div>
+                                                                
+                                                                        <!-- Second Row -->
+                                                                        <div class="row mt-3">
+                                                                            <div class="col-sm-6">
+                                                                                <h4>Jenis</h4>
+                                                                                <p class="text-primary">{{ training.get_jenis_display }}</p>
+                                                                            </div>
+                                                                            <div class="col-sm-6">
+                                                                                <h4>Cost</h4>
+                                                                                <p class="text-primary">{{ training.cost }}</p>
+                                                                            </div>
+                                                                        </div>
+                                                                
+                                                                       
+                                                                
+                                                                        <!-- Fourth Row -->
+                                                                        <div class="row mt-3">
+                                                                            <div class="col-sm-12">
+                                                                                <h4>Manager Target</h4>
+                                                                                {% if training.manager_approvals.exists %}
+                                                                                    {% with last_approval=training.manager_approvals.last %}
+                                                                                        <p class="text-primary wrap-text">{{ last_approval.manager_target|linebreaksbr }}</p>
+                                                                                    {% endwith %}
+                                                                                {% else %}
+                                                                                    <p class="text-muted">No manager target available.</p>
+                                                                                {% endif %}
+                                                                            </div>
+                                                                        </div>
+                                                                        
+                                                                        
+                                                                        
+                                                                        <div class="row mt-3">
+                                                                            <div class="col-sm-12">
+                                                                                <h4>Background</h4>
+                                                                                <p class="text-primary wrap-text">{{ training.background|linebreaksbr }}</p>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="row mt-3">
+                                                                            <div class="col-sm-12">
+                                                                                <h4>Participants</h4>
+                                                                                <p class="text-primary wrap-text">{{ training.participants|linebreaksbr }}</p>
+                                                                            </div>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
+                                                                
 
                                                                 <div class="row">
-                                                                    <div class="col-md-8 mx-auto">
-                                                                        <div class="text-center text-muted mb-4">
+                                                                    <div class="col-md-10 mx-auto">
+                                                                        <div class="text-center text-muted mb-4 my-4 wrap-text">
                                                                             Progress of Request Training: {{ training.topic }}
                                                                         </div>
                                                                         <div class="col-md-12">
                                                                             <h4>Latest News</h4>
                                                                             <ul class="timeline">
-                                                                                <!-- Submission Status -->
                                                                                 <li>
-                                                                                    <a class="text-primary">Form Submitted by {{ training.requestor.username }}</a>
-                                                                                    <a class="float-right text-primary">{{ training.created_at|date:"d F Y H:i:s"  }}</a>
+                                                                                    <a class="text-primary">Form Submitted by {{ training.requestor.first_name }} {{ training.requestor.last_name }}</a>
                                                                                     <p class="text-default">Training request successfully submitted, awaiting approval.</p>
+                                                                                    <a class="date text-muted">{{ training.created_at|date:"d F Y H:i:s" }}</a> <!-- Moved the date below the status -->
                                                                                 </li>
                                                                                 {% if training.status.exists %}
                                                                                 {% for status in training.status.all %}
                                                                                     <li>
                                                                                         <a class="text-primary">
-                                                                                            {{ status.get_status_display }} <!-- This displays the human-readable name of the status -->
+                                                                                            {{ status.get_status_display }} 
                                                                                         </a>
-                                                                                        <a class="float-right text-primary">{{ status.created_at|date:"d F Y H:i:s" }}</a>
-                                                                                        <p class="text-default">{{ status.remarks|default:"No remarks provided" }}</p>
+                                                                                        <p class="text-default">{{ status.remarks }}</p>
+                                                                                        <a class="date text-muted">{{ status.created_at|date:"d F Y H:i:s" }}</a>
                                                                                     </li>
                                                                                 {% endfor %}
                                                                                 {% else %}
@@ -171,37 +206,48 @@
                                                                                         <p class="text-default">This request does not have any status updates yet.</p>
                                                                                     </li>
                                                                                 {% endif %}
-                                                                            </ul>
+                                                                            </ul>  
                                                                         </div>
                                                                     </div>
                                                                 </div>
 
                                                                 <div class="row">
-                                                                    <div class="col-md-8 mx-auto">
-                                                                        <div class="text-center text-muted mb-4">
+                                                                    <div class="col-md-10 mx-auto">
+                                                                        <div class="text-center text-muted mb-4 my-4">
                                                                             Add Remarks and Approval
                                                                         </div>
-                                                                
+
                                                                         <form method="POST" action="">
                                                                             {% csrf_token %}
                                                                             <input type="hidden" name="training_id" value="{{ training.id }}">
-                                                                
-                                                                            <!-- Approval Status and Remarks Side by Side -->
+                                                                        
+                                                                            <!-- Remarks and Target Manager Side by Side -->
                                                                             <div class="form-row">
-                                                                                <div class="col-md-4">
+                                                                                <div class="col-md-6">
                                                                                     <div class="form-group">
-                                                                                        <label for="approval-status">Approval Status</label>
-                                                                                        {{ form.approval_status }}
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="col-md-8">
-                                                                                    <div class="form-group">
-                                                                                        <label for="remarks">Remarks</label>
+                                                                                        <label for="remarks" class="text-default">Remarks</label>
                                                                                         {{ form.remarks }}
                                                                                     </div>
                                                                                 </div>
+                                                                                <div class="col-md-6">
+                                                                                    <div class="form-group">
+                                                                                        <label for="manager_target" class="text-default">Target Manager</label>
+                                                                                        {{ form.manager_target }}
+                                                                                    </div>
+                                                                                </div>
                                                                             </div>
-                                                                            <!-- Submit and Close Buttons Side by Side -->
+                                                                        
+                                                                            <!-- Approval Status -->
+                                                                            <div class="form-row">
+                                                                                <div class="col-md-12">
+                                                                                    <div class="form-group text-center">
+                                                                                        <label for="approval-status" class="text-default">Approval Status</label>
+                                                                                        <div class="text-primary">{{ form.approval_status }}</div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        
+                                                                            <!-- Submit and Close Buttons -->
                                                                             <div class="text-center">
                                                                                 <button type="submit" class="btn btn-success my-4 mr-2">
                                                                                     <i class="fas fa-check"></i> Submit
@@ -211,6 +257,7 @@
                                                                                 </button>
                                                                             </div>
                                                                         </form>
+                                                                        
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -235,3 +282,34 @@
         {% include "includes/footer.html" %}
     </div>
 {% endblock content %}
+
+
+{% block javascripts %}
+<script src="{% static 'assets/js/datatables.min.js' %}"></script>
+<script>
+    $(document).ready(function () {
+        $('#trainingRequestManagerTable').DataTable({
+            language: {
+                lengthMenu: "Tampilkan _MENU_ entri",
+                zeroRecords: "Tidak ditemukan data yang cocok",
+                info: "Menampilkan halaman _PAGE_ dari _PAGES_",
+                infoEmpty: "Tidak ada entri tersedia",
+                infoFiltered: "(difilter dari _MAX_ total entri)",
+                search: "Cari:",
+                paginate: {
+                    first: "<i class='fas fa-angle-double-left'></i>",
+                    last: "<i class='fas fa-angle-double-right'></i>",
+                    next: "<i class='fas fa-chevron-right'></i>",
+                    previous: "<i class='fas fa-chevron-left'></i>"
+                }
+            },
+            ordering: true,
+            paging: true,
+            info: true,
+            searching: true,
+            responsive: true,
+            autoWidth: true
+        });
+    });
+</script>
+{% endblock javascripts %}

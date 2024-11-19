@@ -305,8 +305,8 @@ def admin_delete_training(request, training_id):
     
 @login_required
 def manager_training_list(request):
-    # Filter training requests where the logged-in user is the manager
-    trainings = Training.objects.filter(manager=request.user)
+    # Fetch training requests for which the logged-in user is the manager, including related approvals
+    trainings = Training.objects.filter(manager=request.user).prefetch_related('manager_approvals')
 
     if request.method == 'POST':
         # Handle form submission for manager approval
@@ -321,7 +321,7 @@ def manager_training_list(request):
             manager_approval.save()
 
             # Update the training status after manager approval using TrainingStatus model
-            training_status = TrainingStatus.objects.create(
+            TrainingStatus.objects.create(
                 training=training,
                 status='manager_approved' if manager_approval.approval_status else 'manager_rejected',
                 remarks=manager_approval.remarks
@@ -335,7 +335,6 @@ def manager_training_list(request):
             else:
                 messages.error(request, "Training request rejected.")
 
-            # Redirect back to the manager's training list view
             return redirect('permintaan_training:manager_request_training_list')
 
     else:
@@ -345,7 +344,6 @@ def manager_training_list(request):
         'trainings': trainings,
         'form': form,
     })
-    
     
 def send_training_request_email_gm(training, gm_email):
     subject = f"New Training Request: {training.topic}"
@@ -369,7 +367,7 @@ def gm_training_list(request):
     # Filter training requests assigned to the logged-in GM, and where the most recent status is 'manager_approved'
     trainings = Training.objects.filter(
         gm=request.user, 
-        status__status='manager_approved'  # Filter by related status model
+        status__status='manager_approved'  
     )
     
     if request.method == 'POST':
@@ -380,7 +378,7 @@ def gm_training_list(request):
 
         if form.is_valid():
             gm_approval = form.save(commit=False)
-            gm_approval.training = training  # Link the GM approval to the training
+            gm_approval.training = training  
             gm_approval.save()
 
             # Save training status with GM's approval decision and remarks
@@ -406,8 +404,8 @@ def gm_training_list(request):
         form = GMApprovalForm()
 
     return render(request, 'forms/permintaan_training/gm_permintaan_training.html', {
-        'trainings': trainings,  # Pass only manager-approved training requests
-        'form': form,  # Pass the GM approval form to the template
+        'trainings': trainings,  
+        'form': form,  
     })
     
     

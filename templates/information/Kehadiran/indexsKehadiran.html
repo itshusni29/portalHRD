@@ -50,7 +50,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div>  
     </div>
 
     <!-- Page content -->
@@ -60,19 +60,13 @@
           <div class="card card-stats">
             <div class="card-body">
               <h1 class="text-center">{{ grafik.nama }}</h1>
-
-
               <div class="col-md-10 mx-auto rounded-border-primary">
-                <!-- Chart Container -->
                 <div id="mixed-chart"></div>
-                
               </div>
 
-              
+              <h1 class="text-center py-5">{{ grafik_dept.nama }}</h1>
               <div class="col-md-10 mx-auto rounded-border-primary">
-                <!-- Chart Container -->
-                <div id="mixed-chart-dept"></div>
-                
+                <div id="dept_chart"></div>
               </div>
               
             </div>
@@ -83,93 +77,233 @@
     </div>
 
    <!-- Include ApexCharts JS -->
-<script src="{% static 'assets/js/apexchart/apexcharts.min.js' %}"></script>
-<script>
-  // Parse the JSON data from Django
-  var grafikData = JSON.parse('{{ grafik_data|escapejs }}');
-  
-  // Extract the `nama` from the first data item (assuming you have only one for now)
-  var nama = grafikData.length > 0 ? grafikData[0].nama : '';
+  <script src="{% static 'assets/js/apexchart/apexcharts.min.js' %}"></script>
+  <script>
+    // Parse the JSON data from Django
+    var grafikData = JSON.parse('{{ grafik_data|escapejs }}');
+    
+    // Extract the `nama` from the first data item (assuming you have only one for now)
+    var nama = grafikData.length > 0 ? grafikData[0].nama : '';
 
-  // Extract data for chart
-  var dataAktual = grafikData[0] ? Object.values(grafikData[0]).slice(1) : []; // Skipping the first element which is `nama`
-  var labels = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+    // Extract data for chart
+    var dataAktual = grafikData[0] ? Object.values(grafikData[0]).slice(1) : []; // Skipping the first element which is `nama`
+    var labels = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
 
-  // Configuration for the mixed chart
-  var options = {
-    series: [{
-      name: 'Aktual',
-      type: 'column',
-      data: dataAktual
-    }, {
-      name: 'Target',
-      type: 'line',
-      data: [95, 95, 95, 95, 95, 95, 95, 95, 95, 95, 95, 95].map(value => Math.round(value))
-    }],
-    chart: {
-      height: 450,
-      type: 'line',
-      stacked: false,
-    },
-    stroke: {
-      width: [0, 6],
-      curve: 'smooth'
-    },
-    plotOptions: {
-      bar: {
-        columnWidth: '50%'
-      }
-    },
-    fill: {
-      opacity: [0.85, 0.75],
-      gradient: {
-        inverseColors: false,
-        shade: 'light',
-        type: "vertical",
-        opacityFrom: 0.85,
-        opacityTo: 0.55,
-        stops: [0, 100, 100, 100]
-      }
-    },
-    labels: labels,
-    markers: {
-      size: 6
-    },
-    xaxis: {
-      type: 'category',
-      categories: labels
-    },
-    yaxis: {
-      title: {
-        text: 'Aktual (%)'
+    // Configuration for the mixed chart
+    var options = {
+      series: [{
+        name: 'Aktual',
+        type: 'column',
+        data: dataAktual
+      }, {
+        name: 'Target',
+        type: 'line',
+        data: [95, 95, 95, 95, 95, 95, 95, 95, 95, 95, 95, 95].map(value => Math.round(value))
+      }],
+      chart: {
+        height: 450,
+        type: 'line',
+        stacked: false,
       },
-      min: 50,
-      max: 100,
-      labels: {
-        formatter: function (value) {
-          return value.toFixed(1) + "%";
+      stroke: {
+        width: [0, 6],
+        curve: 'smooth'
+      },
+      plotOptions: {
+        bar: {
+          columnWidth: '50%'
+        }
+      },
+      fill: {
+        opacity: [0.85, 0.75],
+        gradient: {
+          inverseColors: false,
+          shade: 'light',
+          type: "vertical",
+          opacityFrom: 0.85,
+          opacityTo: 0.55,
+          stops: [0, 100, 100, 100]
+        }
+      },
+      labels: labels,
+      markers: {
+        size: 6
+      },
+      xaxis: {
+        type: 'category',
+        categories: labels
+      },
+      yaxis: {
+        title: {
+          text: 'Aktual (%)'
+        },
+        min: 50,
+        max: 100,
+        labels: {
+          formatter: function (value) {
+            return value.toFixed(1) + "%";
+          }
+        }
+      },
+      tooltip: {
+        shared: true,
+        intersect: false,
+        custom: function({ series, seriesIndex, dataPointIndex, w }) {
+          return (
+            '<div class="custom-tooltip">' +
+            "<span><b>" + w.config.xaxis.categories[dataPointIndex] + "</b></span><br/>" +
+            "<span>Aktual: " + series[0][dataPointIndex].toFixed(1) + "%</span><br/>" +
+            "<span>Target: " + series[1][dataPointIndex] + "%</span>" +
+            "</div>"
+          );
         }
       }
-    },
-    tooltip: {
-      shared: true,
-      intersect: false,
-      custom: function({ series, seriesIndex, dataPointIndex, w }) {
-        return (
-          '<div class="custom-tooltip">' +
-          "<span><b>" + w.config.xaxis.categories[dataPointIndex] + "</b></span><br/>" +
-          "<span>Aktual: " + series[0][dataPointIndex].toFixed(1) + "%</span><br/>" +
-          "<span>Target: " + series[1][dataPointIndex] + "%</span>" +
-          "</div>"
-        );
-      }
-    }
-  };
+    };
 
-  // Initialize and render the chart
-  var chart = new ApexCharts(document.querySelector("#mixed-chart"), options);
-  chart.render();
-</script>
+    // Initialize and render the chart
+    var chart = new ApexCharts(document.querySelector("#mixed-chart"), options);
+    chart.render();
+
+
+
+
+    // Parse the JSON data from Django
+    var grafikData = JSON.parse('{{ grafik_dept_data|escapejs }}');
+
+    // Department labels and human-readable labels
+    var departmentMapping = {
+        'prod_preparation_aluminium': 'Prod Preparation Aluminium',
+        'prod_preparation_steel': 'Prod Preparation Steel',
+        'head_cylinder_piston_production_ged3': 'Head Cylinder & Piston - GED #3',
+        'gear_axle_production_ged4': 'Gear Axle - GED #4',
+        'crank_shaft_production_ged5': 'Crank Shaft - GED #5',
+        'quality_assurance': 'Quality Assurance',
+        'finance': 'Finance',
+        'die_casting_wheel_gedung2': 'Die Casting Wheel - Gedung #2',
+        'tools_center': 'Tools Center',
+        'plant_2_production': 'Plant-2 Production',
+        'production_engineering_aluminium_1': 'Production Engineering Aluminium #1',
+        'machining_painting_wheel_gedung1': 'Machining & Painting Wheel - Gedung #1',
+        'purchasing': 'Purchasing',
+        'mtc_operation': 'MTC Operation',
+        'quality_engineering': 'Quality Engineering',
+        'quality_control': 'Quality Control',
+        'hrd': 'HRD',
+        'general_affairs': 'General Affairs',
+        'gravity_die_casting_wheel_gd6': 'Gravity & Die Casting Wheel - GD #6',
+        'quality_safety_environment_qse': 'Quality, Safety & Environment (QSE)',
+        'production_engineering_aluminium_2': 'Production Engineering Aluminium #2',
+        'mtc_engineering': 'MTC Engineering',
+        'value_innovation': 'Value Innovation',
+        'production_engineering_steel_2': 'Production Engineering Steel #2',
+        'production_common': 'Production Common',
+        'production_planning': 'Production Planning',
+        'inventory_control': 'Inventory Control',
+        'production_delivery_control': 'Production & Delivery Control',
+        'production_engineering_steel_1': 'Production Engineering Steel #1'
+    };
+
+    // Generate labels and map data to readable names
+    var departmentLabels = Object.keys(departmentMapping);
+    var humanReadableLabels = Object.values(departmentMapping);
+
+    // Static target values
+    var targetValues = Array(departmentLabels.length).fill(95); // Fill target values with 95
+
+    if (grafikData.length > 0) {
+        // Extract data for chart
+        var dataAktual = departmentLabels.map(label => grafikData[0][label] || 0); // Use 0 if a department value is missing
+
+        // Chart configuration
+        var options = {
+            series: [
+                {
+                    name: 'Aktual',
+                    type: 'column',
+                    data: dataAktual
+                },
+                {
+                    name: 'Target',
+                    type: 'line',
+                    data: targetValues
+                }
+            ],
+            chart: {
+                height: 450,
+                type: 'line',
+                stacked: false
+            },
+            stroke: {
+                width: [0, 3],
+                curve: 'smooth'
+            },
+            plotOptions: {
+                bar: {
+                    columnWidth: '50%'
+                }
+            },
+            fill: {
+                opacity: [0.85, 0.75],
+                gradient: {
+                    inverseColors: false,
+                    shade: 'light',
+                    type: "vertical",
+                    opacityFrom: 0.85,
+                    opacityTo: 0.55,
+                    stops: [0, 100, 100, 100]
+                }
+            },
+            labels: humanReadableLabels,
+            markers: {
+                size: 6
+            },
+            xaxis: {
+                type: 'category',
+                categories: humanReadableLabels,
+                labels: {
+                    rotate: -45, // Rotate for better readability
+                    style: {
+                        fontSize: '10px'
+                    }
+                }
+            },
+            yaxis: {
+                title: {
+                    text: 'Aktual (%)'
+                },
+                min: 50,
+                max: 100,
+                labels: {
+                    formatter: function (value) {
+                        return value.toFixed(1) + "%";
+                    }
+                }
+            },
+            tooltip: {
+                shared: true,
+                intersect: false,
+                custom: function({ series, seriesIndex, dataPointIndex, w }) {
+                    return (
+                        '<div class="custom-tooltip">' +
+                        "<span><b>" + w.config.xaxis.categories[dataPointIndex] + "</b></span><br/>" +
+                        "<span>Aktual: " + series[0][dataPointIndex].toFixed(1) + "%</span><br/>" +
+                        "<span>Target: " + series[1][dataPointIndex] + "%</span>" +
+                        "</div>"
+                    );
+                }
+            }
+        };
+
+        // Initialize and render the chart
+        var chart = new ApexCharts(document.querySelector("#dept_chart"), options);
+        chart.render();
+    } else {
+        console.error("No grafik data available to display.");
+    }
+
+
+
+  </script>
 
 
 {% endblock content %}

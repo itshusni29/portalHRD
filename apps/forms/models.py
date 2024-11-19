@@ -49,23 +49,24 @@ class Sumbangan(models.Model):
 # Models: Manajemen Approval
 # ====================================================================================================================== 
 class GMApproval(models.Model):
-    training = models.ForeignKey('Training', on_delete=models.CASCADE, related_name='gm_approvals')  # Change the related_name
+    training = models.ForeignKey('Training', on_delete=models.CASCADE, related_name='gm_approvals')
     approval_status = models.BooleanField(default=False)
-    remarks = models.TextField(blank=True, max_length=255)
+    remarks = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
 class ManagerApproval(models.Model):
-    training = models.ForeignKey('Training', on_delete=models.CASCADE, related_name='manager_approvals')  # Change the related_name
+    training = models.ForeignKey('Training', on_delete=models.CASCADE, related_name='manager_approvals')
     approval_status = models.BooleanField(default=False)
-    remarks = models.TextField(blank=True, max_length=255)
+    manager_target = models.TextField(blank=True)
+    remarks = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
 class HRDManagerApproval(models.Model):
-    training = models.ForeignKey('Training', on_delete=models.CASCADE, related_name='hrd_manager_approvals')  # Change the related_name
+    training = models.ForeignKey('Training', on_delete=models.CASCADE, related_name='hrd_manager_approvals')
     approval_status = models.BooleanField(default=False)
-    remarks = models.TextField(blank=True, max_length=255)
+    remarks = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     
@@ -108,9 +109,7 @@ class Training(models.Model):
         ('3', 'Level 3'),
     ]
     
-    
 
-    
     JENIS_CHOICES = [
         ('1', 'Internal'),
         ('2', 'Eksternal')
@@ -125,7 +124,6 @@ class Training(models.Model):
     date = models.DateField(blank=True, null=True)  
     jenis = models.CharField(max_length=2, choices=JENIS_CHOICES)
     cost = models.CharField(max_length=100)
-    managerTarget = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     evaluation_level = models.CharField(max_length=2, choices=LEVEL_CHOICES)

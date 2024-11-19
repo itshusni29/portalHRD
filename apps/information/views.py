@@ -355,12 +355,13 @@ def get_most_recent_csv_file():
 # Views: Manajemen Indexs Kehadiran
 # ======================================================================================================================
 
-
-
 def kehadiran(request):
+    # Query Grafik data
     grafik = Grafik.objects.all()
-    grafik_data = list(grafik.values('nama', 'januari', 'februari', 'maret', 'april', 'mei', 'juni', 'juli', 'agustus', 'september', 'oktober', 'november', 'desember'))
-
+    grafik_data = list(grafik.values(
+        'nama', 'januari', 'februari', 'maret', 'april', 'mei', 'juni', 'juli', 
+        'agustus', 'september', 'oktober', 'november', 'desember'
+    ))
 
     # Query GrafikDept data
     grafik_dept = GrafikDept.objects.all()
@@ -376,16 +377,16 @@ def kehadiran(request):
         'mtc_engineering', 'value_innovation', 'production_engineering_steel_2',
         'production_common', 'production_planning', 'inventory_control',
         'production_delivery_control', 'production_engineering_steel_1',
-        
     ))
 
     # Render the template with both datasets
     return render(request, "information/Kehadiran/indexsKehadiran.html", {
-        'grafik_data': json.dumps(grafik_data),
-        'grafik_dept_data': json.dumps(grafik_dept_data),
-        'grafik': grafik.first(),
-        'grafik_dept': grafik_dept.first()
+        'grafik_data': json.dumps(grafik_data, default=str), 
+        'grafik_dept_data': json.dumps(grafik_dept_data, default=str),  
+        'grafik': grafik.first(), 
+        'grafik_dept': grafik_dept.first(),  
     })
+
 
 @login_required
 @user_passes_test(is_training_and_development, login_url='login')
@@ -397,26 +398,31 @@ def grafik_list(request):
 @user_passes_test(is_training_and_development, login_url='login')
 def grafik_create(request):
     if request.method == 'POST':
-        form = GrafikForm(request.POST)
+        form = GrafikDeptForm(request.POST)
         if form.is_valid():
             form.save()
             return redirect('information:grafik_list')
     else:
-        form = GrafikForm()
+        form = GrafikDeptForm()
     return render(request, 'information/Kehadiran/Create_kehadiran.html', {'form': form})
 
 @login_required
 @user_passes_test(is_training_and_development, login_url='login')
 def grafik_update(request, pk):
-    grafik = get_object_or_404(Grafik, pk=pk)
+    grafik = get_object_or_404(GrafikDept, pk=pk)  # Fetch the existing record based on pk
+    
     if request.method == 'POST':
-        form = GrafikForm(request.POST, instance=grafik)
-        if form.is_valid():
-            form.save()
-            return redirect('information:grafik_list')
+        form = GrafikDeptForm(request.POST, instance=grafik)  # Bind the form with data and existing object
+        if form.is_valid():  # Check if the form data is valid
+            form.save()  # Save the updated instance to the database
+            messages.success(request, "Grafik updated successfully.")  # Show success message
+            return redirect('information:grafikdept_list')  # Redirect to another page after successful update
+        else:
+            messages.error(request, "Failed to update Grafik. Please correct the errors.")  # Show error message if the form is not valid
     else:
-        form = GrafikForm(instance=grafik)
-    return render(request, 'information/Kehadiran/Update_kehadiran.html', {'form': form})
+        form = GrafikDeptForm(instance=grafik)  # Initialize the form with existing instance data
+    
+    return render(request, 'information/Kehadiran/Update_kehadiran.html', {'form': form, 'grafik': grafik})
 
 @login_required
 @user_passes_test(is_training_and_development, login_url='login')

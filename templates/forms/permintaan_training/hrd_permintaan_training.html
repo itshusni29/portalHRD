@@ -103,17 +103,24 @@
                                                                 <div class="row">
                                                                     <div class="col-md-10 mx-auto">
                                                                         <!-- First Row -->
+                                                                        <div class="row mt-3">
+                                                                            <div class="col-sm-12">
+                                                                                <h4>Topik</h4>
+                                                                                <p class="text-primary wrap-text">{{ training.topic|linebreaksbr }}</p>
+                                                                            </div>
+                                                                        </div>
+                                                                        
                                                                         <div class="row">
                                                                             <div class="col-sm-6">
                                                                                 <h4>Requestor</h4>
                                                                                 <p class="text-primary">{{ training.requestor.get_full_name }}</p>
                                                                             </div>
                                                                             <div class="col-sm-6">
-                                                                                <h4>Topic</h4>
-                                                                                <p class="text-primary">{{ training.topic }}</p>
+                                                                                <h4>Evaluation Level</h4>
+                                                                                <p class="text-primary">{{ training.get_evaluation_level_display }}</p>
                                                                             </div>
                                                                         </div>
-                                                                
+                                                                        
                                                                         <div class="row mt-3">
                                                                             <div class="col-sm-6">
                                                                                 <h4>Date</h4>
@@ -130,24 +137,40 @@
                                                                             <div class="col-sm-6">
                                                                                 <h4>Jenis</h4>
                                                                                 <p class="text-primary">{{ training.get_jenis_display }}</p>
-                                                                            </div>                                                                            
+                                                                            </div>
                                                                             <div class="col-sm-6">
                                                                                 <h4>Cost</h4>
                                                                                 <p class="text-primary">{{ training.cost }}</p>
                                                                             </div>
                                                                         </div>
-
-                                                                        <!-- Thrid Row -->
+                                                                
+                                                                       
+                                                                
+                                                                        <!-- Fourth Row -->
                                                                         <div class="row mt-3">
-                                                                            <div class="col-sm-6">
-                                                                                <h4>Background</h4>
-                                                                                <p class="text-primary wrap-text">{{ training.background }}</p>
+                                                                            <div class="col-sm-12">
+                                                                                <h4>Manager Target</h4>
+                                                                                {% if training.manager_approvals.exists %}
+                                                                                    {% with last_approval=training.manager_approvals.last %}
+                                                                                        <p class="text-primary wrap-text">{{ last_approval.manager_target|linebreaksbr }}</p>
+                                                                                    {% endwith %}
+                                                                                {% else %}
+                                                                                    <p class="text-muted">No manager target available.</p>
+                                                                                {% endif %}
                                                                             </div>
                                                                         </div>
-                                                                
-                                                                        <!-- Four Row -->
+                                                                        
+                                                                        
+                                                                        
                                                                         <div class="row mt-3">
-                                                                            <div class="col-sm-6">
+                                                                            <div class="col-sm-12">
+                                                                                <h4>Background</h4>
+                                                                                <p class="text-primary wrap-text">{{ training.background|linebreaksbr }}</p>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="row mt-3">
+                                                                            <div class="col-sm-12">
                                                                                 <h4>Participants</h4>
                                                                                 <p class="text-primary wrap-text">{{ training.participants|linebreaksbr }}</p>
                                                                             </div>
@@ -158,7 +181,7 @@
 
                                                                 <div class="row">
                                                                     <div class="col-md-10 mx-auto">
-                                                                        <div class="text-center text-muted mb-4 my-4">
+                                                                        <div class="text-center text-muted mb-4 my-4 wrap-text">
                                                                             Progress of Request Training: {{ training.topic }}
                                                                         </div>
                                                                         <div class="col-md-12">

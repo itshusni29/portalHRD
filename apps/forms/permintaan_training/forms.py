@@ -15,7 +15,7 @@ class TrainingForm(forms.ModelForm):
         fields = [
             'requestor_username', 'topic', 'background', 'participants',
             'trainer', 'date', 'jenis', 'cost', 'evaluation_level',
-            'manager', 'gm', 'hrd_manager', 'flyer', 'pic_trainings', 'managerTarget'
+            'manager', 'gm', 'hrd_manager', 'flyer', 'pic_trainings'
         ]
         widgets = {
             'topic': forms.TextInput(attrs={'class': 'form-control'}),
@@ -30,7 +30,6 @@ class TrainingForm(forms.ModelForm):
             'gm': forms.Select(attrs={'class': 'form-control'}),
             'flyer': forms.FileInput(attrs={'class': 'custom-file-input'}),
             'pic_trainings': forms.HiddenInput(),
-            'managerTarget': forms.TextInput(attrs={'class': 'form-control'}),
         }
 
     flyer = forms.FileField(required=False)
@@ -59,7 +58,6 @@ class TrainingForm(forms.ModelForm):
         self.fields['gm'].required = False
         self.fields['manager'].required = False
         self.fields['pic_trainings'].required = False
-        self.fields['managerTarget'].required = False 
         self.fields['trainer'].required = False 
         self.fields['date'].required = False  
 
@@ -104,7 +102,7 @@ class TrainingForm(forms.ModelForm):
 
         return flyer
 
-
+    
 
 class TrainingStatusForm(forms.ModelForm):
     class Meta:
@@ -123,10 +121,12 @@ class ManagerApprovalForm(forms.ModelForm):
 
     class Meta:
         model = ManagerApproval
-        fields = ['approval_status', 'remarks']
+        fields = ['approval_status', 'remarks', 'manager_target']
         widgets = {
             'remarks': forms.Textarea(attrs={'rows': 3, 'class': 'form-control'}),
+            'manager_target': forms.Textarea(attrs={'rows': 3, 'class': 'form-control'}),  
         }
+
 
 
 class GMApprovalForm(forms.ModelForm):
